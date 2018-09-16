@@ -23,8 +23,9 @@ jobs:
     script: pre-commit run -a
   - stage: deploy
     python: 3.6
-    script: skip
+    script: python setup.py bdist_wheel sdist
     deploy:
+      skip_cleanup: true
       provider: pypi
       user: dmlb2000
       password:
