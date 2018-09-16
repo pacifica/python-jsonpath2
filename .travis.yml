@@ -10,7 +10,7 @@ stages:
 
 install: pip install -r requirements-dev.txt
 script:
-- coverage run --include='jsonpath2/*' -m pytest -v
+- coverage run --include='jsonpath2/test/*' -m pytest -v
 - coverage report -m --fail-under 100
 - pip install .
 - python setup.py bdist_wheel

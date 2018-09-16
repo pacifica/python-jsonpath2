@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-"""Setup and install JSONPath2 library."""
+
 try:  # pip version 9
     from pip.req import parse_requirements
 except ImportError:
@@ -16,9 +16,10 @@ setup(
     setup_requires=['setuptools_scm'],
     license='LGPLv3',
     url='https://pypi.python.org/pypi/jsonpath2/',
-    description='JSONPath Parser',
-    author='David Brown',
-    author_email='dmlb2000@gmail.com',
+    description='JSONPath implementation for Python',
+    author='Mark Borkum',
+    author_email='mark.borkum@pnnl.gov',
     packages=find_packages(),
+    namespace_packages=['jsonpath2'],
     install_requires=[str(ir.req) for ir in INSTALL_REQS]
 )
