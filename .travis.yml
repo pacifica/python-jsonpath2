@@ -23,7 +23,7 @@ jobs:
     script: pre-commit run -a
   - stage: deploy
     python: 3.6
-    script: python setup.py bdist_wheel sdist
+    script: skip
     deploy:
       skip_cleanup: true
       provider: pypi
@@ -33,3 +33,5 @@ jobs:
       distributions: "sdist bdist_wheel"
       on:
         tags: true
+  - python: 2.7
+    script: skip
