@@ -5,8 +5,7 @@ python:
 stages:
 - lint
 - test
-- name: deploy
-  if: branch = master
+- deploy
 
 install: pip install -r requirements-dev.txt
 script:
