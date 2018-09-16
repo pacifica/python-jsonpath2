@@ -1,0 +1,53 @@
+repos:
+-   repo: git://github.com/pre-commit/pre-commit-hooks
+    rev: v1.2.3
+    hooks:
+            -   id: autopep8-wrapper
+            -   id: fix-encoding-pragma
+            -   id: trailing-whitespace
+            -   id: flake8
+                args: [--max-line-length=120]
+            -   id: check-merge-conflict
+            -   id: double-quote-string-fixer
+            -   id: end-of-file-fixer
+            -   id: name-tests-test
+            -   id: debug-statements
+            -   id: check-added-large-files
+            -   id: check-ast
+            -   id: check-byte-order-marker
+            -   id: check-case-conflict
+            -   id: check-docstring-first
+            -   id: check-executables-have-shebangs
+                types: [python]
+            -   id: check-json
+            -   id: check-vcs-permalinks
+            -   id: mixed-line-ending
+            -   id: name-tests-test
+            -   id: pretty-format-json
+                args:
+                  - --autofix
+                  - --top-keys=_id
+            -   id: sort-simple-yaml
+                files: '.yaml$'
+            -   id: check-symlinks
+            -   id: check-yaml
+            -   id: detect-private-key
+            -   id: requirements-txt-fixer
+            -   id: trailing-whitespace
+-   repo: local
+    hooks:
+            -   id: pep257
+                name: pep257
+                entry: python -m pep257
+                language: system
+                types: [python]
+            -   id: pylint
+                name: pylint
+                entry: python -m pylint --rcfile=pylintrc
+                language: system
+                types: [python]
+-   repo: git://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.1.5
+    hooks:
+    -   id: remove-tabs
+    -   id: remove-crlf
