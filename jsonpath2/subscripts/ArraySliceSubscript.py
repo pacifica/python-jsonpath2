@@ -8,6 +8,8 @@ from typing import Generator
 from jsonpath2.Node import MatchData
 from jsonpath2.Subscript import Subscript
 
+from jsonpath2.subscripts.ArrayIndexSubscript import ArrayIndexSubscript
+
 class ArraySliceSubscript(Subscript):
     def __init__(self, start:int=None, end:int=None, step:int=None):
         super(ArraySliceSubscript, self).__init__()

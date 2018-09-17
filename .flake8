@@ -1,0 +1,14 @@
+[flake8]
+exclude =
+  # Ignore ANTLR v4 targets:
+  jsonpath2/parser/JSONPath.g4,
+  jsonpath2/parser/JSONPath.interp,
+  jsonpath2/parser/JSONPath.tokens,
+  jsonpath2/parser/JSONPathLexer.interp,
+  jsonpath2/parser/JSONPathLexer.py,
+  jsonpath2/parser/JSONPathLexer.tokens,
+  jsonpath2/parser/JSONPathListener.py,
+  jsonpath2/parser/JSONPathParser.py
+# 79 chars is too strict and we don't have 80-char terminals nowadays,
+# 160 chars is too much since it doesn't let us use split view efficiently:
+max-line-length = 120
