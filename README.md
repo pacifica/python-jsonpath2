@@ -15,9 +15,9 @@ The `jsonpath2.Path.Path` class represents a JSONPath.
 >>> import json
 >>> d = json.loads(s)
 {'hello':'Hello, world!'}
->>> from jsonpath2.Path import Path
+>>> from jsonpath2.path import Path
 >>> p = Path.parse_str('$["hello"]')
-<jsonpath2.Path.Path object>
+<jsonpath2.path.Path object>
 >>> list(map(lambda match_data: match_data.current_value, p.match(d)))
 ['Hello, world!']
 >>> list(map(lambda match_data: match_data.node.tojsonpath(), p.match(d)))
