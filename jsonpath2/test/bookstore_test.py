@@ -116,7 +116,7 @@ class TestBookStore(TestCase):
 
     def test_bookstore_examples_8(self):
         """Test the bookstore examples."""
-        expr = Path.parse_str('$..book[?(@.isbn)]')
+        expr = Path.parse_str('$..book[*][?(@.isbn)]')
         matches = [x.current_value for x in expr.match(self.root_value)]
         self.assertEqual(matches[0]['category'], 'fiction')
         self.assertEqual(matches[0]['author'], 'Herman Melville')
@@ -131,7 +131,7 @@ class TestBookStore(TestCase):
 
     def test_bookstore_examples_9(self):
         """Test the bookstore examples."""
-        expr = Path.parse_str('$..book[?(@.price<10)]')
+        expr = Path.parse_str('$..book[*][?(@.price<10)]')
         matches = [x.current_value for x in expr.match(self.root_value)]
         self.assertEqual(matches[0]['category'], 'reference')
         self.assertEqual(matches[0]['author'], 'Nigel Rees')
