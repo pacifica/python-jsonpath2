@@ -62,9 +62,9 @@ class EqualBinaryOperatorExpression(BinaryOperatorExpression):
             *args, **kwargs)
 
     @staticmethod
-    def __evaluate__(x, y):
+    def __evaluate__(x_obj, y_obj):
         """Perform an equal on int or float."""
-        return x == y
+        return x_obj == y_obj
 
 
 class NotEqualBinaryOperatorExpression(BinaryOperatorExpression):
@@ -77,9 +77,9 @@ class NotEqualBinaryOperatorExpression(BinaryOperatorExpression):
             *args, **kwargs)
 
     @staticmethod
-    def __evaluate__(x, y):
+    def __evaluate__(x_obj, y_obj):
         """Perform a not equal on int or float."""
-        return x != y
+        return x_obj != y_obj
 
 
 class LessThanBinaryOperatorExpression(BinaryOperatorExpression):
@@ -91,12 +91,11 @@ class LessThanBinaryOperatorExpression(BinaryOperatorExpression):
             '<', LessThanBinaryOperatorExpression.__evaluate__, *args, **kwargs)
 
     @staticmethod
-    def __evaluate__(x, y):
+    def __evaluate__(x_obj, y_obj):
         """Perform a less than on int or float."""
-        if isinstance(x, (float, int)) and isinstance(y, (float, int)):
-            return x < y
-        else:
-            return False
+        if isinstance(x_obj, (float, int)) and isinstance(y_obj, (float, int)):
+            return x_obj < y_obj
+        return False
 
 
 class LessThanOrEqualToBinaryOperatorExpression(BinaryOperatorExpression):
@@ -108,12 +107,11 @@ class LessThanOrEqualToBinaryOperatorExpression(BinaryOperatorExpression):
             '<=', LessThanOrEqualToBinaryOperatorExpression.__evaluate__, *args, **kwargs)
 
     @staticmethod
-    def __evaluate__(x, y):
+    def __evaluate__(x_obj, y_obj):
         """Perform a less than or equal to on int or float."""
-        if isinstance(x, (float, int)) and isinstance(y, (float, int)):
-            return x <= y
-        else:
-            return False
+        if isinstance(x_obj, (float, int)) and isinstance(y_obj, (float, int)):
+            return x_obj <= y_obj
+        return False
 
 
 class GreaterThanBinaryOperatorExpression(BinaryOperatorExpression):
@@ -125,12 +123,11 @@ class GreaterThanBinaryOperatorExpression(BinaryOperatorExpression):
             '>', GreaterThanBinaryOperatorExpression.__evaluate__, *args, **kwargs)
 
     @staticmethod
-    def __evaluate__(x, y):
+    def __evaluate__(x_obj, y_obj):
         """Perform a greater than on int or float."""
-        if isinstance(x, (float, int)) and isinstance(y, (float, int)):
-            return x > y
-        else:
-            return False
+        if isinstance(x_obj, (float, int)) and isinstance(y_obj, (float, int)):
+            return x_obj > y_obj
+        return False
 
 
 class GreaterThanOrEqualToBinaryOperatorExpression(BinaryOperatorExpression):
@@ -142,12 +139,11 @@ class GreaterThanOrEqualToBinaryOperatorExpression(BinaryOperatorExpression):
             '>=', GreaterThanOrEqualToBinaryOperatorExpression.__evaluate__, *args, **kwargs)
 
     @staticmethod
-    def __evaluate__(x, y):
+    def __evaluate__(x_obj, y_obj):
         """Perform a greater than or equal to on int or float."""
-        if isinstance(x, (float, int)) and isinstance(y, (float, int)):
-            return x >= y
-        else:
-            return False
+        if isinstance(x_obj, (float, int)) and isinstance(y_obj, (float, int)):
+            return x_obj >= y_obj
+        return False
 
 
 class UnaryOperatorExpression(OperatorExpression):
@@ -185,9 +181,9 @@ class NotUnaryOperatorExpression(UnaryOperatorExpression):
             'not', NotUnaryOperatorExpression.__evaluate__, *args, **kwargs)
 
     @staticmethod
-    def __evaluate__(x):
+    def __evaluate__(x_obj):
         """The unary not function."""
-        return not x
+        return not x_obj
 
 
 class VariadicOperatorExpression(OperatorExpression):
