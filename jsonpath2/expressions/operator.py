@@ -58,8 +58,13 @@ class EqualBinaryOperatorExpression(BinaryOperatorExpression):
     def __init__(self, *args, **kwargs):
         """Constructor with the right function."""
         super(EqualBinaryOperatorExpression, self).__init__(
-            '=', lambda x, y: x == y,
+            '=', EqualBinaryOperatorExpression.__evaluate__,
             *args, **kwargs)
+
+    @staticmethod
+    def __evaluate__(x, y):
+        """Perform an equal on int or float."""
+        return x == y
 
 
 class NotEqualBinaryOperatorExpression(BinaryOperatorExpression):
@@ -68,18 +73,13 @@ class NotEqualBinaryOperatorExpression(BinaryOperatorExpression):
     def __init__(self, *args, **kwargs):
         """Constructor with the right function."""
         super(NotEqualBinaryOperatorExpression, self).__init__(
-            '!=', lambda x, y: x != y,
+            '!=', NotEqualBinaryOperatorExpression.__evaluate__,
             *args, **kwargs)
 
-
-def _wrap_callback(callback):
-    """Decorator to verify types of arguments."""
-    def wrapped_callback(x_obj, y_obj):
-        """Check the types of the arguments are int or floats."""
-        if isinstance(x_obj, (float, int)) and isinstance(y_obj, (float, int)):
-            return callback(x_obj, y_obj)
-        return False
-    return wrapped_callback
+    @staticmethod
+    def __evaluate__(x, y):
+        """Perform a not equal on int or float."""
+        return x != y
 
 
 class LessThanBinaryOperatorExpression(BinaryOperatorExpression):
@@ -87,12 +87,16 @@ class LessThanBinaryOperatorExpression(BinaryOperatorExpression):
 
     def __init__(self, *args, **kwargs):
         """Construct the binary operator with appropriate method."""
-        @_wrap_callback
-        def _less_than_(x_num, y_num):
-            """Perform a less than on int or float."""
-            return x_num < y_num
         super(LessThanBinaryOperatorExpression, self).__init__(
-            '<', _less_than_, *args, **kwargs)
+            '<', LessThanBinaryOperatorExpression.__evaluate__, *args, **kwargs)
+
+    @staticmethod
+    def __evaluate__(x, y):
+        """Perform a less than on int or float."""
+        if isinstance(x, (float, int)) and isinstance(y, (float, int)):
+            return x < y
+        else:
+            return False
 
 
 class LessThanOrEqualToBinaryOperatorExpression(BinaryOperatorExpression):
@@ -100,12 +104,16 @@ class LessThanOrEqualToBinaryOperatorExpression(BinaryOperatorExpression):
 
     def __init__(self, *args, **kwargs):
         """Construct the binary operator with appropriate method."""
-        @_wrap_callback
-        def _less_than_or_equal_to_(x_num, y_num):
-            """Perform a less than or equal on int or float."""
-            return x_num <= y_num
         super(LessThanOrEqualToBinaryOperatorExpression, self).__init__(
-            '<=', _less_than_or_equal_to_, *args, **kwargs)
+            '<=', LessThanOrEqualToBinaryOperatorExpression.__evaluate__, *args, **kwargs)
+
+    @staticmethod
+    def __evaluate__(x, y):
+        """Perform a less than or equal to on int or float."""
+        if isinstance(x, (float, int)) and isinstance(y, (float, int)):
+            return x <= y
+        else:
+            return False
 
 
 class GreaterThanBinaryOperatorExpression(BinaryOperatorExpression):
@@ -113,12 +121,16 @@ class GreaterThanBinaryOperatorExpression(BinaryOperatorExpression):
 
     def __init__(self, *args, **kwargs):
         """Construct the binary operator with appropriate method."""
-        @_wrap_callback
-        def _greater_than_(x_num, y_num):
-            """Perform a greater than on int or float."""
-            return x_num > y_num
         super(GreaterThanBinaryOperatorExpression, self).__init__(
-            '>', _greater_than_, *args, **kwargs)
+            '>', GreaterThanBinaryOperatorExpression.__evaluate__, *args, **kwargs)
+
+    @staticmethod
+    def __evaluate__(x, y):
+        """Perform a greater than on int or float."""
+        if isinstance(x, (float, int)) and isinstance(y, (float, int)):
+            return x > y
+        else:
+            return False
 
 
 class GreaterThanOrEqualToBinaryOperatorExpression(BinaryOperatorExpression):
@@ -126,12 +138,16 @@ class GreaterThanOrEqualToBinaryOperatorExpression(BinaryOperatorExpression):
 
     def __init__(self, *args, **kwargs):
         """Construct the binary operator with appropriate method."""
-        @_wrap_callback
-        def _greater_than_or_equal_to_(x_num, y_num):
-            """Perform a greater than on int or float."""
-            return x_num >= y_num
         super(GreaterThanOrEqualToBinaryOperatorExpression, self).__init__(
-            '>=', _greater_than_or_equal_to_, *args, **kwargs)
+            '>=', GreaterThanOrEqualToBinaryOperatorExpression.__evaluate__, *args, **kwargs)
+
+    @staticmethod
+    def __evaluate__(x, y):
+        """Perform a greater than or equal to on int or float."""
+        if isinstance(x, (float, int)) and isinstance(y, (float, int)):
+            return x >= y
+        else:
+            return False
 
 
 class UnaryOperatorExpression(OperatorExpression):
@@ -165,11 +181,13 @@ class NotUnaryOperatorExpression(UnaryOperatorExpression):
 
     def __init__(self, *args, **kwargs):
         """Call the unary operator expression with the right method."""
-        def _not_(x_obj):
-            """The unary not function."""
-            return not x_obj
         super(NotUnaryOperatorExpression, self).__init__(
-            'not', _not_, *args, **kwargs)
+            'not', NotUnaryOperatorExpression.__evaluate__, *args, **kwargs)
+
+    @staticmethod
+    def __evaluate__(x):
+        """The unary not function."""
+        return not x
 
 
 class VariadicOperatorExpression(OperatorExpression):
