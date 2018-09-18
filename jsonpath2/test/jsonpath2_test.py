@@ -317,6 +317,12 @@ class TestNode(TestCase):
     def _assert_node_test_case(self, **kwargs):
         self.assertEqual(kwargs['__jsonpath__'], kwargs['node'].tojsonpath())
 
+        if isinstance(kwargs['node'], RootNode):
+            self.assertEqual(kwargs['node'], Path.parse_str(kwargs['__jsonpath__']).root_node)
+        else:
+            with self.assertRaises(ValueError):
+                Path.parse_str('__jsonpath__')
+
         match_data_list = list(kwargs['node'].match(
             kwargs['root_value'], kwargs['current_value']))
 
