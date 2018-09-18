@@ -110,7 +110,7 @@ class TestBookStore(TestCase):
 
     def test_bookstore_examples_7(self):
         """Test the bookstore examples."""
-        for path in ['$..book[0,1]', '$..book[0:2]', '$..book[0:2:1]']:
+        for path in ['$..book[0,1]', '$..book[:2]', '$..book[:2:1]']:
             expr = Path.parse_str(path)
             self.assertEqual(Path.parse_str(str(expr)), expr)
             matches = [x.current_value for x in expr.match(self.root_value)]

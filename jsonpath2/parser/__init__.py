@@ -107,21 +107,23 @@ class _JSONPathListener(JSONPathListener):
 
             self._stack.append(ObjectIndexSubscript(text))
         elif bool(ctx.NUMBER()):
-            if ctx.getToken(JSONPathParser.COLON, 0) is not None:
-                start = int(ctx.NUMBER(0).getText()) if bool(
-                    ctx.NUMBER(0)) else None
+            if bool(ctx.sliceable()):
+                func = self._stack.pop()
 
-                end = int(ctx.NUMBER(1).getText()) if bool(
-                    ctx.NUMBER(1)) else None
+                start = int(ctx.NUMBER().getText()) if bool(
+                    ctx.NUMBER()) else None
 
-                step = int(ctx.NUMBER(2).getText()) if bool(
-                    ctx.NUMBER(2)) else None
-
-                self._stack.append(ArraySliceSubscript(start, end, step))
+                self._stack.append(func(start))
             else:
-                index = int(ctx.NUMBER(0).getText())
+                index = int(ctx.NUMBER().getText())
 
                 self._stack.append(ArrayIndexSubscript(index))
+        elif bool(ctx.sliceable()):
+            func = self._stack.pop()
+
+            start = None
+
+            self._stack.append(func(start))
         elif ctx.getToken(JSONPathParser.WILDCARD_SUBSCRIPT, 0) is not None:
             self._stack.append(WildcardSubscript())
         elif ctx.getToken(JSONPathParser.QUESTION, 0) is not None:
@@ -130,6 +132,15 @@ class _JSONPathListener(JSONPathListener):
             self._stack.append(FilterSubscript(expression))
         else:
             raise ValueError()
+
+    def exitSliceable(self, ctx: JSONPathParser.SliceableContext):
+        end = int(ctx.NUMBER(0).getText()) if bool(
+            ctx.NUMBER(0)) else None
+
+        step = int(ctx.NUMBER(1).getText()) if bool(
+            ctx.NUMBER(1)) else None
+
+        self._stack.append(lambda start: ArraySliceSubscript(start, end, step))
 
     def exitAndExpression(self, ctx: JSONPathParser.AndExpressionContext):
         expressions = []

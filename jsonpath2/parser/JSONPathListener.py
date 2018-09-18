@@ -53,6 +53,15 @@ class JSONPathListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by JSONPathParser#sliceable.
+    def enterSliceable(self, ctx:JSONPathParser.SliceableContext):
+        pass
+
+    # Exit a parse tree produced by JSONPathParser#sliceable.
+    def exitSliceable(self, ctx:JSONPathParser.SliceableContext):
+        pass
+
+
     # Enter a parse tree produced by JSONPathParser#expression.
     def enterExpression(self, ctx:JSONPathParser.ExpressionContext):
         pass

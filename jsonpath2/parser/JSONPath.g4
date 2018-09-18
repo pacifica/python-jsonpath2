@@ -51,9 +51,14 @@ subscriptableBareword
 
 subscriptable
    : STRING
-   | NUMBER{self.tryCast(int)}? ( COLON ( NUMBER{self.tryCast(int)}? )? ( COLON NUMBER{self.tryCast(int)}? )? )?
+   | NUMBER{self.tryCast(int)}? sliceable?
+   | sliceable
    | WILDCARD_SUBSCRIPT
    | QUESTION PAREN_LEFT expression PAREN_RIGHT
+   ;
+
+sliceable
+   : COLON ( NUMBER{self.tryCast(int)}? )? ( COLON NUMBER{self.tryCast(int)}? )?
    ;
 
 expression
