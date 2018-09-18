@@ -2,19 +2,7 @@
 # -*- coding: utf-8 -*-
 """Test the jsonpath module."""
 from unittest import TestCase
-from json import loads
-from jsonpath2.node import MatchData
-from jsonpath2.expressions.some import SomeExpression
-from jsonpath2.nodes.current import CurrentNode
-from jsonpath2.nodes.recursivedescent import RecursiveDescentNode
-from jsonpath2.nodes.root import RootNode
-from jsonpath2.nodes.subscript import SubscriptNode
-from jsonpath2.nodes.terminal import TerminalNode
 from jsonpath2.path import Path
-from jsonpath2.subscripts.arrayindex import ArrayIndexSubscript
-from jsonpath2.subscripts.filter import FilterSubscript
-from jsonpath2.subscripts.objectindex import ObjectIndexSubscript
-from jsonpath2.subscripts.wildcard import WildcardSubscript
 
 
 class TestBookStore(TestCase):
