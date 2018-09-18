@@ -1,4 +1,4 @@
-# Generated from JSONPath.g4 by ANTLR 4.7.1
+# Generated from jsonpath2/parser/JSONPath.g4 by ANTLR 4.7.1
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
@@ -8,7 +8,7 @@ import sys
 def serializedATN():
     with StringIO() as buf:
         buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3 ")
-        buf.write("\u00aa\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
+        buf.write("\u00a5\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
         buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16")
         buf.write("\t\16\4\17\t\17\3\2\3\2\5\2!\n\2\3\2\3\2\3\3\3\3\3\3\5")
         buf.write("\3(\n\3\3\3\5\3+\n\3\3\3\3\3\3\3\5\3\60\n\3\3\3\3\3\5")
@@ -17,61 +17,59 @@ def serializedATN():
         buf.write("\6\3\6\3\6\3\6\5\6P\n\6\5\6R\n\6\3\6\3\6\3\6\3\6\3\6\3")
         buf.write("\6\5\6Z\n\6\3\7\3\7\3\b\3\b\3\b\5\ba\n\b\3\t\3\t\3\t\5")
         buf.write("\tf\n\t\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\5\np\n\n\3\n\3")
-        buf.write("\n\5\nt\n\n\3\n\3\n\3\n\5\ny\n\n\5\n{\n\n\3\13\3\13\3")
-        buf.write("\f\3\f\3\f\3\f\7\f\u0083\n\f\f\f\16\f\u0086\13\f\3\f\3")
-        buf.write("\f\3\f\3\f\5\f\u008c\n\f\3\r\3\r\3\r\3\r\3\16\3\16\3\16")
-        buf.write("\3\16\7\16\u0096\n\16\f\16\16\16\u0099\13\16\3\16\3\16")
-        buf.write("\3\16\3\16\5\16\u009f\n\16\3\17\3\17\3\17\3\17\3\17\3")
-        buf.write("\17\3\17\5\17\u00a8\n\17\3\17\2\2\20\2\4\6\b\n\f\16\20")
-        buf.write("\22\24\26\30\32\34\2\5\4\2\7\7\35\35\4\2\3\3\5\5\3\2\t")
-        buf.write("\16\2\u00bb\2\36\3\2\2\2\4\65\3\2\2\2\6\67\3\2\2\2\bB")
-        buf.write("\3\2\2\2\nY\3\2\2\2\f[\3\2\2\2\16]\3\2\2\2\20b\3\2\2\2")
-        buf.write("\22z\3\2\2\2\24|\3\2\2\2\26\u008b\3\2\2\2\30\u008d\3\2")
-        buf.write("\2\2\32\u009e\3\2\2\2\34\u00a7\3\2\2\2\36 \7\5\2\2\37")
-        buf.write("!\5\4\3\2 \37\3\2\2\2 !\3\2\2\2!\"\3\2\2\2\"#\7\2\2\3")
-        buf.write("#\3\3\2\2\2$\'\7\4\2\2%(\5\b\5\2&(\5\6\4\2\'%\3\2\2\2")
-        buf.write("\'&\3\2\2\2(*\3\2\2\2)+\5\4\3\2*)\3\2\2\2*+\3\2\2\2+\66")
-        buf.write("\3\2\2\2,-\7\6\2\2-/\5\b\5\2.\60\5\4\3\2/.\3\2\2\2/\60")
-        buf.write("\3\2\2\2\60\66\3\2\2\2\61\63\5\6\4\2\62\64\5\4\3\2\63")
-        buf.write("\62\3\2\2\2\63\64\3\2\2\2\64\66\3\2\2\2\65$\3\2\2\2\65")
-        buf.write(",\3\2\2\2\65\61\3\2\2\2\66\5\3\2\2\2\678\7\26\2\28=\5")
-        buf.write("\n\6\29:\7\31\2\2:<\5\n\6\2;9\3\2\2\2<?\3\2\2\2=;\3\2")
-        buf.write("\2\2=>\3\2\2\2>@\3\2\2\2?=\3\2\2\2@A\7\27\2\2A\7\3\2\2")
-        buf.write("\2BC\t\2\2\2C\t\3\2\2\2DZ\7\36\2\2EF\7\37\2\2FQ\6\6\2")
-        buf.write("\2GJ\7\30\2\2HI\7\37\2\2IK\6\6\3\2JH\3\2\2\2JK\3\2\2\2")
-        buf.write("KO\3\2\2\2LM\7\30\2\2MN\7\37\2\2NP\6\6\4\2OL\3\2\2\2O")
-        buf.write("P\3\2\2\2PR\3\2\2\2QG\3\2\2\2QR\3\2\2\2RZ\3\2\2\2SZ\7")
-        buf.write("\7\2\2TU\7\34\2\2UV\7\32\2\2VW\5\f\7\2WX\7\33\2\2XZ\3")
-        buf.write("\2\2\2YD\3\2\2\2YE\3\2\2\2YS\3\2\2\2YT\3\2\2\2Z\13\3\2")
-        buf.write("\2\2[\\\5\16\b\2\\\r\3\2\2\2]`\5\20\t\2^_\7\b\2\2_a\5")
-        buf.write("\16\b\2`^\3\2\2\2`a\3\2\2\2a\17\3\2\2\2be\5\22\n\2cd\7")
-        buf.write("\20\2\2df\5\20\t\2ec\3\2\2\2ef\3\2\2\2f\21\3\2\2\2gh\7")
-        buf.write("\17\2\2h{\5\22\n\2ij\7\32\2\2jk\5\f\7\2kl\7\33\2\2l{\3")
-        buf.write("\2\2\2mo\t\3\2\2np\5\4\3\2on\3\2\2\2op\3\2\2\2ps\3\2\2")
-        buf.write("\2qr\t\4\2\2rt\5\34\17\2sq\3\2\2\2st\3\2\2\2t{\3\2\2\2")
-        buf.write("ux\5\34\17\2vw\t\4\2\2wy\5\34\17\2xv\3\2\2\2xy\3\2\2\2")
-        buf.write("y{\3\2\2\2zg\3\2\2\2zi\3\2\2\2zm\3\2\2\2zu\3\2\2\2{\23")
-        buf.write("\3\2\2\2|}\5\34\17\2}\25\3\2\2\2~\177\7\24\2\2\177\u0084")
-        buf.write("\5\30\r\2\u0080\u0081\7\31\2\2\u0081\u0083\5\30\r\2\u0082")
-        buf.write("\u0080\3\2\2\2\u0083\u0086\3\2\2\2\u0084\u0082\3\2\2\2")
-        buf.write("\u0084\u0085\3\2\2\2\u0085\u0087\3\2\2\2\u0086\u0084\3")
-        buf.write("\2\2\2\u0087\u0088\7\25\2\2\u0088\u008c\3\2\2\2\u0089")
-        buf.write("\u008a\7\24\2\2\u008a\u008c\7\25\2\2\u008b~\3\2\2\2\u008b")
-        buf.write("\u0089\3\2\2\2\u008c\27\3\2\2\2\u008d\u008e\7\36\2\2\u008e")
-        buf.write("\u008f\7\30\2\2\u008f\u0090\5\34\17\2\u0090\31\3\2\2\2")
-        buf.write("\u0091\u0092\7\26\2\2\u0092\u0097\5\34\17\2\u0093\u0094")
-        buf.write("\7\31\2\2\u0094\u0096\5\34\17\2\u0095\u0093\3\2\2\2\u0096")
-        buf.write("\u0099\3\2\2\2\u0097\u0095\3\2\2\2\u0097\u0098\3\2\2\2")
-        buf.write("\u0098\u009a\3\2\2\2\u0099\u0097\3\2\2\2\u009a\u009b\7")
-        buf.write("\27\2\2\u009b\u009f\3\2\2\2\u009c\u009d\7\26\2\2\u009d")
-        buf.write("\u009f\7\27\2\2\u009e\u0091\3\2\2\2\u009e\u009c\3\2\2")
-        buf.write("\2\u009f\33\3\2\2\2\u00a0\u00a8\7\36\2\2\u00a1\u00a8\7")
-        buf.write("\37\2\2\u00a2\u00a8\5\26\f\2\u00a3\u00a8\5\32\16\2\u00a4")
-        buf.write("\u00a8\7\21\2\2\u00a5\u00a8\7\22\2\2\u00a6\u00a8\7\23")
-        buf.write("\2\2\u00a7\u00a0\3\2\2\2\u00a7\u00a1\3\2\2\2\u00a7\u00a2")
-        buf.write("\3\2\2\2\u00a7\u00a3\3\2\2\2\u00a7\u00a4\3\2\2\2\u00a7")
-        buf.write("\u00a5\3\2\2\2\u00a7\u00a6\3\2\2\2\u00a8\35\3\2\2\2\30")
-        buf.write(" \'*/\63\65=JOQY`eosxz\u0084\u008b\u0097\u009e\u00a7")
+        buf.write("\n\5\nt\n\n\5\nv\n\n\3\13\3\13\3\f\3\f\3\f\3\f\7\f~\n")
+        buf.write("\f\f\f\16\f\u0081\13\f\3\f\3\f\3\f\3\f\5\f\u0087\n\f\3")
+        buf.write("\r\3\r\3\r\3\r\3\16\3\16\3\16\3\16\7\16\u0091\n\16\f\16")
+        buf.write("\16\16\u0094\13\16\3\16\3\16\3\16\3\16\5\16\u009a\n\16")
+        buf.write("\3\17\3\17\3\17\3\17\3\17\3\17\3\17\5\17\u00a3\n\17\3")
+        buf.write("\17\2\2\20\2\4\6\b\n\f\16\20\22\24\26\30\32\34\2\5\4\2")
+        buf.write("\7\7\35\35\4\2\3\3\5\5\3\2\t\16\2\u00b4\2\36\3\2\2\2\4")
+        buf.write("\65\3\2\2\2\6\67\3\2\2\2\bB\3\2\2\2\nY\3\2\2\2\f[\3\2")
+        buf.write("\2\2\16]\3\2\2\2\20b\3\2\2\2\22u\3\2\2\2\24w\3\2\2\2\26")
+        buf.write("\u0086\3\2\2\2\30\u0088\3\2\2\2\32\u0099\3\2\2\2\34\u00a2")
+        buf.write("\3\2\2\2\36 \7\5\2\2\37!\5\4\3\2 \37\3\2\2\2 !\3\2\2\2")
+        buf.write("!\"\3\2\2\2\"#\7\2\2\3#\3\3\2\2\2$\'\7\4\2\2%(\5\b\5\2")
+        buf.write("&(\5\6\4\2\'%\3\2\2\2\'&\3\2\2\2(*\3\2\2\2)+\5\4\3\2*")
+        buf.write(")\3\2\2\2*+\3\2\2\2+\66\3\2\2\2,-\7\6\2\2-/\5\b\5\2.\60")
+        buf.write("\5\4\3\2/.\3\2\2\2/\60\3\2\2\2\60\66\3\2\2\2\61\63\5\6")
+        buf.write("\4\2\62\64\5\4\3\2\63\62\3\2\2\2\63\64\3\2\2\2\64\66\3")
+        buf.write("\2\2\2\65$\3\2\2\2\65,\3\2\2\2\65\61\3\2\2\2\66\5\3\2")
+        buf.write("\2\2\678\7\26\2\28=\5\n\6\29:\7\31\2\2:<\5\n\6\2;9\3\2")
+        buf.write("\2\2<?\3\2\2\2=;\3\2\2\2=>\3\2\2\2>@\3\2\2\2?=\3\2\2\2")
+        buf.write("@A\7\27\2\2A\7\3\2\2\2BC\t\2\2\2C\t\3\2\2\2DZ\7\36\2\2")
+        buf.write("EF\7\37\2\2FQ\6\6\2\2GJ\7\30\2\2HI\7\37\2\2IK\6\6\3\2")
+        buf.write("JH\3\2\2\2JK\3\2\2\2KO\3\2\2\2LM\7\30\2\2MN\7\37\2\2N")
+        buf.write("P\6\6\4\2OL\3\2\2\2OP\3\2\2\2PR\3\2\2\2QG\3\2\2\2QR\3")
+        buf.write("\2\2\2RZ\3\2\2\2SZ\7\7\2\2TU\7\34\2\2UV\7\32\2\2VW\5\f")
+        buf.write("\7\2WX\7\33\2\2XZ\3\2\2\2YD\3\2\2\2YE\3\2\2\2YS\3\2\2")
+        buf.write("\2YT\3\2\2\2Z\13\3\2\2\2[\\\5\16\b\2\\\r\3\2\2\2]`\5\20")
+        buf.write("\t\2^_\7\b\2\2_a\5\16\b\2`^\3\2\2\2`a\3\2\2\2a\17\3\2")
+        buf.write("\2\2be\5\22\n\2cd\7\20\2\2df\5\20\t\2ec\3\2\2\2ef\3\2")
+        buf.write("\2\2f\21\3\2\2\2gh\7\17\2\2hv\5\22\n\2ij\7\32\2\2jk\5")
+        buf.write("\f\7\2kl\7\33\2\2lv\3\2\2\2mo\t\3\2\2np\5\4\3\2on\3\2")
+        buf.write("\2\2op\3\2\2\2ps\3\2\2\2qr\t\4\2\2rt\5\34\17\2sq\3\2\2")
+        buf.write("\2st\3\2\2\2tv\3\2\2\2ug\3\2\2\2ui\3\2\2\2um\3\2\2\2v")
+        buf.write("\23\3\2\2\2wx\5\34\17\2x\25\3\2\2\2yz\7\24\2\2z\177\5")
+        buf.write("\30\r\2{|\7\31\2\2|~\5\30\r\2}{\3\2\2\2~\u0081\3\2\2\2")
+        buf.write("\177}\3\2\2\2\177\u0080\3\2\2\2\u0080\u0082\3\2\2\2\u0081")
+        buf.write("\177\3\2\2\2\u0082\u0083\7\25\2\2\u0083\u0087\3\2\2\2")
+        buf.write("\u0084\u0085\7\24\2\2\u0085\u0087\7\25\2\2\u0086y\3\2")
+        buf.write("\2\2\u0086\u0084\3\2\2\2\u0087\27\3\2\2\2\u0088\u0089")
+        buf.write("\7\36\2\2\u0089\u008a\7\30\2\2\u008a\u008b\5\34\17\2\u008b")
+        buf.write("\31\3\2\2\2\u008c\u008d\7\26\2\2\u008d\u0092\5\34\17\2")
+        buf.write("\u008e\u008f\7\31\2\2\u008f\u0091\5\34\17\2\u0090\u008e")
+        buf.write("\3\2\2\2\u0091\u0094\3\2\2\2\u0092\u0090\3\2\2\2\u0092")
+        buf.write("\u0093\3\2\2\2\u0093\u0095\3\2\2\2\u0094\u0092\3\2\2\2")
+        buf.write("\u0095\u0096\7\27\2\2\u0096\u009a\3\2\2\2\u0097\u0098")
+        buf.write("\7\26\2\2\u0098\u009a\7\27\2\2\u0099\u008c\3\2\2\2\u0099")
+        buf.write("\u0097\3\2\2\2\u009a\33\3\2\2\2\u009b\u00a3\7\36\2\2\u009c")
+        buf.write("\u00a3\7\37\2\2\u009d\u00a3\5\26\f\2\u009e\u00a3\5\32")
+        buf.write("\16\2\u009f\u00a3\7\21\2\2\u00a0\u00a3\7\22\2\2\u00a1")
+        buf.write("\u00a3\7\23\2\2\u00a2\u009b\3\2\2\2\u00a2\u009c\3\2\2")
+        buf.write("\2\u00a2\u009d\3\2\2\2\u00a2\u009e\3\2\2\2\u00a2\u009f")
+        buf.write("\3\2\2\2\u00a2\u00a0\3\2\2\2\u00a2\u00a1\3\2\2\2\u00a3")
+        buf.write("\35\3\2\2\2\27 \'*/\63\65=JOQY`eosu\177\u0086\u0092\u0099")
+        buf.write("\u00a2")
         return buf.getvalue()
 
 
@@ -770,11 +768,8 @@ class JSONPathParser ( Parser ):
             return self.getTypedRuleContext(JSONPathParser.SubscriptContext,0)
 
 
-        def value(self, i:int=None):
-            if i is None:
-                return self.getTypedRuleContexts(JSONPathParser.ValueContext)
-            else:
-                return self.getTypedRuleContext(JSONPathParser.ValueContext,i)
+        def value(self):
+            return self.getTypedRuleContext(JSONPathParser.ValueContext,0)
 
 
         def EQ(self):
@@ -815,7 +810,7 @@ class JSONPathParser ( Parser ):
         self.enterRule(localctx, 16, self.RULE_notExpression)
         self._la = 0 # Token type
         try:
-            self.state = 120
+            self.state = 115
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [JSONPathParser.NOT]:
@@ -867,26 +862,6 @@ class JSONPathParser ( Parser ):
 
 
                 pass
-            elif token in [JSONPathParser.TRUE, JSONPathParser.FALSE, JSONPathParser.NULL, JSONPathParser.BRACE_LEFT, JSONPathParser.BRACKET_LEFT, JSONPathParser.STRING, JSONPathParser.NUMBER]:
-                self.enterOuterAlt(localctx, 4)
-                self.state = 115
-                self.value()
-                self.state = 118
-                self._errHandler.sync(self)
-                _la = self._input.LA(1)
-                if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << JSONPathParser.EQ) | (1 << JSONPathParser.GE) | (1 << JSONPathParser.GT) | (1 << JSONPathParser.LE) | (1 << JSONPathParser.LT) | (1 << JSONPathParser.NE))) != 0):
-                    self.state = 116
-                    _la = self._input.LA(1)
-                    if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << JSONPathParser.EQ) | (1 << JSONPathParser.GE) | (1 << JSONPathParser.GT) | (1 << JSONPathParser.LE) | (1 << JSONPathParser.LT) | (1 << JSONPathParser.NE))) != 0)):
-                        self._errHandler.recoverInline(self)
-                    else:
-                        self._errHandler.reportMatch(self)
-                        self.consume()
-                    self.state = 117
-                    self.value()
-
-
-                pass
             else:
                 raise NoViableAltException(self)
 
@@ -928,7 +903,7 @@ class JSONPathParser ( Parser ):
         self.enterRule(localctx, 18, self.RULE_json)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 122
+            self.state = 117
             self.value()
         except RecognitionException as re:
             localctx.exception = re
@@ -983,36 +958,36 @@ class JSONPathParser ( Parser ):
         self.enterRule(localctx, 20, self.RULE_obj)
         self._la = 0 # Token type
         try:
-            self.state = 137
+            self.state = 132
             self._errHandler.sync(self)
-            la_ = self._interp.adaptivePredict(self._input,18,self._ctx)
+            la_ = self._interp.adaptivePredict(self._input,17,self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 124
+                self.state = 119
                 self.match(JSONPathParser.BRACE_LEFT)
-                self.state = 125
+                self.state = 120
                 self.pair()
-                self.state = 130
+                self.state = 125
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 while _la==JSONPathParser.COMMA:
-                    self.state = 126
+                    self.state = 121
                     self.match(JSONPathParser.COMMA)
-                    self.state = 127
+                    self.state = 122
                     self.pair()
-                    self.state = 132
+                    self.state = 127
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
 
-                self.state = 133
+                self.state = 128
                 self.match(JSONPathParser.BRACE_RIGHT)
                 pass
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 135
+                self.state = 130
                 self.match(JSONPathParser.BRACE_LEFT)
-                self.state = 136
+                self.state = 131
                 self.match(JSONPathParser.BRACE_RIGHT)
                 pass
 
@@ -1061,11 +1036,11 @@ class JSONPathParser ( Parser ):
         self.enterRule(localctx, 22, self.RULE_pair)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 139
+            self.state = 134
             self.match(JSONPathParser.STRING)
-            self.state = 140
+            self.state = 135
             self.match(JSONPathParser.COLON)
-            self.state = 141
+            self.state = 136
             self.value()
         except RecognitionException as re:
             localctx.exception = re
@@ -1120,36 +1095,36 @@ class JSONPathParser ( Parser ):
         self.enterRule(localctx, 24, self.RULE_array)
         self._la = 0 # Token type
         try:
-            self.state = 156
+            self.state = 151
             self._errHandler.sync(self)
-            la_ = self._interp.adaptivePredict(self._input,20,self._ctx)
+            la_ = self._interp.adaptivePredict(self._input,19,self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 143
+                self.state = 138
                 self.match(JSONPathParser.BRACKET_LEFT)
-                self.state = 144
+                self.state = 139
                 self.value()
-                self.state = 149
+                self.state = 144
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 while _la==JSONPathParser.COMMA:
-                    self.state = 145
+                    self.state = 140
                     self.match(JSONPathParser.COMMA)
-                    self.state = 146
+                    self.state = 141
                     self.value()
-                    self.state = 151
+                    self.state = 146
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
 
-                self.state = 152
+                self.state = 147
                 self.match(JSONPathParser.BRACKET_RIGHT)
                 pass
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 154
+                self.state = 149
                 self.match(JSONPathParser.BRACKET_LEFT)
-                self.state = 155
+                self.state = 150
                 self.match(JSONPathParser.BRACKET_RIGHT)
                 pass
 
@@ -1210,42 +1185,42 @@ class JSONPathParser ( Parser ):
         localctx = JSONPathParser.ValueContext(self, self._ctx, self.state)
         self.enterRule(localctx, 26, self.RULE_value)
         try:
-            self.state = 165
+            self.state = 160
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [JSONPathParser.STRING]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 158
+                self.state = 153
                 self.match(JSONPathParser.STRING)
                 pass
             elif token in [JSONPathParser.NUMBER]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 159
+                self.state = 154
                 self.match(JSONPathParser.NUMBER)
                 pass
             elif token in [JSONPathParser.BRACE_LEFT]:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 160
+                self.state = 155
                 self.obj()
                 pass
             elif token in [JSONPathParser.BRACKET_LEFT]:
                 self.enterOuterAlt(localctx, 4)
-                self.state = 161
+                self.state = 156
                 self.array()
                 pass
             elif token in [JSONPathParser.TRUE]:
                 self.enterOuterAlt(localctx, 5)
-                self.state = 162
+                self.state = 157
                 self.match(JSONPathParser.TRUE)
                 pass
             elif token in [JSONPathParser.FALSE]:
                 self.enterOuterAlt(localctx, 6)
-                self.state = 163
+                self.state = 158
                 self.match(JSONPathParser.FALSE)
                 pass
             elif token in [JSONPathParser.NULL]:
                 self.enterOuterAlt(localctx, 7)
-                self.state = 164
+                self.state = 159
                 self.match(JSONPathParser.NULL)
                 pass
             else:

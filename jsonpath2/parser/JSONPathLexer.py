@@ -1,4 +1,4 @@
-# Generated from JSONPath.g4 by ANTLR 4.7.1
+# Generated from jsonpath2/parser/JSONPath.g4 by ANTLR 4.7.1
 from antlr4 import *
 from io import StringIO
 from typing.io import TextIO
