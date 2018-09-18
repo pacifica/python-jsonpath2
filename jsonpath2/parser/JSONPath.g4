@@ -72,6 +72,7 @@ notExpression
    : NOT notExpression
    | PAREN_LEFT expression PAREN_RIGHT
    | ( ROOT_VALUE | CURRENT_VALUE ) subscript? ( ( EQ | NE | LT | LE | GT | GE ) value )?
+   | value ( ( EQ | NE | LT | LE | GT | GE ) value )?
    ;
 
 
