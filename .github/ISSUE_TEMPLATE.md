@@ -1,5 +1,5 @@
-### JSONPath2 version
-[Version of the JSONPath2 software where you are encountering the issue]
+### jsonpath2 version
+[Version of jsonpath2 where you are encountering the issue]
 
 ### Platform Details
 [Operating system distribution and release version. Cloud provider if running in the cloud]

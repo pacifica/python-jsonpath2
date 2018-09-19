@@ -1,26 +1,24 @@
 language: python
-python:
-- 2.7
-- 3.6
+python: 3.6
 stages:
 - lint
 - test
 - deploy
 
 install: pip install -r requirements-dev.txt
-script:
-- coverage run --include='jsonpath2/*' -m pytest -v
-- coverage report -m --fail-under 100
-- pip install .
-- python setup.py bdist_wheel
-- python setup.py sdist
 jobs:
   include:
   - stage: lint
     python: 3.6
     script: pre-commit run -a
-  - python: 2.7
-    script: pre-commit run -a
+  - stage: test
+    python: 3.6
+    script:
+    - coverage run --include='jsonpath2/*' --omit='jsonpath2/parser/JSONPath*' -m pytest -v
+    - coverage report -m --fail-under 100
+    - pip install .
+    - python setup.py bdist_wheel
+    - python setup.py sdist
   - stage: deploy
     python: 3.6
     script: skip
@@ -31,16 +29,5 @@ jobs:
       password:
         secure: MeskzH+TIGe4iboe/VL0+3dSJ5yL/0f8CVH7AcLBmToEArWAOdx5v42fDbOGxSio9ezYdlGyP1fTeBZybIhCvnv44W43iXol2DSkNILdIkfPhsp/RWvZh+qylSldfwiS+gKRtWRCnMpItpmIDMpbBBf/malDLgo41JrhUMeJ2EgvAlRAIDN58VcgZFCyq/cYpo8aRnqvjAmHKwNwEVZP9fFttpys7JXnxxXgP66Yr7WZIVp1v3wv5KwJdqdLlWAL/ZDftTy61ad23sZn0sv3DWYRJ8eJxb2UXQssLyhoZDvAKFoymFhBWoNINpwYDkTZeSQkRPuf1BHgSYRe3nT+71IpXIBF0H7kbmStOttk2Z2kPrlprkZhoZlUwYhRmwgTKWPR2BCyzepDfNKFGoGLz1a98ymb/iqJbBhtuo2ZHH6xsodfKmjVRS8Cx6xCXYyUG5ZW9NK/luMYSNmM78vL6HNcY+yGZ1GS6kXtjUVLPh9CSXld6fuDY/sWWzpXWuhutbfM8+TKNXNF/JOnolJVAgpseDLW3rlNM8jKFLYv1ut/MR/qyoTeMzGe03BgMxX4o5LesVHaWQfvlDubCnXmeRdgYWuxGmFCmRphIu7d3+NwI/ZWWV6dhlqdID1YbdmQJcfz/NPslAn3sXvgLpsmiuSyr2FIuXBbhQozc+xstsQ=
       distributions: "sdist bdist_wheel"
-      on:
-        tags: true
-  - python: 2.7
-    script: skip
-    deploy:
-      skip_cleanup: true
-      provider: pypi
-      user: dmlb2000
-      password:
-        secure: MeskzH+TIGe4iboe/VL0+3dSJ5yL/0f8CVH7AcLBmToEArWAOdx5v42fDbOGxSio9ezYdlGyP1fTeBZybIhCvnv44W43iXol2DSkNILdIkfPhsp/RWvZh+qylSldfwiS+gKRtWRCnMpItpmIDMpbBBf/malDLgo41JrhUMeJ2EgvAlRAIDN58VcgZFCyq/cYpo8aRnqvjAmHKwNwEVZP9fFttpys7JXnxxXgP66Yr7WZIVp1v3wv5KwJdqdLlWAL/ZDftTy61ad23sZn0sv3DWYRJ8eJxb2UXQssLyhoZDvAKFoymFhBWoNINpwYDkTZeSQkRPuf1BHgSYRe3nT+71IpXIBF0H7kbmStOttk2Z2kPrlprkZhoZlUwYhRmwgTKWPR2BCyzepDfNKFGoGLz1a98ymb/iqJbBhtuo2ZHH6xsodfKmjVRS8Cx6xCXYyUG5ZW9NK/luMYSNmM78vL6HNcY+yGZ1GS6kXtjUVLPh9CSXld6fuDY/sWWzpXWuhutbfM8+TKNXNF/JOnolJVAgpseDLW3rlNM8jKFLYv1ut/MR/qyoTeMzGe03BgMxX4o5LesVHaWQfvlDubCnXmeRdgYWuxGmFCmRphIu7d3+NwI/ZWWV6dhlqdID1YbdmQJcfz/NPslAn3sXvgLpsmiuSyr2FIuXBbhQozc+xstsQ=
-      distributions: "bdist_wheel"
       on:
         tags: true
