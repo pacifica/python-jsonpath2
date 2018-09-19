@@ -27,6 +27,7 @@ class TestExpression(TestCase):
                 '$[?(@.hello > "string")]',
                 '$[?(@.hello >= "string")]',
                 '$[?(@.hello = {"bar": "baz"})]',
+                '$[?(@.hello = ["bar", "baz"])]',
                 '$[?(@.hello = false)]',
                 '$[?(@.hello = true)]'
         ]:
