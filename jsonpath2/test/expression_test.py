@@ -28,8 +28,11 @@ class TestExpression(TestCase):
                 '$[?(@.hello >= "string")]',
                 '$[?(@.hello = {"bar": "baz"})]',
                 '$[?(@.hello = ["bar", "baz"])]',
+                '$[?(@.hello = 42)]',
+                '$[?(@.hello = 3.14159)]',
                 '$[?(@.hello = false)]',
-                '$[?(@.hello = true)]'
+                '$[?(@.hello = true)]',
+                '$[?(@.hello = null)]'
         ]:
             print(path)
             expr = Path.parse_str(path)
@@ -66,3 +69,16 @@ class TestExpression(TestCase):
         expr = AndVariadicOperatorExpression(
             [SomeExpression(CurrentNode(TerminalNode()))])
         self.assertEqual('@', expr.tojsonpath())
+
+    def test_binary_operator(self):
+        """Test a binary operator."""
+        expr = Path.parse_str('$[?(@ and (@ and @))]')
+        self.assertEqual('$[?(@ and @ and @)]', str(expr))
+        expr = Path.parse_str('$[?(@ or (@ or @))]')
+        self.assertEqual('$[?(@ or @ or @)]', str(expr))
+        expr = Path.parse_str('$[?(not not @)]')
+        self.assertEqual('$[?(@)]', str(expr))
+        expr = Path.parse_str('$[?($ = null)]')
+        self.assertEqual('$[?($ = null)]', str(expr))
+        with self.assertRaises(ValueError):
+            Path.parse_str('$[3.14156:]')
