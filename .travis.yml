@@ -1,6 +1,5 @@
 language: python
 python:
-- 3.5
 - 3.6
 stages:
 - lint
@@ -17,9 +16,7 @@ script:
 jobs:
   include:
   - stage: lint
-    python: 3.5
-    script: pre-commit run -a
-  - python: 3.6
+    python: 3.6
     script: pre-commit run -a
   - stage: deploy
     python: 3.6
