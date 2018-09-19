@@ -2,10 +2,9 @@
 # -*- coding: utf-8 -*-
 """Test the subscript object."""
 from unittest import TestCase
-from jsonpath2.node import MatchData, Node
+from jsonpath2.node import MatchData
 from jsonpath2.nodes.subscript import SubscriptNode
 from jsonpath2.nodes.terminal import TerminalNode
-from jsonpath2.path import Path
 from jsonpath2.subscript import Subscript
 
 
@@ -14,7 +13,6 @@ class TestSubscriptNode(TestCase):
 
     def test_badsubscript1(self):
         """Test subscript that does not provide terminal or other subscript."""
-
         class BadSubscript1(Subscript):
             """Subscript that does not provide terminal or other subscript."""
 
@@ -35,7 +33,6 @@ class TestSubscriptNode(TestCase):
 
     def test_badsubscript2(self):
         """Test subscript that provides other subscript but not subscripted-terminal."""
-
         class BadSubscript2(Subscript):
             """Subscript that provides other subscript but not subscripted-terminal."""
 
