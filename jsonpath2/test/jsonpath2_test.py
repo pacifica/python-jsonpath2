@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 """Test the jsonpath module."""
+from tempfile import NamedTemporaryFile
 from unittest import TestCase
 from json import loads
 from jsonpath2.node import MatchData
@@ -320,7 +321,17 @@ class TestNode(TestCase):
         if isinstance(kwargs['node'], RootNode):
             self.assertEqual(kwargs['node'], Path.parse_str(
                 kwargs['__jsonpath__']).root_node)
+
+            with NamedTemporaryFile() as f:
+                f.write(bytes(kwargs['__jsonpath__'], 'utf-8'))
+                f.seek(0)
+
+                self.assertEqual(kwargs['node'], Path.parse_file(f.name).root_node)
+
         else:
+            with self.assertRaises(ValueError):
+                Path(kwargs['node'])
+
             with self.assertRaises(ValueError):
                 Path.parse_str('__jsonpath__')
 

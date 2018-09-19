@@ -2,8 +2,11 @@
 # -*- coding: utf-8 -*-
 """Test the expression object."""
 from unittest import TestCase
+from jsonpath2.expressions.operator import OperatorExpression, AndVariadicOperatorExpression
+from jsonpath2.expressions.some import SomeExpression
+from jsonpath2.nodes.current import CurrentNode
+from jsonpath2.nodes.terminal import TerminalNode
 from jsonpath2.path import Path
-from jsonpath2.expressions.operator import OperatorExpression
 
 
 class TestExpression(TestCase):
@@ -50,3 +53,10 @@ class TestExpression(TestCase):
         expr = Path.parse_str('$[?(not (@.bar or (@.fiz > 2 and @.biz > 2)))]')
         self.assertEqual(Path.parse_str(str(expr)), expr)
         self.assertTrue([x for x in expr.match(data)])
+
+    def test_variadic_operator(self):
+        """Test a variadic operator."""
+        expr = AndVariadicOperatorExpression([])
+        self.assertEqual('', expr.tojsonpath())
+        expr = AndVariadicOperatorExpression([SomeExpression(CurrentNode(TerminalNode()))])
+        self.assertEqual('@', expr.tojsonpath())
