@@ -28,8 +28,10 @@ class TestSubscriptNode(TestCase):
 
         with self.assertRaises(ValueError):
             # NOTE Use 'list' to force the computation to occur, raising any exceptions.
-            list(SubscriptNode(TerminalNode(), [BadSubscript1()]).match(None, None))
-
+            list(SubscriptNode(
+                TerminalNode(),
+                [BadSubscript1()]
+            ).match(None, None))
 
     def test_badsubscript2(self):
         """Test subscript that provides other subscript but not subscripted-terminal."""
@@ -48,4 +50,7 @@ class TestSubscriptNode(TestCase):
 
         with self.assertRaises(ValueError):
             # NOTE Use 'list' to force the computation to occur, raising any exceptions.
-            list(SubscriptNode(TerminalNode(), [BadSubscript2()]).match(None, None))
+            list(SubscriptNode(
+                TerminalNode(),
+                [BadSubscript2()]
+            ).match(None, None))

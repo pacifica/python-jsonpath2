@@ -58,5 +58,6 @@ class TestExpression(TestCase):
         """Test a variadic operator."""
         expr = AndVariadicOperatorExpression([])
         self.assertEqual('', expr.tojsonpath())
-        expr = AndVariadicOperatorExpression([SomeExpression(CurrentNode(TerminalNode()))])
+        expr = AndVariadicOperatorExpression(
+            [SomeExpression(CurrentNode(TerminalNode()))])
         self.assertEqual('@', expr.tojsonpath())

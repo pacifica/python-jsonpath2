@@ -326,7 +326,8 @@ class TestNode(TestCase):
                 temp_file.write(bytes(kwargs['__jsonpath__'], 'utf-8'))
                 temp_file.seek(0)
 
-                self.assertEqual(kwargs['node'], Path.parse_file(temp_file.name).root_node)
+                self.assertEqual(kwargs['node'], Path.parse_file(
+                    temp_file.name).root_node)
 
         else:
             with self.assertRaises(ValueError):
