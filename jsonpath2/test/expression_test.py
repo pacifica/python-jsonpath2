@@ -25,8 +25,12 @@ class TestExpression(TestCase):
                 '$[?(@.hello < "string")]',
                 '$[?(@.hello <= "string")]',
                 '$[?(@.hello > "string")]',
-                '$[?(@.hello >= "string")]'
+                '$[?(@.hello >= "string")]',
+                '$[?(@.hello = {"bar": "baz"})]',
+                '$[?(@.hello = false)]',
+                '$[?(@.hello = true)]'
         ]:
+            print(path)
             expr = Path.parse_str(path)
             self.assertFalse([x for x in expr.match(data)])
 
