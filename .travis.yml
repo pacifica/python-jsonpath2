@@ -1,23 +1,24 @@
 language: python
-python:
-- 3.6
+python: 3.6
 stages:
 - lint
 - test
 - deploy
 
 install: pip install -r requirements-dev.txt
-script:
-- coverage run --include='jsonpath2/*' --omit='jsonpath2/parser/JSONPath*' -m pytest -v
-- coverage report -m --fail-under 100
-- pip install .
-- python setup.py bdist_wheel
-- python setup.py sdist
 jobs:
   include:
   - stage: lint
     python: 3.6
     script: pre-commit run -a
+  - stage: test
+    python: 3.6
+    script:
+    - coverage run --include='jsonpath2/*' --omit='jsonpath2/parser/JSONPath*' -m pytest -v
+    - coverage report -m --fail-under 100
+    - pip install .
+    - python setup.py bdist_wheel
+    - python setup.py sdist
   - stage: deploy
     python: 3.6
     script: skip

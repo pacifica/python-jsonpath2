@@ -46,7 +46,7 @@ class _JSONPathListener(JSONPathListener):
             self._stack.append(RootNode(next_node))
         else:
             # NOTE Unreachable when listener is used as tree walker.
-            raise ValueError() # pragma: no cover
+            raise ValueError()  # pragma: no cover
 
     # pylint: disable=too-many-branches
     # It would sure be nice if we had a case statement.
@@ -62,7 +62,7 @@ class _JSONPathListener(JSONPathListener):
                 subscriptable_nodes = self._stack.pop()
             else:
                 # NOTE Unreachable when listener is used as tree walker.
-                raise ValueError() # pragma: no cover
+                raise ValueError()  # pragma: no cover
             self._stack.append(RecursiveDescentNode(
                 SubscriptNode(next_node, subscriptable_nodes)))
         elif ctx.getToken(JSONPathParser.SUBSCRIPT, 0) is not None:
@@ -74,7 +74,7 @@ class _JSONPathListener(JSONPathListener):
                 subscriptable_nodes = [self._stack.pop()]
             else:
                 # NOTE Unreachable when listener is used as tree walker.
-                raise ValueError() # pragma: no cover
+                raise ValueError()  # pragma: no cover
             self._stack.append(SubscriptNode(next_node, subscriptable_nodes))
         else:
             if bool(ctx.subscript()):
@@ -85,7 +85,7 @@ class _JSONPathListener(JSONPathListener):
                 subscriptable_nodes = self._stack.pop()
             else:
                 # NOTE Unreachable when listener is used as tree walker.
-                raise ValueError() # pragma: no cover
+                raise ValueError()  # pragma: no cover
             self._stack.append(SubscriptNode(next_node, subscriptable_nodes))
     # pylint: enable=too-many-branches
 
@@ -104,7 +104,7 @@ class _JSONPathListener(JSONPathListener):
             self._stack.append(WildcardSubscript())
         else:
             # NOTE Unreachable when listener is used as tree walker.
-            raise ValueError() # pragma: no cover
+            raise ValueError()  # pragma: no cover
 
     def exitSubscriptable(self, ctx: JSONPathParser.SubscriptableContext):
         if bool(ctx.STRING()):
@@ -137,7 +137,7 @@ class _JSONPathListener(JSONPathListener):
             self._stack.append(FilterSubscript(expression))
         else:
             # NOTE Unreachable when listener is used as tree walker.
-            raise ValueError() # pragma: no cover
+            raise ValueError()  # pragma: no cover
 
     def exitSliceable(self, ctx: JSONPathParser.SliceableContext):
         end = int(ctx.NUMBER(0).getText()) if bool(
@@ -168,7 +168,7 @@ class _JSONPathListener(JSONPathListener):
 
         if not expressions:
             # NOTE Unreachable when listener is used as tree walker.
-            raise ValueError() # pragma: no cover
+            raise ValueError()  # pragma: no cover
         if len(expressions) == 1:
             self._stack.append(expressions[0])
         else:
@@ -194,7 +194,7 @@ class _JSONPathListener(JSONPathListener):
 
         if not expressions:
             # NOTE Unreachable when listener is used as tree walker.
-            raise ValueError() # pragma: no cover
+            raise ValueError()  # pragma: no cover
         if len(expressions) == 1:
             self._stack.append(expressions[0])
         else:
@@ -225,7 +225,7 @@ class _JSONPathListener(JSONPathListener):
                     left_node = CurrentNode(next_node)
                 else:
                     # NOTE Unreachable when listener is used as tree walker.
-                    raise ValueError() # pragma: no cover
+                    raise ValueError()  # pragma: no cover
 
                 if ctx.getToken(JSONPathParser.EQ, 0) is not None:
                     self._stack.append(
@@ -247,7 +247,7 @@ class _JSONPathListener(JSONPathListener):
                         GreaterThanOrEqualToBinaryOperatorExpression(left_node, right_value))
                 else:
                     # NOTE Unreachable when listener is used as tree walker.
-                    raise ValueError() # pragma: no cover
+                    raise ValueError()  # pragma: no cover
             else:
                 if bool(ctx.subscript()):
                     next_node = self._stack.pop()
@@ -310,7 +310,7 @@ class _JSONPathListener(JSONPathListener):
             self._stack.append(None)
         else:
             # NOTE Unreachable when listener is used as tree walker.
-            raise ValueError() # pragma: no cover
+            raise ValueError()  # pragma: no cover
 
 
 class _JSONPathParser(JSONPathParser):
