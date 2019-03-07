@@ -20,8 +20,8 @@ from jsonpath2.parser.JSONPathParser import JSONPathParser
 from jsonpath2.subscripts.arrayindex import ArrayIndexSubscript
 from jsonpath2.subscripts.arrayslice import ArraySliceSubscript
 from jsonpath2.subscripts.filter import FilterSubscript
+from jsonpath2.subscripts.node import NodeSubscript
 from jsonpath2.subscripts.objectindex import ObjectIndexSubscript
-from jsonpath2.subscripts.path import PathSubscript
 from jsonpath2.subscripts.wildcard import WildcardSubscript
 
 
@@ -156,7 +156,7 @@ class _JSONPathListener(JSONPathListener):
         elif bool(ctx.jsonpath_()):
             next_node = self._stack.pop()
 
-            self._stack.append(PathSubscript(next_node))
+            self._stack.append(NodeSubscript(next_node))
         else:
             # NOTE Unreachable when listener is used as tree walker.
             raise ValueError()  # pragma: no cover

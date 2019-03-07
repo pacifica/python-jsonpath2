@@ -6,12 +6,12 @@ from unittest import TestCase
 from jsonpath2.path import Path
 
 
-class TestPathSubscript(TestCase):
-    """Test the path subscript."""
+class TestNodeSubscript(TestCase):
+    """Test the node subscript."""
 
     # pylint: disable=invalid-name
-    def test_path_subscript_noop(self):
-        """Test the path subscript with no indices."""
+    def test_node_subscript_noop(self):
+        """Test the node subscript with no indices."""
         string = '$["collection"][$["index"]]'
         path = Path.parse_str(string)
         self.assertEqual(string, str(path))
@@ -24,8 +24,8 @@ class TestPathSubscript(TestCase):
     # pylint: enable=invalid-name
 
     # pylint: disable=invalid-name
-    def test_path_subscript_array_index(self):
-        """Test the path subscript with one array index."""
+    def test_node_subscript_array_index(self):
+        """Test the node subscript with one array index."""
         string = '$["collection"][$["index"]]'
         path = Path.parse_str(string)
         self.assertEqual(string, str(path))
@@ -39,8 +39,8 @@ class TestPathSubscript(TestCase):
     # pylint: enable=invalid-name
 
     # pylint: disable=invalid-name
-    def test_path_subscript_array_indices(self):
-        """Test the path subscript with many array indices."""
+    def test_node_subscript_array_indices(self):
+        """Test the node subscript with many array indices."""
         string = '$["collection"][$["indices"][*]]'
         path = Path.parse_str(string)
         self.assertEqual(string, str(path))
@@ -55,8 +55,8 @@ class TestPathSubscript(TestCase):
     # pylint: enable=invalid-name
 
     # pylint: disable=invalid-name
-    def test_path_subscript_object_index(self):
-        """Test the path subscript with one object index."""
+    def test_node_subscript_object_index(self):
+        """Test the node subscript with one object index."""
         string = '$["collection"][$["index"]]'
         path = Path.parse_str(string)
         self.assertEqual(string, str(path))
@@ -73,8 +73,8 @@ class TestPathSubscript(TestCase):
     # pylint: enable=invalid-name
 
     # pylint: disable=invalid-name
-    def test_path_subscript_object_indices(self):
-        """Test the path subscript with many object indices."""
+    def test_node_subscript_object_indices(self):
+        """Test the node subscript with many object indices."""
         string = '$["collection"][$["indices"][*]]'
         path = Path.parse_str(string)
         self.assertEqual(string, str(path))

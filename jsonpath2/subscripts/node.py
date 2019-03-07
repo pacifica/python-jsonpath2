@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-"""Path."""
+"""Node."""
 from typing import Generator
 from jsonpath2.node import MatchData, Node
 from jsonpath2.subscript import Subscript
@@ -8,12 +8,12 @@ from jsonpath2.subscripts.arrayindex import ArrayIndexSubscript
 from jsonpath2.subscripts.objectindex import ObjectIndexSubscript
 
 
-class PathSubscript(Subscript):
-    """Path subscript in the parse tree."""
+class NodeSubscript(Subscript):
+    """Node subscript in the parse tree."""
 
     def __init__(self, next_node: Node):
-        """Save the filter expression."""
-        super(PathSubscript, self).__init__()
+        """Save the node subscript."""
+        super(NodeSubscript, self).__init__()
         self.next_node = next_node
 
     def __jsonpath__(self) -> Generator[str, None, None]:
@@ -21,7 +21,7 @@ class PathSubscript(Subscript):
         return self.next_node.__jsonpath__()
 
     def match(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
-        """Match the path subscript against the current value."""
+        """Match the node subscript against the current value."""
         for next_node_match_data in self.next_node.match(root_value, current_value):
             if isinstance(next_node_match_data.current_value, int):
                 subscript = ArrayIndexSubscript(next_node_match_data.current_value)
