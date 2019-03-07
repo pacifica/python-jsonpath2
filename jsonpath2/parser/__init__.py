@@ -258,9 +258,9 @@ class _JSONPathListener(JSONPathListener):
                 # NOTE Unreachable when listener is used as tree walker.
                 raise ValueError()  # pragma: no cover
         elif bool(ctx.jsonpath__(0)):
-            next_node = self._stack.pop()
+            next_node_or_value = self._stack.pop()
 
-            self._stack.append(SomeExpression(next_node))
+            self._stack.append(SomeExpression(next_node_or_value))
         else:
             pass
     # pylint: enable=too-many-branches
