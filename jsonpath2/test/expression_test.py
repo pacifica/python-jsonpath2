@@ -89,16 +89,15 @@ class TestExpression(TestCase):
             'foo': 'bar',
             'fum': 'baz',
         }
-
-        expected_lists = {
+        expected_values = {
             '$[?(0)]["foo"]': [],
             '$[?(0 = 0)]["foo"]': ['bar'],
             '$[?(0 = @["fum"])]["foo"]': [],
             '$[?(@["foo"] = 0)]["foo"]': [],
             '$[?(@["foo"] = @["fum"])]["foo"]': []
         }
-
-        for s in expected_lists.keys():
+        for s in expected_values.keys():
             expr = Path.parse_str(s)
             self.assertEqual(s, str(expr))
-            self.assertListEqual(expected_lists.get(s), list(match_data.current_value for match_data in expr.match(data)))
+            values = [match_data.current_value for match_data in expr.match(data)]
+            self.assertListEqual(expected_values.get(s), values)
