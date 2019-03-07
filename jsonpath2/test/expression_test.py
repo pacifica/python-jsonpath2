@@ -84,7 +84,7 @@ class TestExpression(TestCase):
             Path.parse_str('$[3.14156:]')
 
     def test_binary_operator_with_path_subscript(self):
-        """Test a binary operator with a path subscript"""
+        """Test a binary operator with a path subscript."""
         data = {
             'foo': 'bar',
             'fum': 'baz',
