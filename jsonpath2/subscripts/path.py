@@ -34,5 +34,3 @@ class PathSubscript(Subscript):
 
                 for subscript_match_data in subscript.match(root_value, current_value):
                     yield subscript_match_data
-            else:
-                return []

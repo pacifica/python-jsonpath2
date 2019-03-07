@@ -19,8 +19,7 @@ class SomeExpression(Expression):
         """Return the next nodes jsonpath."""
         if isinstance(self.next_node_or_value, Node):
             return self.next_node_or_value.__jsonpath__()
-        else:
-            return [json.dumps(self.next_node_or_value)]
+        return [json.dumps(self.next_node_or_value)]
 
     def evaluate(self, root_value: object, current_value: object) -> bool:
         """Evaluate the next node."""
@@ -28,5 +27,4 @@ class SomeExpression(Expression):
             for _next_node_match_data in self.next_node_or_value.match(root_value, current_value):
                 return True
             return False
-        else:
-            return not (not self.next_node_or_value)
+        return bool(self.next_node_or_value)

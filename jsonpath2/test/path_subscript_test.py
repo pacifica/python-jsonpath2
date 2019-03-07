@@ -5,14 +5,15 @@ from unittest import TestCase
 
 from jsonpath2.path import Path
 
+
 class TestPathSubscript(TestCase):
     """Test the path subscript."""
 
     def test_path_subscript_noop(self):
         """Test the path subscript with no indices."""
-        s = '$["collection"][$["index"]]'
-        path = Path.parse_str(s)
-        self.assertEqual(s, str(path))
+        string = '$["collection"][$["index"]]'
+        path = Path.parse_str(string)
+        self.assertEqual(string, str(path))
         data = {
             'collection': ['foo', 'bar', 'fum', 'baz'],
             'index': [],
@@ -22,9 +23,9 @@ class TestPathSubscript(TestCase):
 
     def test_path_subscript_array_index(self):
         """Test the path subscript with one array index."""
-        s = '$["collection"][$["index"]]'
-        path = Path.parse_str(s)
-        self.assertEqual(s, str(path))
+        string = '$["collection"][$["index"]]'
+        path = Path.parse_str(string)
+        self.assertEqual(string, str(path))
         data = {
             'collection': ['foo', 'bar', 'fum', 'baz'],
             'index': 1,
@@ -35,9 +36,9 @@ class TestPathSubscript(TestCase):
 
     def test_path_subscript_array_indices(self):
         """Test the path subscript with many array indices."""
-        s = '$["collection"][$["indices"][*]]'
-        path = Path.parse_str(s)
-        self.assertEqual(s, str(path))
+        string = '$["collection"][$["indices"][*]]'
+        path = Path.parse_str(string)
+        self.assertEqual(string, str(path))
         data = {
             'collection': ['foo', 'bar', 'fum', 'baz'],
             'indices': [1, 3],
@@ -49,9 +50,9 @@ class TestPathSubscript(TestCase):
 
     def test_path_subscript_object_index(self):
         """Test the path subscript with one object index."""
-        s = '$["collection"][$["index"]]'
-        path = Path.parse_str(s)
-        self.assertEqual(s, str(path))
+        string = '$["collection"][$["index"]]'
+        path = Path.parse_str(string)
+        self.assertEqual(string, str(path))
         data = {
             'collection': {
                 'foo': 'bar',
@@ -65,9 +66,9 @@ class TestPathSubscript(TestCase):
 
     def test_path_subscript_object_indices(self):
         """Test the path subscript with many object indices."""
-        s = '$["collection"][$["indices"][*]]'
-        path = Path.parse_str(s)
-        self.assertEqual(s, str(path))
+        string = '$["collection"][$["indices"][*]]'
+        path = Path.parse_str(string)
+        self.assertEqual(string, str(path))
         data = {
             'collection': {
                 'foo': 'bar',

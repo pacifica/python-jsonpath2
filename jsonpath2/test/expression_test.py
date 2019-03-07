@@ -96,8 +96,8 @@ class TestExpression(TestCase):
             '$[?(@["foo"] = 0)]["foo"]': [],
             '$[?(@["foo"] = @["fum"])]["foo"]': []
         }
-        for s in expected_values.keys():
-            expr = Path.parse_str(s)
-            self.assertEqual(s, str(expr))
+        for string in expected_values.keys():
+            expr = Path.parse_str(string)
+            self.assertEqual(string, str(expr))
             values = [match_data.current_value for match_data in expr.match(data)]
             self.assertListEqual(expected_values.get(s), values)
