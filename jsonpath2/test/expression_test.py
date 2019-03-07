@@ -85,7 +85,6 @@ class TestExpression(TestCase):
 
     # pylint: disable=invalid-name
     def test_binary_operator_with_path_subscript(self):
-        # pylint: enable=invalid-name
         """Test a binary operator with a path subscript."""
         data = {
             'foo': 'bar',
@@ -105,3 +104,4 @@ class TestExpression(TestCase):
             self.assertEqual(string, str(expr))
             values = [match_data.current_value for match_data in expr.match(data)]
             self.assertListEqual(expected_values.get(string), values)
+    # pylint: enable=invalid-name
