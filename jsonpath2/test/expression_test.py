@@ -82,3 +82,24 @@ class TestExpression(TestCase):
         self.assertEqual('$[?($ = null)]', str(expr))
         with self.assertRaises(ValueError):
             Path.parse_str('$[3.14156:]')
+
+    def test_binary_operator_with_path_subscript(self):
+        """Test a binary operator with a path subscript"""
+        data = {
+            'foo': 'bar',
+            'fum': 'baz',
+        }
+
+        expected_lists = {
+            '$[?(0)]["foo"]': [],
+            '$[?(0 = 0)]["foo"]': ['bar'],
+            '$[?(0 = 0)]["foo"]': ['bar'],
+            '$[?(0 = @["fum"])]["foo"]': [],
+            '$[?(@["foo"] = 0)]["foo"]': [],
+            '$[?(@["foo"] = @["fum"])]["foo"]': []
+        }
+
+        for s in expected_lists.keys():
+            expr = Path.parse_str(s)
+            self.assertEqual(s, str(expr))
+            self.assertListEqual(expected_lists.get(s), list(match_data.current_value for match_data in expr.match(data)))

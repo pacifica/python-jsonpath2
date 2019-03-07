@@ -17,6 +17,24 @@ class JSONPathListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by JSONPathParser#jsonpath_.
+    def enterJsonpath_(self, ctx:JSONPathParser.Jsonpath_Context):
+        pass
+
+    # Exit a parse tree produced by JSONPathParser#jsonpath_.
+    def exitJsonpath_(self, ctx:JSONPathParser.Jsonpath_Context):
+        pass
+
+
+    # Enter a parse tree produced by JSONPathParser#jsonpath__.
+    def enterJsonpath__(self, ctx:JSONPathParser.Jsonpath__Context):
+        pass
+
+    # Exit a parse tree produced by JSONPathParser#jsonpath__.
+    def exitJsonpath__(self, ctx:JSONPathParser.Jsonpath__Context):
+        pass
+
+
     # Enter a parse tree produced by JSONPathParser#subscript.
     def enterSubscript(self, ctx:JSONPathParser.SubscriptContext):
         pass
