@@ -12,13 +12,15 @@ from jsonpath2.subscript import Subscript
 class CallableSubscript(Subscript):
     """Callable subscript object."""
 
-    def __init__(self, callback: Callable[[Tuple[object, ...]], Generator[object,
-                                                                          None, None]], name: str, *args: Tuple[Union[Node, object]]):
+    # pylint: disable=line-too-long
+    def __init__(self, callback: Callable[[Tuple[object, ...]], Generator[object,  # noqa: E501
+                                                                          None, None]], name: str, *args: Tuple[Union[Node, object]]):  # noqa: E501
         """Initialize the callable subscript object."""
         super(CallableSubscript, self).__init__()
         self.callback = callback
         self.name = name
         self.args = args
+    # pylint: enable=line-too-long
 
     def __jsonpath__(self) -> Generator[str, None, None]:
         """Generate the JSONPath for the callable subscript."""
