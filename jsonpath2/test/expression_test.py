@@ -82,3 +82,26 @@ class TestExpression(TestCase):
         self.assertEqual('$[?($ = null)]', str(expr))
         with self.assertRaises(ValueError):
             Path.parse_str('$[3.14156:]')
+
+    # pylint: disable=invalid-name
+    def test_binary_operator_with_path_subscript(self):
+        """Test a binary operator with a path subscript."""
+        data = {
+            'foo': 'bar',
+            'fum': 'baz',
+        }
+        expected_values = {
+            '$[?(0)]["foo"]': [],
+            '$[?(0 = 0)]["foo"]': ['bar'],
+            '$[?(0 = @["fum"])]["foo"]': [],
+            '$[?(@["foo"] = 0)]["foo"]': [],
+            '$[?(@["foo"] = @["fum"])]["foo"]': []
+        }
+        # pylint: disable=consider-iterating-dictionary
+        for string in expected_values.keys():
+            # pylint: enable=consider-iterating-dictionary
+            expr = Path.parse_str(string)
+            self.assertEqual(string, str(expr))
+            values = [match_data.current_value for match_data in expr.match(data)]
+            self.assertListEqual(expected_values.get(string), values)
+    # pylint: enable=invalid-name

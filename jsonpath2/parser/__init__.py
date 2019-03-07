@@ -20,6 +20,7 @@ from jsonpath2.parser.JSONPathParser import JSONPathParser
 from jsonpath2.subscripts.arrayindex import ArrayIndexSubscript
 from jsonpath2.subscripts.arrayslice import ArraySliceSubscript
 from jsonpath2.subscripts.filter import FilterSubscript
+from jsonpath2.subscripts.node import NodeSubscript
 from jsonpath2.subscripts.objectindex import ObjectIndexSubscript
 from jsonpath2.subscripts.wildcard import WildcardSubscript
 
@@ -47,6 +48,23 @@ class _JSONPathListener(JSONPathListener):
         else:
             # NOTE Unreachable when listener is used as tree walker.
             raise ValueError()  # pragma: no cover
+
+    def exitJsonpath_(self, ctx: JSONPathParser.JsonpathContext):
+        if bool(ctx.subscript()):
+            next_node = self._stack.pop()
+        else:
+            next_node = TerminalNode()
+
+        if ctx.getToken(JSONPathParser.ROOT_VALUE, 0) is not None:
+            self._stack.append(RootNode(next_node))
+        elif ctx.getToken(JSONPathParser.CURRENT_VALUE, 0) is not None:
+            self._stack.append(CurrentNode(next_node))
+        else:
+            # NOTE Unreachable when listener is used as tree walker.
+            raise ValueError()  # pragma: no cover
+
+    def exitJsonpath__(self, ctx: JSONPathParser.JsonpathContext):
+        pass
 
     # pylint: disable=too-many-branches
     # It would sure be nice if we had a case statement.
@@ -135,6 +153,10 @@ class _JSONPathListener(JSONPathListener):
             expression = self._stack.pop()
 
             self._stack.append(FilterSubscript(expression))
+        elif bool(ctx.jsonpath_()):
+            next_node = self._stack.pop()
+
+            self._stack.append(NodeSubscript(next_node))
         else:
             # NOTE Unreachable when listener is used as tree walker.
             raise ValueError()  # pragma: no cover
@@ -209,52 +231,36 @@ class _JSONPathListener(JSONPathListener):
                 self._stack.append(expression.expression)
             else:
                 self._stack.append(NotUnaryOperatorExpression(expression))
-        elif (ctx.getToken(JSONPathParser.ROOT_VALUE, 0) is not None) or \
-                (ctx.getToken(JSONPathParser.CURRENT_VALUE, 0) is not None):
-            if bool(ctx.value()):
-                right_value = self._stack.pop()
+        elif bool(ctx.jsonpath__(1)):
+            right_node_or_value = self._stack.pop()
 
-                if bool(ctx.subscript()):
-                    next_node = self._stack.pop()
-                else:
-                    next_node = TerminalNode()
+            left_node_or_value = self._stack.pop()
 
-                if ctx.getToken(JSONPathParser.ROOT_VALUE, 0) is not None:
-                    left_node = RootNode(next_node)
-                elif ctx.getToken(JSONPathParser.CURRENT_VALUE, 0) is not None:
-                    left_node = CurrentNode(next_node)
-                else:
-                    # NOTE Unreachable when listener is used as tree walker.
-                    raise ValueError()  # pragma: no cover
-
-                if ctx.getToken(JSONPathParser.EQ, 0) is not None:
-                    self._stack.append(
-                        EqualBinaryOperatorExpression(left_node, right_value))
-                elif ctx.getToken(JSONPathParser.NE, 0) is not None:
-                    self._stack.append(
-                        NotEqualBinaryOperatorExpression(left_node, right_value))
-                elif ctx.getToken(JSONPathParser.LT, 0) is not None:
-                    self._stack.append(
-                        LessThanBinaryOperatorExpression(left_node, right_value))
-                elif ctx.getToken(JSONPathParser.LE, 0) is not None:
-                    self._stack.append(
-                        LessThanOrEqualToBinaryOperatorExpression(left_node, right_value))
-                elif ctx.getToken(JSONPathParser.GT, 0) is not None:
-                    self._stack.append(
-                        GreaterThanBinaryOperatorExpression(left_node, right_value))
-                elif ctx.getToken(JSONPathParser.GE, 0) is not None:
-                    self._stack.append(
-                        GreaterThanOrEqualToBinaryOperatorExpression(left_node, right_value))
-                else:
-                    # NOTE Unreachable when listener is used as tree walker.
-                    raise ValueError()  # pragma: no cover
+            if ctx.getToken(JSONPathParser.EQ, 0) is not None:
+                self._stack.append(
+                    EqualBinaryOperatorExpression(left_node_or_value, right_node_or_value))
+            elif ctx.getToken(JSONPathParser.NE, 0) is not None:
+                self._stack.append(
+                    NotEqualBinaryOperatorExpression(left_node_or_value, right_node_or_value))
+            elif ctx.getToken(JSONPathParser.LT, 0) is not None:
+                self._stack.append(
+                    LessThanBinaryOperatorExpression(left_node_or_value, right_node_or_value))
+            elif ctx.getToken(JSONPathParser.LE, 0) is not None:
+                self._stack.append(
+                    LessThanOrEqualToBinaryOperatorExpression(left_node_or_value, right_node_or_value))
+            elif ctx.getToken(JSONPathParser.GT, 0) is not None:
+                self._stack.append(
+                    GreaterThanBinaryOperatorExpression(left_node_or_value, right_node_or_value))
+            elif ctx.getToken(JSONPathParser.GE, 0) is not None:
+                self._stack.append(
+                    GreaterThanOrEqualToBinaryOperatorExpression(left_node_or_value, right_node_or_value))
             else:
-                if bool(ctx.subscript()):
-                    next_node = self._stack.pop()
-                else:
-                    next_node = TerminalNode()
+                # NOTE Unreachable when listener is used as tree walker.
+                raise ValueError()  # pragma: no cover
+        elif bool(ctx.jsonpath__(0)):
+            next_node_or_value = self._stack.pop()
 
-                self._stack.append(SomeExpression(CurrentNode(next_node)))
+            self._stack.append(SomeExpression(next_node_or_value))
         else:
             pass
     # pylint: enable=too-many-branches

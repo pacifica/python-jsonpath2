@@ -34,6 +34,16 @@ jsonpath
    : ROOT_VALUE subscript? EOF
    ;
 
+jsonpath_
+   : ( ROOT_VALUE | CURRENT_VALUE ) subscript?
+   ;
+
+jsonpath__
+   : jsonpath_
+   | value
+   ;
+
+
 subscript
    : RECURSIVE_DESCENT ( subscriptableBareword | subscriptables ) subscript?
    | SUBSCRIPT subscriptableBareword subscript?
@@ -55,6 +65,7 @@ subscriptable
    | sliceable
    | WILDCARD_SUBSCRIPT
    | QUESTION PAREN_LEFT expression PAREN_RIGHT
+   | jsonpath_
    ;
 
 sliceable
@@ -76,7 +87,7 @@ orExpression
 notExpression
    : NOT notExpression
    | PAREN_LEFT expression PAREN_RIGHT
-   | ( ROOT_VALUE | CURRENT_VALUE ) subscript? ( ( EQ | NE | LT | LE | GT | GE ) value )?
+   | jsonpath__ ( ( EQ | NE | LT | LE | GT | GE ) jsonpath__ )?
    ;
 
 

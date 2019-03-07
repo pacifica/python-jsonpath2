@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """The operator expression module."""
 import json
-from typing import Callable, Generator, List
+from typing import Callable, Generator, List, Union
 from jsonpath2.expression import Expression
 from jsonpath2.node import Node
 
@@ -22,33 +22,61 @@ class OperatorExpression(Expression):
 class BinaryOperatorExpression(OperatorExpression):
     """Binary operator expression."""
 
-    def __init__(self, token: str, callback: Callable[[object, object], bool], left_node: Node, right_value: object):
+    def __init__(self, token: str, callback: Callable[[object, object], bool],
+                 left_node_or_value: Union[Node, object], right_node_or_value: Union[Node, object]):
         """Constructor save the left right and token."""
         super(BinaryOperatorExpression, self).__init__()
         self.token = token
         self.callback = callback
-        self.left_node = left_node
-        self.right_value = right_value
+        self.left_node_or_value = left_node_or_value
+        self.right_node_or_value = right_node_or_value
 
     def __jsonpath__(self) -> Generator[str, None, None]:
         """Return the string json path of this expression."""
-        for left_node_token in self.left_node.__jsonpath__():
-            yield left_node_token
+        if isinstance(self.left_node_or_value, Node):
+            for left_node_token in self.left_node_or_value.__jsonpath__():
+                yield left_node_token
+        else:
+            yield json.dumps(self.left_node_or_value)
+
         yield ' '
         yield self.token
         yield ' '
-        yield json.dumps(self.right_value)
+
+        if isinstance(self.right_node_or_value, Node):
+            for right_node_token in self.right_node_or_value.__jsonpath__():
+                yield right_node_token
+        else:
+            yield json.dumps(self.right_node_or_value)
 
     def evaluate(self, root_value: object, current_value: object) -> bool:
         """Evaluate the left and right values given the token."""
-        return any(
-            map(
-                lambda left_node_match_data: self.callback(
-                    left_node_match_data.current_value,
-                    self.right_value
-                ),
-                self.left_node.match(root_value, current_value)
+        if isinstance(self.left_node_or_value, Node):
+            left_values = (
+                left_node_match_data.current_value
+                for left_node_match_data
+                in self.left_node_or_value.match(root_value, current_value)
             )
+        else:
+            left_values = [
+                self.left_node_or_value,
+            ]
+
+        if isinstance(self.right_node_or_value, Node):
+            right_values = (
+                right_node_match_data.current_value
+                for right_node_match_data
+                in self.right_node_or_value.match(root_value, current_value)
+            )
+        else:
+            right_values = [
+                self.right_node_or_value,
+            ]
+
+        return any(
+            self.callback(left_value, right_value)
+            for left_value in left_values
+            for right_value in right_values
         )
 
 
