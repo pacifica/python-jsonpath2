@@ -11,7 +11,7 @@ class TestPathSubscript(TestCase):
 
     # pylint: disable=invalid-name
     def test_path_subscript_noop(self):
-    # pylint: enable=invalid-name
+        # pylint: enable=invalid-name
         """Test the path subscript with no indices."""
         string = '$["collection"][$["index"]]'
         path = Path.parse_str(string)
@@ -25,7 +25,7 @@ class TestPathSubscript(TestCase):
 
     # pylint: disable=invalid-name
     def test_path_subscript_array_index(self):
-    # pylint: enable=invalid-name
+        # pylint: enable=invalid-name
         """Test the path subscript with one array index."""
         string = '$["collection"][$["index"]]'
         path = Path.parse_str(string)
@@ -40,7 +40,7 @@ class TestPathSubscript(TestCase):
 
     # pylint: disable=invalid-name
     def test_path_subscript_array_indices(self):
-    # pylint: enable=invalid-name
+        # pylint: enable=invalid-name
         """Test the path subscript with many array indices."""
         string = '$["collection"][$["indices"][*]]'
         path = Path.parse_str(string)
@@ -56,7 +56,7 @@ class TestPathSubscript(TestCase):
 
     # pylint: disable=invalid-name
     def test_path_subscript_object_index(self):
-    # pylint: enable=invalid-name
+        # pylint: enable=invalid-name
         """Test the path subscript with one object index."""
         string = '$["collection"][$["index"]]'
         path = Path.parse_str(string)
@@ -74,7 +74,7 @@ class TestPathSubscript(TestCase):
 
     # pylint: disable=invalid-name
     def test_path_subscript_object_indices(self):
-    # pylint: enable=invalid-name
+        # pylint: enable=invalid-name
         """Test the path subscript with many object indices."""
         string = '$["collection"][$["indices"][*]]'
         path = Path.parse_str(string)

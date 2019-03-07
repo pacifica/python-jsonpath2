@@ -85,7 +85,7 @@ class TestExpression(TestCase):
 
     # pylint: disable=invalid-name
     def test_binary_operator_with_path_subscript(self):
-    # pylint: enable=invalid-name
+        # pylint: enable=invalid-name
         """Test a binary operator with a path subscript."""
         data = {
             'foo': 'bar',
@@ -100,7 +100,7 @@ class TestExpression(TestCase):
         }
         # pylint: disable=consider-iterating-dictionary
         for string in expected_values.keys():
-        # pylint: enable=consider-iterating-dictionary
+            # pylint: enable=consider-iterating-dictionary
             expr = Path.parse_str(string)
             self.assertEqual(string, str(expr))
             values = [match_data.current_value for match_data in expr.match(data)]
