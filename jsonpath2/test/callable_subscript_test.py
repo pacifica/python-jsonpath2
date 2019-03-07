@@ -2,9 +2,11 @@
 # -*- coding: utf-8 -*-
 """Test the jsonpath module."""
 from unittest import TestCase
+
 from jsonpath2.path import Path
 
 
+# pylint: disable=duplicate-code
 class TestCallableSubscript(TestCase):
     """Test the callable subscript."""
 
@@ -77,3 +79,4 @@ class TestCallableSubscript(TestCase):
         self.assertEqual(2, len(matches))
         self.assertEqual('bar', matches[0].current_value)
         self.assertEqual('baz', matches[1].current_value)
+# pylint: enable=duplicate-code

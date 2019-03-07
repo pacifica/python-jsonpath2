@@ -6,6 +6,7 @@ from unittest import TestCase
 from jsonpath2.path import Path
 
 
+# pylint: disable=duplicate-code
 class TestNodeSubscript(TestCase):
     """Test the node subscript."""
 
@@ -90,3 +91,4 @@ class TestNodeSubscript(TestCase):
         self.assertEqual('bar', matches[0].current_value)
         self.assertEqual('baz', matches[1].current_value)
     # pylint: enable=invalid-name
+# pylint: enable=duplicate-code
