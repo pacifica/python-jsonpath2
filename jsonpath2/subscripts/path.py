@@ -24,7 +24,7 @@ class PathSubscript(Subscript):
     def match(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Match the path subscript against the current value."""
         for next_node_match_data in self.next_node.match(root_value, current_value):
-            if isinstance(next_node_match_data.current_value, (float, int)):
+            if isinstance(next_node_match_data.current_value, int):
                 subscript = ArrayIndexSubscript(next_node_match_data.current_value)
 
                 for subscript_match_data in subscript.match(root_value, current_value):
