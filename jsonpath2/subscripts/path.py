@@ -18,8 +18,7 @@ class PathSubscript(Subscript):
 
     def __jsonpath__(self) -> Generator[str, None, None]:
         """generate the jsonpath for the path."""
-        for next_node_token in self.next_node.__jsonpath__():
-            yield next_node_token
+        return self.next_node.__jsonpath__()
 
     def match(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Match the path subscript against the current value."""
