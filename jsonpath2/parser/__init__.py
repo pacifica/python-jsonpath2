@@ -19,7 +19,8 @@ from jsonpath2.parser.JSONPathParser import JSONPathParser
 
 from jsonpath2.subscripts.arrayindex import ArrayIndexSubscript
 from jsonpath2.subscripts.arrayslice import ArraySliceSubscript
-from jsonpath2.subscripts.callable import ArrayLengthCallableSubscript, ObjectEntriesCallableSubscript, ObjectKeysCallableSubscript, ObjectValuesCallableSubscript
+from jsonpath2.subscripts.callable import ArrayLengthCallableSubscript, ObjectEntriesCallableSubscript, \
+    ObjectKeysCallableSubscript, ObjectValuesCallableSubscript
 from jsonpath2.subscripts.filter import FilterSubscript
 from jsonpath2.subscripts.node import NodeSubscript
 from jsonpath2.subscripts.objectindex import ObjectIndexSubscript
@@ -117,7 +118,7 @@ class _JSONPathListener(JSONPathListener):
 
     def exitSubscriptableBareword(self, ctx: JSONPathParser.SubscriptableBarewordContext):
         if bool(ctx.subscriptableCallable()):
-            pass
+            pass  # pragma: no cover
         elif bool(ctx.ID()):
             text = ctx.ID().getText()
             self._stack.append(ObjectIndexSubscript(text))
@@ -131,13 +132,13 @@ class _JSONPathListener(JSONPathListener):
         if bool(ctx.ID()) and bool(ctx.PAREN_LEFT()) and bool(ctx.PAREN_RIGHT()):
             text = ctx.ID().getText()
 
-            if 'length' == text:
+            if text == 'length':
                 self._stack.append(ArrayLengthCallableSubscript())
-            elif 'entries' == text:
+            elif text == 'entries':
                 self._stack.append(ObjectEntriesCallableSubscript())
-            elif 'keys' == text:
+            elif text == 'keys':
                 self._stack.append(ObjectKeysCallableSubscript())
-            elif 'values' == text:
+            elif text == 'values':
                 self._stack.append(ObjectValuesCallableSubscript())
             else:
                 # NOTE Unreachable when listener is used as tree walker.
