@@ -71,6 +71,8 @@ class ArrayLengthCallableSubscript(CallableSubscript):
         """Perform length() call."""
         if isinstance(current_value, list):
             yield len(current_value)
+        elif isinstance(current_value, str):
+            yield len(current_value)
     # pylint: enable=unused-argument
 
 

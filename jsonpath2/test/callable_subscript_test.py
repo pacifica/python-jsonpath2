@@ -20,6 +20,16 @@ class TestCallableSubscript(TestCase):
         self.assertEqual(1, len(matches))
         self.assertEqual(4, matches[0].current_value)
 
+        string = '$["scalar"][length()]'
+        path = Path.parse_str(string)
+        self.assertEqual(string, str(path))
+        data = {
+            'scalar': 'Hello, world!',
+        }
+        matches = list(path.match(data))
+        self.assertEqual(1, len(matches))
+        self.assertEqual(len('Hello, world!'), matches[0].current_value)
+
     def test_entries(self):
         """Test the entries() callable subscript."""
         string = '$["collection"][entries()][*]'
