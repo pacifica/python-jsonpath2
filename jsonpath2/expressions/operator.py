@@ -22,7 +22,7 @@ class OperatorExpression(Expression):
 class BinaryOperatorExpression(OperatorExpression):
     """Binary operator expression."""
 
-    def __init__(self, token: str, callback: Callable[[object, object], bool], left_node_or_value: Union[Node, object], right_node_or_value: Union[Node, object]):
+def __init__(self, token: str, callback: Callable[[object, object], bool], left_node_or_value: Union[Node, object], right_node_or_value: Union[Node, object]):
         """Constructor save the left right and token."""
         super(BinaryOperatorExpression, self).__init__()
         self.token = token

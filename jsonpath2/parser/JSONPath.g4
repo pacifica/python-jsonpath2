@@ -43,6 +43,7 @@ jsonpath__
    | value
    ;
 
+
 subscript
    : RECURSIVE_DESCENT ( subscriptableBareword | subscriptables ) subscript?
    | SUBSCRIPT subscriptableBareword subscript?
