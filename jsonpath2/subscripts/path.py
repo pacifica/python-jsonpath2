@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """Path."""
 from typing import Generator
-from jsonpath2.expression import Expression
 from jsonpath2.node import MatchData, Node
 from jsonpath2.subscript import Subscript
 from jsonpath2.subscripts.arrayindex import ArrayIndexSubscript

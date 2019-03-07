@@ -340,7 +340,6 @@ class JSONPathParser ( Parser ):
             self.exitRule()
         return localctx
 
-
     class SubscriptContext(ParserRuleContext):
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -608,7 +607,6 @@ class JSONPathParser ( Parser ):
 
         def jsonpath_(self):
             return self.getTypedRuleContext(JSONPathParser.Jsonpath_Context,0)
-
 
 
         def getRuleIndex(self):

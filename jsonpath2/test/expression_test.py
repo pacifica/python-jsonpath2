@@ -93,7 +93,6 @@ class TestExpression(TestCase):
         expected_lists = {
             '$[?(0)]["foo"]': [],
             '$[?(0 = 0)]["foo"]': ['bar'],
-            '$[?(0 = 0)]["foo"]': ['bar'],
             '$[?(0 = @["fum"])]["foo"]': [],
             '$[?(@["foo"] = 0)]["foo"]': [],
             '$[?(@["foo"] = @["fum"])]["foo"]': []
