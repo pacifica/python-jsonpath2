@@ -100,4 +100,4 @@ class TestExpression(TestCase):
             expr = Path.parse_str(string)
             self.assertEqual(string, str(expr))
             values = [match_data.current_value for match_data in expr.match(data)]
-            self.assertListEqual(expected_values.get(s), values)
+            self.assertListEqual(expected_values.get(string), values)
