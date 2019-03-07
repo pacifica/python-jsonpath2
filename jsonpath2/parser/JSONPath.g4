@@ -55,7 +55,8 @@ subscriptables
    ;
 
 subscriptableBareword
-   : ID
+   : subscriptableCallable
+   | ID
    | WILDCARD_SUBSCRIPT
    ;
 
@@ -66,6 +67,11 @@ subscriptable
    | WILDCARD_SUBSCRIPT
    | QUESTION PAREN_LEFT expression PAREN_RIGHT
    | jsonpath_
+   | subscriptableCallable
+   ;
+
+subscriptableCallable
+   : ID{self.tryIn('length', 'entries', 'keys', 'values')}? PAREN_LEFT PAREN_RIGHT
    ;
 
 sliceable

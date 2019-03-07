@@ -19,6 +19,7 @@ from jsonpath2.parser.JSONPathParser import JSONPathParser
 
 from jsonpath2.subscripts.arrayindex import ArrayIndexSubscript
 from jsonpath2.subscripts.arrayslice import ArraySliceSubscript
+from jsonpath2.subscripts.callable import ArrayLengthCallableSubscript, ObjectEntriesCallableSubscript, ObjectKeysCallableSubscript, ObjectValuesCallableSubscript
 from jsonpath2.subscripts.filter import FilterSubscript
 from jsonpath2.subscripts.node import NodeSubscript
 from jsonpath2.subscripts.objectindex import ObjectIndexSubscript
@@ -115,11 +116,32 @@ class _JSONPathListener(JSONPathListener):
         self._stack.append(subscriptable_nodes)
 
     def exitSubscriptableBareword(self, ctx: JSONPathParser.SubscriptableBarewordContext):
-        if bool(ctx.ID()):
+        if bool(ctx.subscriptableCallable()):
+            pass
+        elif bool(ctx.ID()):
             text = ctx.ID().getText()
             self._stack.append(ObjectIndexSubscript(text))
         elif ctx.getToken(JSONPathParser.WILDCARD_SUBSCRIPT, 0) is not None:
             self._stack.append(WildcardSubscript())
+        else:
+            # NOTE Unreachable when listener is used as tree walker.
+            raise ValueError()  # pragma: no cover
+
+    def exitSubscriptableCallable(self, ctx: JSONPathParser.SubscriptableCallableContext):
+        if bool(ctx.ID()) and bool(ctx.PAREN_LEFT()) and bool(ctx.PAREN_RIGHT()):
+            text = ctx.ID().getText()
+
+            if 'length' == text:
+                self._stack.append(ArrayLengthCallableSubscript())
+            elif 'entries' == text:
+                self._stack.append(ObjectEntriesCallableSubscript())
+            elif 'keys' == text:
+                self._stack.append(ObjectKeysCallableSubscript())
+            elif 'values' == text:
+                self._stack.append(ObjectValuesCallableSubscript())
+            else:
+                # NOTE Unreachable when listener is used as tree walker.
+                raise ValueError()  # pragma: no cover
         else:
             # NOTE Unreachable when listener is used as tree walker.
             raise ValueError()  # pragma: no cover
@@ -157,6 +179,8 @@ class _JSONPathListener(JSONPathListener):
             next_node = self._stack.pop()
 
             self._stack.append(NodeSubscript(next_node))
+        elif bool(ctx.subscriptableCallable()):
+            pass
         else:
             # NOTE Unreachable when listener is used as tree walker.
             raise ValueError()  # pragma: no cover
@@ -224,7 +248,7 @@ class _JSONPathListener(JSONPathListener):
 
     # pylint: disable=too-many-branches
     def exitNotExpression(self, ctx: JSONPathParser.NotExpressionContext):
-        if ctx.getToken(JSONPathParser.NOT, 0) is not None:
+        if bool(ctx.notExpression()):
             expression = self._stack.pop()
 
             if isinstance(expression, NotUnaryOperatorExpression):
@@ -308,11 +332,11 @@ class _JSONPathListener(JSONPathListener):
             pass
         elif bool(ctx.array()):
             pass
-        elif ctx.getToken(JSONPathParser.TRUE, 0) is not None:
+        elif bool(ctx.TRUE()):
             self._stack.append(True)
-        elif ctx.getToken(JSONPathParser.FALSE, 0) is not None:
+        elif bool(ctx.FALSE()):
             self._stack.append(False)
-        elif ctx.getToken(JSONPathParser.NULL, 0) is not None:
+        elif bool(ctx.NULL()):
             self._stack.append(None)
         else:
             # NOTE Unreachable when listener is used as tree walker.
@@ -321,7 +345,6 @@ class _JSONPathListener(JSONPathListener):
 
 class _JSONPathParser(JSONPathParser):
     # pylint: disable=invalid-name
-    # this is a antlr ism...
     def tryCast(self, cls):
         """Override the antlr tryCast method."""
         try:
@@ -329,6 +352,12 @@ class _JSONPathParser(JSONPathParser):
             return True
         except ValueError:
             return False
+    # pylint: enable=invalid-name
+
+    # pylint: disable=invalid-name
+    def tryIn(self, *args):
+        """Override the antlr tryIn method."""
+        return self._input.LT(-1).text in args
     # pylint: enable=invalid-name
 
 

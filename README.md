@@ -7,7 +7,7 @@ This repository contains an implementation of [JSONPath](http://goessner.net/art
 
 ### `Path` class
 
-The `jsonpath2.Path.Path` class represents a JSONPath.
+The `jsonpath2.path.Path` class represents a JSONPath.
 
 ```python
 >>> s = '{"hello":"Hello, world!"}'
@@ -24,7 +24,7 @@ The `jsonpath2.Path.Path` class represents a JSONPath.
 ['$["hello"]']
 ```
 
-This class is constructed with respect to the given instance of the `jsonpath2.Path.RootNode` class (viz., the `root_node` property).
+This class is constructed with respect to the given instance of the `jsonpath2.nodes.root.RootNode` class (viz., the `root_node` property).
 
 #### `parse_str(strdata)` class method
 
@@ -37,7 +37,7 @@ Parse the contents of the given file and return a new instance of this class.
 #### `match(root_value)` instance method
 
 Match the given JSON data structure against this instance.
-For each match, yield an instance of the `jsonpath2.Node.MatchData` class.
+For each match, yield an instance of the `jsonpath2.node.MatchData` class.
 
 #### `__eq__(other)` instance method
 
@@ -53,7 +53,7 @@ The root node of the abstract syntax tree for this instance.
 
 ### `Node` abstract class
 
-The `jsonpath2.Node.Node` class represents the abstract syntax tree for a JSONPath.
+The `jsonpath2.node.Node` class represents the abstract syntax tree for a JSONPath.
 
 #### `__eq__(other)` instance method
 
@@ -66,7 +66,7 @@ Yields the lexer tokens for the string representation of this instance.
 #### `match(root_value, current_value)` instance method
 
 Match the given root and current JSON data structures against this instance.
-For each match, yield an instance of the `jsonpath2.Node.MatchData` class.
+For each match, yield an instance of the `jsonpath2.node.MatchData` class.
 
 #### `tojsonpath()` instance method
 
@@ -74,7 +74,7 @@ Returns the string representation of this instance.
 
 ### `MatchData` class
 
-The `jsonpath2.Node.MatchData` class represents the JSON value and context for a JSONPath match.
+The `jsonpath2.node.MatchData` class represents the JSON value and context for a JSONPath match.
 
 This class is constructed with respect to a root JSON value, a current JSON value, and an abstract syntax tree node.
 
@@ -111,9 +111,18 @@ The abstract syntax tree node.
 | JSONPath Filter Expression | Description |
 | - | - |
 | `$` or `@` | nested JSONPath (returns `true` if any match exists; otherwise, returns `false`) |
-| `=`, `!=`, `>`, `>=`, `<`, `<=` | binary operator, where left-hand operand is a nested JSONPath and right-right operand is a JSON value (returns `true` if any match exists; otherwise, returns `false`) |
+| `=`, `!=`, `>`, `>=`, `<`, `<=` | binary operator, where left- and right-hand operands are nested JSONPaths or JSON values (returns `true` if any match exists; otherwise, returns `false`) |
 | `and`, `or`, `not` | Boolean operator, where operands are JSONPath filter expressions |
 | `(` ... `)` | parentheses |
+
+## Functions
+
+| Function | Arity | Description|
+| - | - | - |
+| `length()` | 0 | Return the number of elements in a JSON array |
+| `entries()` | 0 | Return a JSON array of a JSON object's `[key, value]` pairs |
+| `keys()` | 0 | Return a JSON array of a JSON object's keys |
+| `values()` | 0 | Return a JSON array of a JSON object's values |
 
 ## Grammar and parser
 
