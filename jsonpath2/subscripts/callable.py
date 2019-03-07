@@ -12,8 +12,8 @@ from jsonpath2.subscript import Subscript
 class CallableSubscript(Subscript):
     """Callable subscript object."""
 
-    def __init__(self, callback: Callable[[Tuple[object, ...]],
-                                          Generator[object, None, None]], name: str, *args: Tuple[Union[Node, object]]):
+    def __init__(self, callback: Callable[[Tuple[object, ...]], Generator[object,
+                                                                          None, None]], name: str, *args: Tuple[Union[Node, object]]):
         """Initialize the callable subscript object."""
         super(CallableSubscript, self).__init__()
         self.callback = callback
@@ -52,6 +52,7 @@ class ArrayLengthCallableSubscript(CallableSubscript):
 
     def __init__(self, *args, **kwargs):
         """Initialize the length() callable subscript object."""
+        # pylint: disable=bad-continuation
         super(
             ArrayLengthCallableSubscript,
             self).__init__(
@@ -59,15 +60,16 @@ class ArrayLengthCallableSubscript(CallableSubscript):
             'length',
             *args,
             **kwargs)
+        # pylint: disable=bad-continuation
 
     @staticmethod
-    #pylint: disable=unused-argument
+    # pylint: disable=unused-argument
     def __match__(root_value: object, current_value: object, *
                   args: Tuple[object, ...]) -> Generator[object, None, None]:
         """Perform length() call."""
         if isinstance(current_value, list):
             yield len(current_value)
-    #pylint: enable=unused-argument
+    # pylint: enable=unused-argument
 
 
 class ObjectEntriesCallableSubscript(CallableSubscript):
@@ -75,6 +77,7 @@ class ObjectEntriesCallableSubscript(CallableSubscript):
 
     def __init__(self, *args, **kwargs):
         """Initialize the entries() callable subscript object."""
+        # pylint: disable=bad-continuation
         super(
             ObjectEntriesCallableSubscript,
             self).__init__(
@@ -82,15 +85,16 @@ class ObjectEntriesCallableSubscript(CallableSubscript):
             'entries',
             *args,
             **kwargs)
+        # pylint: enable=bad-continuation
 
     @staticmethod
-    #pylint: disable=unused-argument
+    # pylint: disable=unused-argument
     def __match__(root_value: object, current_value: object, *
                   args: Tuple[object, ...]) -> Generator[object, None, None]:
         """Perform entries() call."""
         if isinstance(current_value, dict):
             yield list(map(list, current_value.items()))
-    #pylint: enable=unused-argument
+    # pylint: enable=unused-argument
 
 
 class ObjectKeysCallableSubscript(CallableSubscript):
@@ -98,6 +102,7 @@ class ObjectKeysCallableSubscript(CallableSubscript):
 
     def __init__(self, *args, **kwargs):
         """Initialize the keys() callable subscript object."""
+        # pylint: disable=bad-continuation
         super(
             ObjectKeysCallableSubscript,
             self).__init__(
@@ -105,15 +110,16 @@ class ObjectKeysCallableSubscript(CallableSubscript):
             'keys',
             *args,
             **kwargs)
+        # pylint: enable=bad-continuation
 
     @staticmethod
-    #pylint: disable=unused-argument
+    # pylint: disable=unused-argument
     def __match__(root_value: object, current_value: object, *
                   args: Tuple[object, ...]) -> Generator[object, None, None]:
         """Perform keys() call."""
         if isinstance(current_value, dict):
             yield list(current_value.keys())
-    #pylint: enable=unused-argument
+    # pylint: enable=unused-argument
 
 
 class ObjectValuesCallableSubscript(CallableSubscript):
@@ -121,6 +127,7 @@ class ObjectValuesCallableSubscript(CallableSubscript):
 
     def __init__(self, *args, **kwargs):
         """Initialize the values() callable subscript object."""
+        # pylint: disable=bad-continuation
         super(
             ObjectValuesCallableSubscript,
             self).__init__(
@@ -128,12 +135,13 @@ class ObjectValuesCallableSubscript(CallableSubscript):
             'values',
             *args,
             **kwargs)
+        # pylint: enable=bad-continuation
 
     @staticmethod
-    #pylint: disable=unused-argument
+    # pylint: disable=unused-argument
     def __match__(root_value: object, current_value: object, *
                   args: Tuple[object, ...]) -> Generator[object, None, None]:
         """Perform values() call."""
         if isinstance(current_value, dict):
             yield list(current_value.values())
-    #pylint: enable=unused-argument
+    # pylint: enable=unused-argument
