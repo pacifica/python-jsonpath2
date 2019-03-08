@@ -19,9 +19,7 @@ from jsonpath2.parser.JSONPathParser import JSONPathParser
 
 from jsonpath2.subscripts.arrayindex import ArrayIndexSubscript
 from jsonpath2.subscripts.arrayslice import ArraySliceSubscript
-from jsonpath2.subscripts.callable import CharAtCallableSubscript, EntriesCallableSubscript, \
-    KeysCallableSubscript, LengthCallableSubscript, SubstringCallableSubscript, \
-    ValuesCallableSubscript
+from jsonpath2.subscripts.callable import CallableSubscript
 from jsonpath2.subscripts.filter import FilterSubscript
 from jsonpath2.subscripts.node import NodeSubscript
 from jsonpath2.subscripts.objectindex import ObjectIndexSubscript
@@ -42,12 +40,9 @@ class CallableSubscriptNotFoundError(ValueError):
 
 
 CALLABLE_SUBSCRIPTS_ = {
-    'charAt': CharAtCallableSubscript,
-    'entries': EntriesCallableSubscript,
-    'keys': KeysCallableSubscript,
-    'length': LengthCallableSubscript,
-    'substring': SubstringCallableSubscript,
-    'values': ValuesCallableSubscript,
+    cls.__str__: cls
+    for cls
+    in CallableSubscript.__subclasses__()
 }
 
 
@@ -55,7 +50,8 @@ CALLABLE_SUBSCRIPTS_ = {
 def _createCallableSubscript(name, *args, **kwargs):
     """Create callable subscript for name, arguments and keyword arguments."""
     if name in CALLABLE_SUBSCRIPTS_:
-        return CALLABLE_SUBSCRIPTS_[name](*args, **kwargs)
+        cls = CALLABLE_SUBSCRIPTS_[name]
+        return cls(*args, **kwargs)
     raise CallableSubscriptNotFoundError(name)
 # pylint: enable=invalid-name
 
