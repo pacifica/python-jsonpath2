@@ -78,7 +78,7 @@ class CharAtCallableSubscript(CallableSubscript):
     @staticmethod
     # pylint: disable=unused-argument
     def __call__(root_value: object, current_value: object, *
-                  args: Tuple[object, ...]) -> Generator[object, None, None]:
+                 args: Tuple[object, ...]) -> Generator[object, None, None]:
         """Perform charAt(number) call."""
         if isinstance(current_value, str):
             if (len(args) == 1) and isinstance(args[0], int):
@@ -110,7 +110,7 @@ class EntriesCallableSubscript(CallableSubscript):
     @staticmethod
     # pylint: disable=unused-argument
     def __call__(root_value: object, current_value: object, *
-                  args: Tuple[object, ...]) -> Generator[object, None, None]:
+                 args: Tuple[object, ...]) -> Generator[object, None, None]:
         """Perform entries() call."""
         if isinstance(current_value, dict):
             yield MatchData(SubscriptNode(TerminalNode(), [EntriesCallableSubscript(*args)]), root_value,
@@ -141,7 +141,7 @@ class KeysCallableSubscript(CallableSubscript):
     @staticmethod
     # pylint: disable=unused-argument
     def __call__(root_value: object, current_value: object, *
-                  args: Tuple[object, ...]) -> Generator[object, None, None]:
+                 args: Tuple[object, ...]) -> Generator[object, None, None]:
         """Perform keys() call."""
         if isinstance(current_value, dict):
             yield MatchData(SubscriptNode(TerminalNode(), [KeysCallableSubscript(*args)]), root_value,
@@ -172,7 +172,7 @@ class LengthCallableSubscript(CallableSubscript):
     @staticmethod
     # pylint: disable=unused-argument
     def __call__(root_value: object, current_value: object, *
-                  args: Tuple[object, ...]) -> Generator[object, None, None]:
+                 args: Tuple[object, ...]) -> Generator[object, None, None]:
         """Perform length() call."""
         if isinstance(current_value, list):
             yield MatchData(SubscriptNode(TerminalNode(),
@@ -203,7 +203,7 @@ class SubstringCallableSubscript(CallableSubscript):
     @staticmethod
     # pylint: disable=unused-argument
     def __call__(root_value: object, current_value: object, *
-                  args: Tuple[object, ...]) -> Generator[object, None, None]:
+                 args: Tuple[object, ...]) -> Generator[object, None, None]:
         """Perform substring(number[, number]) call."""
         if isinstance(current_value, str):
             if (len(args) == 1) and isinstance(args[0], int):
@@ -235,7 +235,7 @@ class ValuesCallableSubscript(CallableSubscript):
     @staticmethod
     # pylint: disable=unused-argument
     def __call__(root_value: object, current_value: object, *
-                  args: Tuple[object, ...]) -> Generator[object, None, None]:
+                 args: Tuple[object, ...]) -> Generator[object, None, None]:
         """Perform values() call."""
         if isinstance(current_value, dict):
             yield MatchData(SubscriptNode(TerminalNode(), [ValuesCallableSubscript(*args)]), root_value,
