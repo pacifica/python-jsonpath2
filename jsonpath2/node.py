@@ -7,7 +7,7 @@ from jsonpath2.tojsonpath import ToJSONPath
 
 
 # pylint: disable=too-few-public-methods
-class MatchData(object):
+class MatchData():
     """Match data object for storing node values."""
 
     def __init__(self, node, root_value, current_value):
