@@ -41,22 +41,19 @@ class CallableSubscript(Subscript):
 
     def match(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Match the root value against the current value."""
-        for match_data_iterable in itertools.product(
-            *map(
-                lambda arg: arg.match(
-                    root_value,
-                    current_value) if isinstance(
-                arg,
-                Node) else [
-                    MatchData(
-                        TerminalNode(),
-                        root_value,
-                        arg)],
-                self.args)):
+        match_data_args = map(lambda arg: self._matchArgument(arg, root_value, current_value), self.args)
+        for match_data_iterable in itertools.product(*match_data_args):
             args = map(lambda match_data: match_data.current_value, match_data_iterable)
 
             for callback_value in self.callback(root_value, current_value, *args):
                 yield MatchData(TerminalNode(), root_value, callback_value)
+
+    def _matchArgument(self, arg: Union[Node, object], root_value: object, current_value: object) -> Generator[MatchData, None, None]:
+        """Match the root value against the current value with respect to the argument."""
+        if isinstance(arg, Node):
+            return arg.match(root_value, current_value)
+        else:
+            return [MatchData(TerminalNode(), root_value, arg)]
 
 
 class ArrayLengthCallableSubscript(CallableSubscript):

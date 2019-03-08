@@ -51,11 +51,13 @@ CALLABLE_SUBSCRIPTS_ = {
 }
 
 
+# pylint: disable=invalid-name
 def _createCallableSubscript(name, *args, **kwargs):
     """Create callable subscript for name, arguments and keyword arguments."""
     if name in CALLABLE_SUBSCRIPTS_:
         return CALLABLE_SUBSCRIPTS_[name](*args, **kwargs)
     raise CallableSubscriptNotFoundError(name)
+# pylint: enable=invalid-name
 
 
 class _ConsoleErrorListener(antlr4.error.ErrorListener.ConsoleErrorListener):

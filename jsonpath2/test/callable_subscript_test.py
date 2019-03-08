@@ -49,6 +49,7 @@ class TestCallableSubscript(TestCase):
 
     # pylint: disable=invalid-name
     def test_parse_callable_subscript(self):
+        """Test parsing callable subscript."""
         with self.assertRaisesRegex(ValueError, r'^' + re.escape('callable subscript \'foo\' not found') + '$'):
             Path.parse_str('$.foo(1, 2, 3)')
     # pylint: enable=invalid-name
