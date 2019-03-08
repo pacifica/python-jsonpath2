@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """Test the jsonpath module."""
 from unittest import TestCase
-import typing
 
 from jsonpath2.path import Path
 
