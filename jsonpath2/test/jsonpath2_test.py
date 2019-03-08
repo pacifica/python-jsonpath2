@@ -534,6 +534,72 @@ class TestNode(TestCase):
                 ],
             },
             {
+                '__jsonpath__': '["languages"][entries()]',
+                # pylint: disable=line-too-long
+                'node': SubscriptNode(SubscriptNode(TerminalNode(),
+                                                    [EntriesCallableSubscript()]), [ObjectIndexSubscript('languages')]),  # noqa: E501
+                # pylint: enable=line-too-long
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [EntriesCallableSubscript()]
+                            ),
+                            [ObjectIndexSubscript('languages')]
+                        ),
+                        root_value,
+                        list(map(list, enumerate(root_value['languages'])))
+                    ),
+                ],
+            },
+            {
+                '__jsonpath__': '["languages"][keys()]',
+                # pylint: disable=line-too-long
+                'node': SubscriptNode(SubscriptNode(TerminalNode(),
+                                                    [KeysCallableSubscript()]), [ObjectIndexSubscript('languages')]),  # noqa: E501
+                # pylint: enable=line-too-long
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [KeysCallableSubscript()]
+                            ),
+                            [ObjectIndexSubscript('languages')]
+                        ),
+                        root_value,
+                        list(range(len(root_value['languages'])))
+                    ),
+                ],
+            },
+            {
+                '__jsonpath__': '["languages"][values()]',
+                # pylint: disable=line-too-long
+                'node': SubscriptNode(SubscriptNode(TerminalNode(),
+                                                    [ValuesCallableSubscript()]), [ObjectIndexSubscript('languages')]),  # noqa: E501
+                # pylint: enable=line-too-long
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [ValuesCallableSubscript()]
+                            ),
+                            [ObjectIndexSubscript('languages')]
+                        ),
+                        root_value,
+                        root_value['languages']
+                    ),
+                ],
+            },
+            {
                 '__jsonpath__': '["preferences"][entries()]',
                 # pylint: disable=line-too-long
                 'node': SubscriptNode(SubscriptNode(TerminalNode(),

@@ -111,6 +111,9 @@ class EntriesCallableSubscript(CallableSubscript):
         if isinstance(current_value, dict):
             yield MatchData(SubscriptNode(TerminalNode(), [EntriesCallableSubscript(*args)]), root_value,
                             list(map(list, current_value.items())))
+        elif isinstance(current_value, list):
+            yield MatchData(SubscriptNode(TerminalNode(), [EntriesCallableSubscript(*args)]), root_value,
+                            list(map(list, enumerate(current_value))))
     # pylint: enable=unused-argument
 
 
@@ -137,6 +140,9 @@ class KeysCallableSubscript(CallableSubscript):
         if isinstance(current_value, dict):
             yield MatchData(SubscriptNode(TerminalNode(), [KeysCallableSubscript(*args)]), root_value,
                             list(current_value.keys()))
+        elif isinstance(current_value, list):
+            yield MatchData(SubscriptNode(TerminalNode(), [KeysCallableSubscript(*args)]), root_value,
+                            list(range(len(current_value))))
     # pylint: enable=unused-argument
 
 
@@ -222,4 +228,7 @@ class ValuesCallableSubscript(CallableSubscript):
         if isinstance(current_value, dict):
             yield MatchData(SubscriptNode(TerminalNode(), [ValuesCallableSubscript(*args)]), root_value,
                             list(current_value.values()))
+        elif isinstance(current_value, list):
+            yield MatchData(SubscriptNode(TerminalNode(), [ValuesCallableSubscript(*args)]), root_value,
+                            current_value)
     # pylint: enable=unused-argument
