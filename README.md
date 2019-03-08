@@ -119,12 +119,12 @@ The abstract syntax tree node.
 
 | Function | Description|
 | - | - |
-| `length()` | Return the number of elements in a JSON array or the number of characters in a JSON string |
+| `charAt(number)` | Returns a new JSON string consisting of the single character at the specified offset into a JSON string |
 | `entries()` | Return a JSON array of a JSON object's `[key, value]` pairs or a JSON array's `[index, value]` pairs |
 | `keys()` | Return a JSON array of a JSON object's keys or a JSON array's indices |
-| `values()` | Return a JSON array of a JSON object's values or a JSON array's values |
-| `charAt(number)` | Returns a new JSON string consisting of the single character at the specified offset into a JSON string |
+| `length()` | Return the number of elements in a JSON array or the number of characters in a JSON string |
 | `substring(number[,number])` | Returns the part of the JSON string between the start and end indices, or to the end of the JSON string |
+| `values()` | Return a JSON array of a JSON object's values or a JSON array's values |
 
 ## Grammar and parser
 
