@@ -20,7 +20,8 @@ from jsonpath2.parser.JSONPathParser import JSONPathParser
 from jsonpath2.subscripts.arrayindex import ArrayIndexSubscript
 from jsonpath2.subscripts.arrayslice import ArraySliceSubscript
 from jsonpath2.subscripts.callable import ArrayLengthCallableSubscript, ObjectEntriesCallableSubscript, \
-    ObjectKeysCallableSubscript, ObjectValuesCallableSubscript
+    ObjectKeysCallableSubscript, ObjectValuesCallableSubscript, StringCharAtCallableSubscript, \
+    StringSubstringCallableSubscript
 from jsonpath2.subscripts.filter import FilterSubscript
 from jsonpath2.subscripts.node import NodeSubscript
 from jsonpath2.subscripts.objectindex import ObjectIndexSubscript
@@ -140,6 +141,19 @@ class _JSONPathListener(JSONPathListener):
                 self._stack.append(ObjectKeysCallableSubscript())
             elif text == 'values':
                 self._stack.append(ObjectValuesCallableSubscript())
+            elif text == 'charAt':
+                arg0 = self._stack.pop()
+
+                self._stack.append(StringCharAtCallableSubscript(arg0))
+            elif text == 'substring':
+                if bool(ctx.jsonpath__(1)):
+                    arg1 = self._stack.pop()
+                else:
+                    arg1 = None
+
+                arg0 = self._stack.pop()
+
+                self._stack.append(StringSubstringCallableSubscript(arg0, arg1))
             else:
                 # NOTE Unreachable when listener is used as tree walker.
                 raise ValueError()  # pragma: no cover

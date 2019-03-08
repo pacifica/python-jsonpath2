@@ -28,7 +28,7 @@ class CallableSubscript(Subscript):
         yield '('
 
         for index, arg in enumerate(self.args):
-            if index == 0:
+            if index > 0:
                 yield ','
 
             if isinstance(arg, Node):
@@ -42,7 +42,17 @@ class CallableSubscript(Subscript):
     def match(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Match the root value against the current value."""
         for match_data_iterable in itertools.product(
-                *map(lambda arg: arg.match(root_value, current_value) if isinstance(arg, Node) else [arg], self.args)):
+            *map(
+                lambda arg: arg.match(
+                    root_value,
+                    current_value) if isinstance(
+                arg,
+                Node) else [
+                    MatchData(
+                        TerminalNode(),
+                        root_value,
+                        arg)],
+                self.args)):
             args = map(lambda match_data: match_data.current_value, match_data_iterable)
 
             for callback_value in self.callback(root_value, current_value, *args):
@@ -148,4 +158,61 @@ class ObjectValuesCallableSubscript(CallableSubscript):
         """Perform values() call."""
         if isinstance(current_value, dict):
             yield list(current_value.values())
+    # pylint: enable=unused-argument
+
+
+class StringCharAtCallableSubscript(CallableSubscript):
+    """charAt(number) callable subscript object."""
+
+    def __init__(self, *args, **kwargs):
+        """Initialize the charAt(number) callable subscript object."""
+        # pylint: disable=bad-continuation
+        super(
+            StringCharAtCallableSubscript,
+            self).__init__(
+            StringCharAtCallableSubscript.__match__,
+            'charAt',
+            *args,
+            **kwargs)
+        # pylint: enable=bad-continuation
+
+    @staticmethod
+    # pylint: disable=unused-argument
+    def __match__(root_value: object, current_value: object, *
+                  args: Tuple[object, ...]) -> Generator[object, None, None]:
+        """Perform charAt(number) call."""
+        if isinstance(current_value, str):
+            if (len(args) == 1) and isinstance(args[0], int):
+                try:
+                    yield current_value[args[0]]
+                except IndexError:
+                    pass
+    # pylint: enable=unused-argument
+
+
+class StringSubstringCallableSubscript(CallableSubscript):
+    """substring(number[, number]) callable subscript object."""
+
+    def __init__(self, *args, **kwargs):
+        """Initialize the substring(number[, number]) callable subscript object."""
+        # pylint: disable=bad-continuation
+        super(
+            StringSubstringCallableSubscript,
+            self).__init__(
+            StringSubstringCallableSubscript.__match__,
+            'substring',
+            *args,
+            **kwargs)
+        # pylint: enable=bad-continuation
+
+    @staticmethod
+    # pylint: disable=unused-argument
+    def __match__(root_value: object, current_value: object, *
+                  args: Tuple[object, ...]) -> Generator[object, None, None]:
+        """Perform substring(number[, number]) call."""
+        if isinstance(current_value, str):
+            if (len(args) == 1) and isinstance(args[0], str):
+                yield current_value[args[0]:]
+            elif (len(args) == 2) and isinstance(args[0], str) and isinstance(args[1], str):
+                yield current_value[args[0]:args[1]]
     # pylint: enable=unused-argument

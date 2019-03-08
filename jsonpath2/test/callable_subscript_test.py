@@ -15,6 +15,10 @@ class TestCallableSubscript(TestCase):
         cases = [
             ('Hello, world!', {
                 '$[length()]': [len('Hello, world!')],
+                '$[charAt(5)]': ['Hello, world!'[5]],
+                '$[charAt($[length()])]': [],
+                '$[substring(5)]': ['Hello, world!'[5:]],
+                '$[substring(5, 7)]': ['Hello, world!'[5:7]],
             }),
             ([
                 'foo',

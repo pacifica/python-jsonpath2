@@ -72,6 +72,8 @@ subscriptable
 
 subscriptableCallable
    : ID{self.tryIn('length', 'entries', 'keys', 'values')}? PAREN_LEFT PAREN_RIGHT
+   | ID{self.tryIn('charAt')}? PAREN_LEFT jsonpath__ PAREN_RIGHT
+   | ID{self.tryIn('substring')}? PAREN_LEFT jsonpath__ ( COMMA jsonpath__ )? PAREN_RIGHT
    ;
 
 sliceable
