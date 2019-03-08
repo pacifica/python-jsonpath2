@@ -6,77 +6,38 @@ from unittest import TestCase
 from jsonpath2.path import Path
 
 
-# pylint: disable=duplicate-code
 class TestCallableSubscript(TestCase):
     """Test the callable subscript."""
 
-    def test_length(self):
-        """Test the length() callable subscript."""
-        string = '$["collection"][length()]'
-        path = Path.parse_str(string)
-        self.assertEqual(string, str(path))
-        data = {
-            'collection': ['foo', 'bar', 'fum', 'baz'],
-        }
-        matches = list(path.match(data))
-        self.assertEqual(1, len(matches))
-        self.assertEqual(4, matches[0].current_value)
-
-        string = '$["scalar"][length()]'
-        path = Path.parse_str(string)
-        self.assertEqual(string, str(path))
-        data = {
-            'scalar': 'Hello, world!',
-        }
-        matches = list(path.match(data))
-        self.assertEqual(1, len(matches))
-        self.assertEqual(len('Hello, world!'), matches[0].current_value)
-
-    def test_entries(self):
-        """Test the entries() callable subscript."""
-        string = '$["collection"][entries()][*]'
-        path = Path.parse_str(string)
-        self.assertEqual(string, str(path))
-        data = {
-            'collection': {
+    # pylint: disable=invalid-name
+    def test_callable_subscript(self):
+        """Test the callable subscript."""
+        cases = [
+            ('Hello, world!', {
+                '$[length()]': [len('Hello, world!')],
+            }),
+            ([
+                'foo',
+                'bar',
+                'fum',
+                'baz',
+            ], {
+                '$[length()]': [4],
+            }),
+            ({
                 'foo': 'bar',
                 'fum': 'baz',
-            },
-        }
-        matches = list(path.match(data))
-        self.assertEqual(2, len(matches))
-        self.assertListEqual(['foo', 'bar'], matches[0].current_value)
-        self.assertListEqual(['fum', 'baz'], matches[1].current_value)
-
-    def test_keys(self):
-        """Test the keys() callable subscript."""
-        string = '$["collection"][keys()][*]'
-        path = Path.parse_str(string)
-        self.assertEqual(string, str(path))
-        data = {
-            'collection': {
-                'foo': 'bar',
-                'fum': 'baz',
-            },
-        }
-        matches = list(path.match(data))
-        self.assertEqual(2, len(matches))
-        self.assertEqual('foo', matches[0].current_value)
-        self.assertEqual('fum', matches[1].current_value)
-
-    def test_values(self):
-        """Test the values() callable subscript."""
-        string = '$["collection"][values()][*]'
-        path = Path.parse_str(string)
-        self.assertEqual(string, str(path))
-        data = {
-            'collection': {
-                'foo': 'bar',
-                'fum': 'baz',
-            },
-        }
-        matches = list(path.match(data))
-        self.assertEqual(2, len(matches))
-        self.assertEqual('bar', matches[0].current_value)
-        self.assertEqual('baz', matches[1].current_value)
-# pylint: enable=duplicate-code
+            }, {
+                '$[entries()][*]': [['foo', 'bar'], ['fum', 'baz']],
+                '$[keys()][*]': ['foo', 'fum'],
+                '$[values()][*]': ['bar', 'baz'],
+            }),
+        ]
+        for collection, cases_for_collection in cases:
+            for string, expected_values in cases_for_collection.items():
+                path = Path.parse_str(string)
+                self.assertEqual(string, str(path))
+                matches = list(path.match(collection))
+                self.assertListEqual(expected_values, list(
+                    map(lambda match_data: match_data.current_value, matches)))
+    # pylint: enable=invalid-name
