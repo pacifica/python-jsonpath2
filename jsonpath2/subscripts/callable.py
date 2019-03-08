@@ -48,12 +48,13 @@ class CallableSubscript(Subscript):
             for callback_value in self.callback(root_value, current_value, *args):
                 yield MatchData(TerminalNode(), root_value, callback_value)
 
-    def _matchArgument(self, arg: Union[Node, object], root_value: object, current_value: object) -> Generator[MatchData, None, None]:
+    # pylint: disable=invalid-name,no-self-use
+    def _matchArgument(self, arg: Union[Node, object], root_value: object, current_value: object) -> Generator[MatchData, None, None]:  # noqa: E501
         """Match the root value against the current value with respect to the argument."""
         if isinstance(arg, Node):
             return arg.match(root_value, current_value)
-        else:
-            return [MatchData(TerminalNode(), root_value, arg)]
+        return [MatchData(TerminalNode(), root_value, arg)]
+    # pylint: enable=invalid-name,no-self-use
 
 
 class ArrayLengthCallableSubscript(CallableSubscript):

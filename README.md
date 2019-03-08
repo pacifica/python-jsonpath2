@@ -117,12 +117,14 @@ The abstract syntax tree node.
 
 ## Functions
 
-| Function | Arity | Description|
-| - | - | - |
-| `length()` | 0 | Return the number of elements in a JSON array or the number of characters in a JSON string |
-| `entries()` | 0 | Return a JSON array of a JSON object's `[key, value]` pairs |
-| `keys()` | 0 | Return a JSON array of a JSON object's keys |
-| `values()` | 0 | Return a JSON array of a JSON object's values |
+| Function | Description|
+| - | - |
+| `length()` | Return the number of elements in a JSON array or the number of characters in a JSON string |
+| `entries()` | Return a JSON array of a JSON object's `[key, value]` pairs |
+| `keys()` | Return a JSON array of a JSON object's keys |
+| `values()` | Return a JSON array of a JSON object's values |
+| `charAt(number)` | Returns a new JSON string consisting of the single character at the specified offset into a JSON string |
+| `substring(number[,number])` | Returns the part of the JSON string between the start and end indices, or to the end of the JSON string |
 
 ## Grammar and parser
 
