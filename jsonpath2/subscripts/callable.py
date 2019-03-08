@@ -80,10 +80,10 @@ class ArrayLengthCallableSubscript(CallableSubscript):
         """Perform length() call."""
         if isinstance(current_value, list):
             yield MatchData(SubscriptNode(TerminalNode(),
-                [ArrayLengthCallableSubscript(*args)]), root_value, len(current_value))
+                                          [ArrayLengthCallableSubscript(*args)]), root_value, len(current_value))
         elif isinstance(current_value, str):
             yield MatchData(SubscriptNode(TerminalNode(),
-                [ArrayLengthCallableSubscript(*args)]), root_value, len(current_value))
+                                          [ArrayLengthCallableSubscript(*args)]), root_value, len(current_value))
     # pylint: enable=unused-argument
 
 
@@ -109,7 +109,7 @@ class ObjectEntriesCallableSubscript(CallableSubscript):
         """Perform entries() call."""
         if isinstance(current_value, dict):
             yield MatchData(SubscriptNode(TerminalNode(), [ObjectEntriesCallableSubscript(*args)]), root_value,
-                list(map(list, current_value.items())))
+                            list(map(list, current_value.items())))
     # pylint: enable=unused-argument
 
 
@@ -135,7 +135,7 @@ class ObjectKeysCallableSubscript(CallableSubscript):
         """Perform keys() call."""
         if isinstance(current_value, dict):
             yield MatchData(SubscriptNode(TerminalNode(), [ObjectKeysCallableSubscript(*args)]), root_value,
-                list(current_value.keys()))
+                            list(current_value.keys()))
     # pylint: enable=unused-argument
 
 
@@ -161,7 +161,7 @@ class ObjectValuesCallableSubscript(CallableSubscript):
         """Perform values() call."""
         if isinstance(current_value, dict):
             yield MatchData(SubscriptNode(TerminalNode(), [ObjectValuesCallableSubscript(*args)]), root_value,
-                list(current_value.values()))
+                            list(current_value.values()))
     # pylint: enable=unused-argument
 
 
@@ -189,7 +189,7 @@ class StringCharAtCallableSubscript(CallableSubscript):
             if (len(args) == 1) and isinstance(args[0], int):
                 try:
                     yield MatchData(SubscriptNode(TerminalNode(), [StringCharAtCallableSubscript(*args)]), root_value,
-                        current_value[args[0]])
+                                    current_value[args[0]])
                 except IndexError:
                     pass
     # pylint: enable=unused-argument
@@ -218,8 +218,8 @@ class StringSubstringCallableSubscript(CallableSubscript):
         if isinstance(current_value, str):
             if (len(args) == 1) and isinstance(args[0], int):
                 yield MatchData(SubscriptNode(TerminalNode(), [StringSubstringCallableSubscript(*args)]), root_value,
-                    current_value[args[0]:])
+                                current_value[args[0]:])
             elif (len(args) == 2) and isinstance(args[0], int) and isinstance(args[1], int):
                 yield MatchData(SubscriptNode(TerminalNode(), [StringSubstringCallableSubscript(*args)]), root_value,
-                    current_value[args[0]:args[1]])
+                                current_value[args[0]:args[1]])
     # pylint: enable=unused-argument
