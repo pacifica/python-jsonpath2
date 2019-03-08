@@ -61,6 +61,8 @@ class CallableSubscript(Subscript):
 class CharAtCallableSubscript(CallableSubscript):
     """charAt(number) callable subscript object."""
 
+    __str__ = 'charAt'
+
     def __init__(self, *args, **kwargs):
         """Initialize the charAt(number) callable subscript object."""
         # pylint: disable=bad-continuation
@@ -68,7 +70,7 @@ class CharAtCallableSubscript(CallableSubscript):
             CharAtCallableSubscript,
             self).__init__(
             CharAtCallableSubscript.__call__,
-            'charAt',
+            CharAtCallableSubscript.__str__,
             *args,
             **kwargs)
         # pylint: enable=bad-continuation
@@ -91,6 +93,8 @@ class CharAtCallableSubscript(CallableSubscript):
 class EntriesCallableSubscript(CallableSubscript):
     """entries() callable subscript object."""
 
+    __str__ = 'entries'
+
     def __init__(self, *args, **kwargs):
         """Initialize the entries() callable subscript object."""
         # pylint: disable=bad-continuation
@@ -98,7 +102,7 @@ class EntriesCallableSubscript(CallableSubscript):
             EntriesCallableSubscript,
             self).__init__(
             EntriesCallableSubscript.__call__,
-            'entries',
+            EntriesCallableSubscript.__str__,
             *args,
             **kwargs)
         # pylint: enable=bad-continuation
@@ -120,6 +124,8 @@ class EntriesCallableSubscript(CallableSubscript):
 class KeysCallableSubscript(CallableSubscript):
     """keys() callable subscript object."""
 
+    __str__ = 'keys'
+
     def __init__(self, *args, **kwargs):
         """Initialize the keys() callable subscript object."""
         # pylint: disable=bad-continuation
@@ -127,7 +133,7 @@ class KeysCallableSubscript(CallableSubscript):
             KeysCallableSubscript,
             self).__init__(
             KeysCallableSubscript.__call__,
-            'keys',
+            KeysCallableSubscript.__str__,
             *args,
             **kwargs)
         # pylint: enable=bad-continuation
@@ -149,6 +155,8 @@ class KeysCallableSubscript(CallableSubscript):
 class LengthCallableSubscript(CallableSubscript):
     """length() callable subscript object."""
 
+    __str__ = 'length'
+
     def __init__(self, *args, **kwargs):
         """Initialize the length() callable subscript object."""
         # pylint: disable=bad-continuation
@@ -156,7 +164,7 @@ class LengthCallableSubscript(CallableSubscript):
             LengthCallableSubscript,
             self).__init__(
             LengthCallableSubscript.__call__,
-            'length',
+            LengthCallableSubscript.__str__,
             *args,
             **kwargs)
         # pylint: disable=bad-continuation
@@ -178,6 +186,8 @@ class LengthCallableSubscript(CallableSubscript):
 class SubstringCallableSubscript(CallableSubscript):
     """substring(number[, number]) callable subscript object."""
 
+    __str__ = 'substring'
+
     def __init__(self, *args, **kwargs):
         """Initialize the substring(number[, number]) callable subscript object."""
         # pylint: disable=bad-continuation
@@ -185,7 +195,7 @@ class SubstringCallableSubscript(CallableSubscript):
             SubstringCallableSubscript,
             self).__init__(
             SubstringCallableSubscript.__call__,
-            'substring',
+            SubstringCallableSubscript.__str__,
             *args,
             **kwargs)
         # pylint: enable=bad-continuation
@@ -208,6 +218,8 @@ class SubstringCallableSubscript(CallableSubscript):
 class ValuesCallableSubscript(CallableSubscript):
     """values() callable subscript object."""
 
+    __str__ = 'values'
+
     def __init__(self, *args, **kwargs):
         """Initialize the values() callable subscript object."""
         # pylint: disable=bad-continuation
@@ -215,7 +227,7 @@ class ValuesCallableSubscript(CallableSubscript):
             ValuesCallableSubscript,
             self).__init__(
             ValuesCallableSubscript.__call__,
-            'values',
+            ValuesCallableSubscript.__str__,
             *args,
             **kwargs)
         # pylint: enable=bad-continuation
