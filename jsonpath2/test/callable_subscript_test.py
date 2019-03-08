@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 """Test the jsonpath module."""
+import re
 from unittest import TestCase
 
 from jsonpath2.path import Path
@@ -18,7 +19,7 @@ class TestCallableSubscript(TestCase):
                 '$[charAt(5)]': ['Hello, world!'[5]],
                 '$[charAt($[length()])]': [],
                 '$[substring(5)]': ['Hello, world!'[5:]],
-                '$[substring(5, 7)]': ['Hello, world!'[5:7]],
+                '$[substring(5,7)]': ['Hello, world!'[5:7]],
             }),
             ([
                 'foo',
@@ -44,4 +45,10 @@ class TestCallableSubscript(TestCase):
                 matches = list(path.match(collection))
                 self.assertListEqual(expected_values, list(
                     map(lambda match_data: match_data.current_value, matches)))
+    # pylint: enable=invalid-name
+
+    # pylint: disable=invalid-name
+    def test_parse_callable_subscript(self):
+        with self.assertRaisesRegex(ValueError, r'^' + re.escape('callable subscript \'foo\' not found') + '$'):
+            Path.parse_str('$.foo(1, 2, 3)')
     # pylint: enable=invalid-name

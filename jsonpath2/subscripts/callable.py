@@ -211,8 +211,8 @@ class StringSubstringCallableSubscript(CallableSubscript):
                   args: Tuple[object, ...]) -> Generator[object, None, None]:
         """Perform substring(number[, number]) call."""
         if isinstance(current_value, str):
-            if (len(args) == 1) and isinstance(args[0], str):
+            if (len(args) == 1) and isinstance(args[0], int):
                 yield current_value[args[0]:]
-            elif (len(args) == 2) and isinstance(args[0], str) and isinstance(args[1], str):
+            elif (len(args) == 2) and isinstance(args[0], int) and isinstance(args[1], int):
                 yield current_value[args[0]:args[1]]
     # pylint: enable=unused-argument

@@ -54,9 +54,12 @@ subscriptables
    : BRACKET_LEFT subscriptable ( COMMA subscriptable )* BRACKET_RIGHT
    ;
 
+subscriptableArguments
+   : PAREN_LEFT ( jsonpath__ ( COMMA jsonpath__ )* )? PAREN_RIGHT
+   ;
+
 subscriptableBareword
-   : subscriptableCallable
-   | ID
+   : ID subscriptableArguments?
    | WILDCARD_SUBSCRIPT
    ;
 
@@ -67,13 +70,7 @@ subscriptable
    | WILDCARD_SUBSCRIPT
    | QUESTION PAREN_LEFT expression PAREN_RIGHT
    | jsonpath_
-   | subscriptableCallable
-   ;
-
-subscriptableCallable
-   : ID{self.tryIn('length', 'entries', 'keys', 'values')}? PAREN_LEFT PAREN_RIGHT
-   | ID{self.tryIn('charAt')}? PAREN_LEFT jsonpath__ PAREN_RIGHT
-   | ID{self.tryIn('substring')}? PAREN_LEFT jsonpath__ ( COMMA jsonpath__ )? PAREN_RIGHT
+   | ID subscriptableArguments
    ;
 
 sliceable

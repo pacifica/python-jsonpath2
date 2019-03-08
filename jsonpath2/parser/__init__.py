@@ -28,6 +28,36 @@ from jsonpath2.subscripts.objectindex import ObjectIndexSubscript
 from jsonpath2.subscripts.wildcard import WildcardSubscript
 
 
+class CallableSubscriptNotFoundError(ValueError):
+    """Callable subscript not found error."""
+
+    def __init__(self, name):
+        """Initialize callable subscript not found error."""
+        super(CallableSubscriptNotFoundError, self).__init__()
+        self.name = name
+
+    def __str__(self):
+        """Message."""
+        return 'callable subscript \'{0}\' not found'.format(self.name.replace('\'', '\\\''))
+
+
+CALLABLE_SUBSCRIPTS_ = {
+    'length': ArrayLengthCallableSubscript,
+    'entries': ObjectEntriesCallableSubscript,
+    'keys': ObjectKeysCallableSubscript,
+    'values': ObjectValuesCallableSubscript,
+    'charAt': StringCharAtCallableSubscript,
+    'substring': StringSubstringCallableSubscript,
+}
+
+
+def _createCallableSubscript(name, *args, **kwargs):
+    """Create callable subscript for name, arguments and keyword arguments."""
+    if name in CALLABLE_SUBSCRIPTS_:
+        return CALLABLE_SUBSCRIPTS_[name](*args, **kwargs)
+    raise CallableSubscriptNotFoundError(name)
+
+
 class _ConsoleErrorListener(antlr4.error.ErrorListener.ConsoleErrorListener):
     # pylint: disable=too-many-arguments
     # this is an error handling issue with antlr
@@ -117,46 +147,25 @@ class _JSONPathListener(JSONPathListener):
             subscriptable_nodes.insert(0, subscriptable_node)
         self._stack.append(subscriptable_nodes)
 
+    def exitSubscriptableArguments(self, ctx: JSONPathParser.SubscriptableArgumentsContext):
+        args = []
+        for _arg_ctx in ctx.getTypedRuleContexts(JSONPathParser.Jsonpath__Context):
+            arg = self._stack.pop()
+            args.insert(0, arg)
+        self._stack.append(args)
+
     def exitSubscriptableBareword(self, ctx: JSONPathParser.SubscriptableBarewordContext):
-        if bool(ctx.subscriptableCallable()):
-            pass  # pragma: no cover
-        elif bool(ctx.ID()):
+        if bool(ctx.ID()):
             text = ctx.ID().getText()
-            self._stack.append(ObjectIndexSubscript(text))
+
+            if bool(ctx.subscriptableArguments()):
+                args = self._stack.pop()
+
+                self._stack.append(_createCallableSubscript(text, *args))
+            else:
+                self._stack.append(ObjectIndexSubscript(text))
         elif ctx.getToken(JSONPathParser.WILDCARD_SUBSCRIPT, 0) is not None:
             self._stack.append(WildcardSubscript())
-        else:
-            # NOTE Unreachable when listener is used as tree walker.
-            raise ValueError()  # pragma: no cover
-
-    def exitSubscriptableCallable(self, ctx: JSONPathParser.SubscriptableCallableContext):
-        if bool(ctx.ID()) and bool(ctx.PAREN_LEFT()) and bool(ctx.PAREN_RIGHT()):
-            text = ctx.ID().getText()
-
-            if text == 'length':
-                self._stack.append(ArrayLengthCallableSubscript())
-            elif text == 'entries':
-                self._stack.append(ObjectEntriesCallableSubscript())
-            elif text == 'keys':
-                self._stack.append(ObjectKeysCallableSubscript())
-            elif text == 'values':
-                self._stack.append(ObjectValuesCallableSubscript())
-            elif text == 'charAt':
-                arg0 = self._stack.pop()
-
-                self._stack.append(StringCharAtCallableSubscript(arg0))
-            elif text == 'substring':
-                if bool(ctx.jsonpath__(1)):
-                    arg1 = self._stack.pop()
-                else:
-                    arg1 = None
-
-                arg0 = self._stack.pop()
-
-                self._stack.append(StringSubstringCallableSubscript(arg0, arg1))
-            else:
-                # NOTE Unreachable when listener is used as tree walker.
-                raise ValueError()  # pragma: no cover
         else:
             # NOTE Unreachable when listener is used as tree walker.
             raise ValueError()  # pragma: no cover
@@ -194,8 +203,12 @@ class _JSONPathListener(JSONPathListener):
             next_node = self._stack.pop()
 
             self._stack.append(NodeSubscript(next_node))
-        elif bool(ctx.subscriptableCallable()):
-            pass
+        elif bool(ctx.ID()):
+            text = ctx.ID().getText()
+
+            args = self._stack.pop()
+
+            self._stack.append(_createCallableSubscript(text, *args))
         else:
             # NOTE Unreachable when listener is used as tree walker.
             raise ValueError()  # pragma: no cover
@@ -367,12 +380,6 @@ class _JSONPathParser(JSONPathParser):
             return True
         except ValueError:
             return False
-    # pylint: enable=invalid-name
-
-    # pylint: disable=invalid-name
-    def tryIn(self, *args):
-        """Override the antlr tryIn method."""
-        return self._input.LT(-1).text in args
     # pylint: enable=invalid-name
 
 
