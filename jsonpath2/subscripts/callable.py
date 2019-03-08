@@ -67,7 +67,7 @@ class CharAtCallableSubscript(CallableSubscript):
         super(
             CharAtCallableSubscript,
             self).__init__(
-            CharAtCallableSubscript.__match__,
+            CharAtCallableSubscript.__call__,
             'charAt',
             *args,
             **kwargs)
@@ -75,7 +75,7 @@ class CharAtCallableSubscript(CallableSubscript):
 
     @staticmethod
     # pylint: disable=unused-argument
-    def __match__(root_value: object, current_value: object, *
+    def __call__(root_value: object, current_value: object, *
                   args: Tuple[object, ...]) -> Generator[object, None, None]:
         """Perform charAt(number) call."""
         if isinstance(current_value, str):
@@ -97,7 +97,7 @@ class EntriesCallableSubscript(CallableSubscript):
         super(
             EntriesCallableSubscript,
             self).__init__(
-            EntriesCallableSubscript.__match__,
+            EntriesCallableSubscript.__call__,
             'entries',
             *args,
             **kwargs)
@@ -105,7 +105,7 @@ class EntriesCallableSubscript(CallableSubscript):
 
     @staticmethod
     # pylint: disable=unused-argument
-    def __match__(root_value: object, current_value: object, *
+    def __call__(root_value: object, current_value: object, *
                   args: Tuple[object, ...]) -> Generator[object, None, None]:
         """Perform entries() call."""
         if isinstance(current_value, dict):
@@ -126,7 +126,7 @@ class KeysCallableSubscript(CallableSubscript):
         super(
             KeysCallableSubscript,
             self).__init__(
-            KeysCallableSubscript.__match__,
+            KeysCallableSubscript.__call__,
             'keys',
             *args,
             **kwargs)
@@ -134,7 +134,7 @@ class KeysCallableSubscript(CallableSubscript):
 
     @staticmethod
     # pylint: disable=unused-argument
-    def __match__(root_value: object, current_value: object, *
+    def __call__(root_value: object, current_value: object, *
                   args: Tuple[object, ...]) -> Generator[object, None, None]:
         """Perform keys() call."""
         if isinstance(current_value, dict):
@@ -155,7 +155,7 @@ class LengthCallableSubscript(CallableSubscript):
         super(
             LengthCallableSubscript,
             self).__init__(
-            LengthCallableSubscript.__match__,
+            LengthCallableSubscript.__call__,
             'length',
             *args,
             **kwargs)
@@ -163,7 +163,7 @@ class LengthCallableSubscript(CallableSubscript):
 
     @staticmethod
     # pylint: disable=unused-argument
-    def __match__(root_value: object, current_value: object, *
+    def __call__(root_value: object, current_value: object, *
                   args: Tuple[object, ...]) -> Generator[object, None, None]:
         """Perform length() call."""
         if isinstance(current_value, list):
@@ -184,7 +184,7 @@ class SubstringCallableSubscript(CallableSubscript):
         super(
             SubstringCallableSubscript,
             self).__init__(
-            SubstringCallableSubscript.__match__,
+            SubstringCallableSubscript.__call__,
             'substring',
             *args,
             **kwargs)
@@ -192,7 +192,7 @@ class SubstringCallableSubscript(CallableSubscript):
 
     @staticmethod
     # pylint: disable=unused-argument
-    def __match__(root_value: object, current_value: object, *
+    def __call__(root_value: object, current_value: object, *
                   args: Tuple[object, ...]) -> Generator[object, None, None]:
         """Perform substring(number[, number]) call."""
         if isinstance(current_value, str):
@@ -214,7 +214,7 @@ class ValuesCallableSubscript(CallableSubscript):
         super(
             ValuesCallableSubscript,
             self).__init__(
-            ValuesCallableSubscript.__match__,
+            ValuesCallableSubscript.__call__,
             'values',
             *args,
             **kwargs)
@@ -222,7 +222,7 @@ class ValuesCallableSubscript(CallableSubscript):
 
     @staticmethod
     # pylint: disable=unused-argument
-    def __match__(root_value: object, current_value: object, *
+    def __call__(root_value: object, current_value: object, *
                   args: Tuple[object, ...]) -> Generator[object, None, None]:
         """Perform values() call."""
         if isinstance(current_value, dict):
