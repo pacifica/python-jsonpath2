@@ -79,9 +79,11 @@ class ArrayLengthCallableSubscript(CallableSubscript):
                   args: Tuple[object, ...]) -> Generator[object, None, None]:
         """Perform length() call."""
         if isinstance(current_value, list):
-            yield MatchData(SubscriptNode(TerminalNode(), [ArrayLengthCallableSubscript(*args)]), root_value, len(current_value))
+            yield MatchData(SubscriptNode(TerminalNode(),
+                [ArrayLengthCallableSubscript(*args)]), root_value, len(current_value))
         elif isinstance(current_value, str):
-            yield MatchData(SubscriptNode(TerminalNode(), [ArrayLengthCallableSubscript(*args)]), root_value, len(current_value))
+            yield MatchData(SubscriptNode(TerminalNode(),
+                [ArrayLengthCallableSubscript(*args)]), root_value, len(current_value))
     # pylint: enable=unused-argument
 
 

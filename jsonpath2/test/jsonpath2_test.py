@@ -398,7 +398,7 @@ class TestNode(TestCase):
             },
             {
                 '__jsonpath__': '["hello"][length()]',
-                'node': SubscriptNode(SubscriptNode(TerminalNode(), [ArrayLengthCallableSubscript()]), [ObjectIndexSubscript('hello')]),
+                'node': SubscriptNode(SubscriptNode(TerminalNode(), [ArrayLengthCallableSubscript()]), [ObjectIndexSubscript('hello')]),  # noqa: E501
                 'root_value': root_value,
                 'current_value': root_value,
                 'match_data_list': [
@@ -417,7 +417,7 @@ class TestNode(TestCase):
             },
             {
                 '__jsonpath__': '["hello"][charAt(0)]',
-                'node': SubscriptNode(SubscriptNode(TerminalNode(), [StringCharAtCallableSubscript(0)]), [ObjectIndexSubscript('hello')]),
+                'node': SubscriptNode(SubscriptNode(TerminalNode(), [StringCharAtCallableSubscript(0)]), [ObjectIndexSubscript('hello')]),  # noqa: E501
                 'root_value': root_value,
                 'current_value': root_value,
                 'match_data_list': [
@@ -436,7 +436,7 @@ class TestNode(TestCase):
             },
             {
                 '__jsonpath__': '["hello"][charAt(1000)]',
-                'node': SubscriptNode(SubscriptNode(TerminalNode(), [StringCharAtCallableSubscript(1000)]), [ObjectIndexSubscript('hello')]),
+                'node': SubscriptNode(SubscriptNode(TerminalNode(), [StringCharAtCallableSubscript(1000)]), [ObjectIndexSubscript('hello')]),  # noqa: E501
                 'root_value': root_value,
                 'current_value': root_value,
                 'match_data_list': [],
@@ -460,7 +460,7 @@ class TestNode(TestCase):
             },
             {
                 '__jsonpath__': '["hello"][substring(1)]',
-                'node': SubscriptNode(SubscriptNode(TerminalNode(), [StringSubstringCallableSubscript(1)]), [ObjectIndexSubscript('hello')]),
+                'node': SubscriptNode(SubscriptNode(TerminalNode(), [StringSubstringCallableSubscript(1)]), [ObjectIndexSubscript('hello')]),  # noqa: E501
                 'root_value': root_value,
                 'current_value': root_value,
                 'match_data_list': [
@@ -479,7 +479,7 @@ class TestNode(TestCase):
             },
             {
                 '__jsonpath__': '["hello"][substring(1,3)]',
-                'node': SubscriptNode(SubscriptNode(TerminalNode(), [StringSubstringCallableSubscript(1, 3)]), [ObjectIndexSubscript('hello')]),
+                'node': SubscriptNode(SubscriptNode(TerminalNode(), [StringSubstringCallableSubscript(1, 3)]), [ObjectIndexSubscript('hello')]),  # noqa: E501
                 'root_value': root_value,
                 'current_value': root_value,
                 'match_data_list': [
@@ -498,7 +498,7 @@ class TestNode(TestCase):
             },
             {
                 '__jsonpath__': '["languages"][length()]',
-                'node': SubscriptNode(SubscriptNode(TerminalNode(), [ArrayLengthCallableSubscript()]), [ObjectIndexSubscript('languages')]),
+                'node': SubscriptNode(SubscriptNode(TerminalNode(), [ArrayLengthCallableSubscript()]), [ObjectIndexSubscript('languages')]),  # noqa: E501
                 'root_value': root_value,
                 'current_value': root_value,
                 'match_data_list': [
@@ -517,7 +517,7 @@ class TestNode(TestCase):
             },
             {
                 '__jsonpath__': '["preferences"][entries()]',
-                'node': SubscriptNode(SubscriptNode(TerminalNode(), [ObjectEntriesCallableSubscript()]), [ObjectIndexSubscript('preferences')]),
+                'node': SubscriptNode(SubscriptNode(TerminalNode(), [ObjectEntriesCallableSubscript()]), [ObjectIndexSubscript('preferences')]),  # noqa: E501
                 'root_value': root_value,
                 'current_value': root_value,
                 'match_data_list': [
@@ -536,7 +536,7 @@ class TestNode(TestCase):
             },
             {
                 '__jsonpath__': '["preferences"][keys()]',
-                'node': SubscriptNode(SubscriptNode(TerminalNode(), [ObjectKeysCallableSubscript()]), [ObjectIndexSubscript('preferences')]),
+                'node': SubscriptNode(SubscriptNode(TerminalNode(), [ObjectKeysCallableSubscript()]), [ObjectIndexSubscript('preferences')]),  # noqa: E501
                 'root_value': root_value,
                 'current_value': root_value,
                 'match_data_list': [
@@ -555,7 +555,7 @@ class TestNode(TestCase):
             },
             {
                 '__jsonpath__': '["preferences"][values()]',
-                'node': SubscriptNode(SubscriptNode(TerminalNode(), [ObjectValuesCallableSubscript()]), [ObjectIndexSubscript('preferences')]),
+                'node': SubscriptNode(SubscriptNode(TerminalNode(), [ObjectValuesCallableSubscript()]), [ObjectIndexSubscript('preferences')]),  # noqa: E501
                 'root_value': root_value,
                 'current_value': root_value,
                 'match_data_list': [
