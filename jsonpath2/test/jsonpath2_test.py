@@ -1,9 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 """Test the jsonpath module."""
+from json import loads
+from re import escape
 from tempfile import NamedTemporaryFile
 from unittest import TestCase
-from json import loads
+
 from jsonpath2.node import MatchData
 from jsonpath2.expressions.some import SomeExpression
 from jsonpath2.nodes.current import CurrentNode
@@ -13,6 +15,9 @@ from jsonpath2.nodes.subscript import SubscriptNode
 from jsonpath2.nodes.terminal import TerminalNode
 from jsonpath2.path import Path
 from jsonpath2.subscripts.arrayindex import ArrayIndexSubscript
+from jsonpath2.subscripts.callable import ArrayLengthCallableSubscript, ObjectEntriesCallableSubscript, \
+    ObjectKeysCallableSubscript, ObjectValuesCallableSubscript, StringCharAtCallableSubscript, \
+    StringSubstringCallableSubscript
 from jsonpath2.subscripts.filter import FilterSubscript
 from jsonpath2.subscripts.objectindex import ObjectIndexSubscript
 from jsonpath2.subscripts.wildcard import WildcardSubscript
@@ -29,6 +34,10 @@ class TestNode(TestCase):
                 'en-GB',
                 'en-US',
             ],
+            'preferences': {
+                'coffee': True,
+                'tea': False,
+            },
         }
         current_value = root_value['hello']
 
@@ -113,6 +122,8 @@ class TestNode(TestCase):
                         'hello')]), root_value, root_value['hello']),
                     MatchData(SubscriptNode(TerminalNode(), [ObjectIndexSubscript(
                         'languages')]), root_value, root_value['languages']),
+                    MatchData(SubscriptNode(TerminalNode(), [ObjectIndexSubscript(
+                        'preferences')]), root_value, root_value['preferences']),
                 ],
             },
             {
@@ -205,6 +216,30 @@ class TestNode(TestCase):
                         root_value,
                         root_value['languages'][1]
                     ),
+                    MatchData(SubscriptNode(TerminalNode(), [ObjectIndexSubscript(
+                        'preferences')]), root_value, root_value['preferences']),
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [ObjectIndexSubscript('coffee')]
+                            ),
+                            [ObjectIndexSubscript('preferences')]
+                        ),
+                        root_value,
+                        root_value['preferences']['coffee']
+                    ),
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [ObjectIndexSubscript('tea')]
+                            ),
+                            [ObjectIndexSubscript('preferences')]
+                        ),
+                        root_value,
+                        root_value['preferences']['tea']
+                    ),
                 ],
             },
             {
@@ -248,6 +283,30 @@ class TestNode(TestCase):
                         root_value,
                         root_value['languages'][1]
                     ),
+                    MatchData(SubscriptNode(TerminalNode(), [ObjectIndexSubscript(
+                        'preferences')]), root_value, root_value['preferences']),
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [ObjectIndexSubscript('coffee')]
+                            ),
+                            [ObjectIndexSubscript('preferences')]
+                        ),
+                        root_value,
+                        root_value['preferences']['coffee']
+                    ),
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [ObjectIndexSubscript('tea')]
+                            ),
+                            [ObjectIndexSubscript('preferences')]
+                        ),
+                        root_value,
+                        root_value['preferences']['tea']
+                    ),
                 ],
             },
             {
@@ -260,6 +319,8 @@ class TestNode(TestCase):
                         'hello')]), root_value, root_value['hello']),
                     MatchData(SubscriptNode(TerminalNode(), [ObjectIndexSubscript(
                         'languages')]), root_value, root_value['languages']),
+                    MatchData(SubscriptNode(TerminalNode(), [ObjectIndexSubscript(
+                        'preferences')]), root_value, root_value['preferences']),
                     MatchData(
                         SubscriptNode(
                             SubscriptNode(
@@ -281,6 +342,28 @@ class TestNode(TestCase):
                         ),
                         root_value,
                         root_value['languages'][1]
+                    ),
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [ObjectIndexSubscript('coffee')]
+                            ),
+                            [ObjectIndexSubscript('preferences')]
+                        ),
+                        root_value,
+                        root_value['preferences']['coffee']
+                    ),
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [ObjectIndexSubscript('tea')]
+                            ),
+                            [ObjectIndexSubscript('preferences')]
+                        ),
+                        root_value,
+                        root_value['preferences']['tea']
                     ),
                 ],
             },
@@ -313,6 +396,182 @@ class TestNode(TestCase):
                     ),
                 ],
             },
+            {
+                '__jsonpath__': '["hello"][length()]',
+                'node': SubscriptNode(SubscriptNode(TerminalNode(), [ArrayLengthCallableSubscript()]), [ObjectIndexSubscript('hello')]),
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [ArrayLengthCallableSubscript()]
+                            ),
+                            [ObjectIndexSubscript('hello')]
+                        ),
+                        root_value,
+                        len(root_value['hello'])
+                    ),
+                ],
+            },
+            {
+                '__jsonpath__': '["hello"][charAt(0)]',
+                'node': SubscriptNode(SubscriptNode(TerminalNode(), [StringCharAtCallableSubscript(0)]), [ObjectIndexSubscript('hello')]),
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [StringCharAtCallableSubscript(0)]
+                            ),
+                            [ObjectIndexSubscript('hello')]
+                        ),
+                        root_value,
+                        root_value['hello'][0]
+                    ),
+                ],
+            },
+            {
+                '__jsonpath__': '["hello"][charAt(1000)]',
+                'node': SubscriptNode(SubscriptNode(TerminalNode(), [StringCharAtCallableSubscript(1000)]), [ObjectIndexSubscript('hello')]),
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [],
+            },
+            {
+                '__jsonpath__': '["hello"][charAt($["hello"][length()])]',
+                'node': SubscriptNode(SubscriptNode(TerminalNode(), [StringCharAtCallableSubscript(
+                    RootNode(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [ArrayLengthCallableSubscript()]
+                            ),
+                            [ObjectIndexSubscript('hello')]
+                        )
+                    )
+                )]), [ObjectIndexSubscript('hello')]),
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [],
+            },
+            {
+                '__jsonpath__': '["hello"][substring(1)]',
+                'node': SubscriptNode(SubscriptNode(TerminalNode(), [StringSubstringCallableSubscript(1)]), [ObjectIndexSubscript('hello')]),
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [StringSubstringCallableSubscript(1)]
+                            ),
+                            [ObjectIndexSubscript('hello')]
+                        ),
+                        root_value,
+                        root_value['hello'][1:]
+                    ),
+                ],
+            },
+            {
+                '__jsonpath__': '["hello"][substring(1,3)]',
+                'node': SubscriptNode(SubscriptNode(TerminalNode(), [StringSubstringCallableSubscript(1, 3)]), [ObjectIndexSubscript('hello')]),
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [StringSubstringCallableSubscript(1, 3)]
+                            ),
+                            [ObjectIndexSubscript('hello')]
+                        ),
+                        root_value,
+                        root_value['hello'][1:3]
+                    ),
+                ],
+            },
+            {
+                '__jsonpath__': '["languages"][length()]',
+                'node': SubscriptNode(SubscriptNode(TerminalNode(), [ArrayLengthCallableSubscript()]), [ObjectIndexSubscript('languages')]),
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [ArrayLengthCallableSubscript()]
+                            ),
+                            [ObjectIndexSubscript('languages')]
+                        ),
+                        root_value,
+                        len(root_value['languages'])
+                    ),
+                ],
+            },
+            {
+                '__jsonpath__': '["preferences"][entries()]',
+                'node': SubscriptNode(SubscriptNode(TerminalNode(), [ObjectEntriesCallableSubscript()]), [ObjectIndexSubscript('preferences')]),
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [ObjectEntriesCallableSubscript()]
+                            ),
+                            [ObjectIndexSubscript('preferences')]
+                        ),
+                        root_value,
+                        list(map(list, root_value['preferences'].items()))
+                    ),
+                ],
+            },
+            {
+                '__jsonpath__': '["preferences"][keys()]',
+                'node': SubscriptNode(SubscriptNode(TerminalNode(), [ObjectKeysCallableSubscript()]), [ObjectIndexSubscript('preferences')]),
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [ObjectKeysCallableSubscript()]
+                            ),
+                            [ObjectIndexSubscript('preferences')]
+                        ),
+                        root_value,
+                        list(root_value['preferences'].keys())
+                    ),
+                ],
+            },
+            {
+                '__jsonpath__': '["preferences"][values()]',
+                'node': SubscriptNode(SubscriptNode(TerminalNode(), [ObjectValuesCallableSubscript()]), [ObjectIndexSubscript('preferences')]),
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [ObjectValuesCallableSubscript()]
+                            ),
+                            [ObjectIndexSubscript('preferences')]
+                        ),
+                        root_value,
+                        list(root_value['preferences'].values())
+                    ),
+                ],
+            },
         ]
 
     def _assert_node_test_case(self, **kwargs):
@@ -339,14 +598,13 @@ class TestNode(TestCase):
         match_data_list = list(kwargs['node'].match(
             kwargs['root_value'], kwargs['current_value']))
 
-        for index, value in enumerate(match_data_list):
-            self.assertEqual(kwargs['match_data_list'][index], value)
+        self.assertListEqual(kwargs['match_data_list'], match_data_list)
 
         for match_data in match_data_list:
             new_match_data_list = list(match_data.node.match(
                 kwargs['root_value'], kwargs['current_value']))
 
-            self.assertEqual([match_data], new_match_data_list)
+            self.assertListEqual([match_data], new_match_data_list)
 
     def test_state(self):
         """Test the state."""
@@ -364,3 +622,12 @@ class TestNode(TestCase):
         result = list(
             map(lambda match_data: match_data.node.tojsonpath(), path_expr.match(test_json)))
         self.assertEqual(result[0], '$["hello"]')
+
+    # pylint: disable=invalid-name
+    def test_parse_callable_subscript(self):
+        """Test parse callable subscript."""
+        Path.parse_str('$.length()')
+        Path.parse_str('$[length()]')
+        with self.assertRaisesRegex(ValueError, r'^' + escape('callable subscript \'foo\' not found') + r'$'):
+            Path.parse_str('$.foo(1, 2, 3)')
+    # pylint: enable=invalid-name
