@@ -23,7 +23,7 @@ class WildcardSubscript(Subscript):
                 lambda index: ObjectIndexSubscript(
                     index).match(root_value, current_value),
                 current_value.keys()))
-        if isinstance(current_value, list):
+        elif isinstance(current_value, list):
             return itertools.chain(*map(
                 lambda index: ArrayIndexSubscript(
                     index).match(root_value, current_value),

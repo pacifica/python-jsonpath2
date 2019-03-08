@@ -14,7 +14,9 @@ class OperatorExpression(Expression):
     def __jsonpath__(self) -> Generator[str, None, None]:  # pragma: no cover abstract method
         """Abstract method to return the jsonpath."""
         pass
+    # pylint: enable=unnecessary-pass
 
+    # pylint: disable=unnecessary-pass
     def evaluate(self, root_value: object, current_value: object) -> bool:  # pragma: no cover abstract method
         """Abstract method to evaluate the expression."""
         pass
