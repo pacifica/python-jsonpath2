@@ -58,123 +58,16 @@ class CallableSubscript(Subscript):
     # pylint: enable=invalid-name,line-too-long,no-self-use
 
 
-class ArrayLengthCallableSubscript(CallableSubscript):
-    """length() callable subscript object."""
-
-    def __init__(self, *args, **kwargs):
-        """Initialize the length() callable subscript object."""
-        # pylint: disable=bad-continuation
-        super(
-            ArrayLengthCallableSubscript,
-            self).__init__(
-            ArrayLengthCallableSubscript.__match__,
-            'length',
-            *args,
-            **kwargs)
-        # pylint: disable=bad-continuation
-
-    @staticmethod
-    # pylint: disable=unused-argument
-    def __match__(root_value: object, current_value: object, *
-                  args: Tuple[object, ...]) -> Generator[object, None, None]:
-        """Perform length() call."""
-        if isinstance(current_value, list):
-            yield MatchData(SubscriptNode(TerminalNode(),
-                                          [ArrayLengthCallableSubscript(*args)]), root_value, len(current_value))
-        elif isinstance(current_value, str):
-            yield MatchData(SubscriptNode(TerminalNode(),
-                                          [ArrayLengthCallableSubscript(*args)]), root_value, len(current_value))
-    # pylint: enable=unused-argument
-
-
-class ObjectEntriesCallableSubscript(CallableSubscript):
-    """entries() callable subscript object."""
-
-    def __init__(self, *args, **kwargs):
-        """Initialize the entries() callable subscript object."""
-        # pylint: disable=bad-continuation
-        super(
-            ObjectEntriesCallableSubscript,
-            self).__init__(
-            ObjectEntriesCallableSubscript.__match__,
-            'entries',
-            *args,
-            **kwargs)
-        # pylint: enable=bad-continuation
-
-    @staticmethod
-    # pylint: disable=unused-argument
-    def __match__(root_value: object, current_value: object, *
-                  args: Tuple[object, ...]) -> Generator[object, None, None]:
-        """Perform entries() call."""
-        if isinstance(current_value, dict):
-            yield MatchData(SubscriptNode(TerminalNode(), [ObjectEntriesCallableSubscript(*args)]), root_value,
-                            list(map(list, current_value.items())))
-    # pylint: enable=unused-argument
-
-
-class ObjectKeysCallableSubscript(CallableSubscript):
-    """keys() callable subscript object."""
-
-    def __init__(self, *args, **kwargs):
-        """Initialize the keys() callable subscript object."""
-        # pylint: disable=bad-continuation
-        super(
-            ObjectKeysCallableSubscript,
-            self).__init__(
-            ObjectKeysCallableSubscript.__match__,
-            'keys',
-            *args,
-            **kwargs)
-        # pylint: enable=bad-continuation
-
-    @staticmethod
-    # pylint: disable=unused-argument
-    def __match__(root_value: object, current_value: object, *
-                  args: Tuple[object, ...]) -> Generator[object, None, None]:
-        """Perform keys() call."""
-        if isinstance(current_value, dict):
-            yield MatchData(SubscriptNode(TerminalNode(), [ObjectKeysCallableSubscript(*args)]), root_value,
-                            list(current_value.keys()))
-    # pylint: enable=unused-argument
-
-
-class ObjectValuesCallableSubscript(CallableSubscript):
-    """values() callable subscript object."""
-
-    def __init__(self, *args, **kwargs):
-        """Initialize the values() callable subscript object."""
-        # pylint: disable=bad-continuation
-        super(
-            ObjectValuesCallableSubscript,
-            self).__init__(
-            ObjectValuesCallableSubscript.__match__,
-            'values',
-            *args,
-            **kwargs)
-        # pylint: enable=bad-continuation
-
-    @staticmethod
-    # pylint: disable=unused-argument
-    def __match__(root_value: object, current_value: object, *
-                  args: Tuple[object, ...]) -> Generator[object, None, None]:
-        """Perform values() call."""
-        if isinstance(current_value, dict):
-            yield MatchData(SubscriptNode(TerminalNode(), [ObjectValuesCallableSubscript(*args)]), root_value,
-                            list(current_value.values()))
-    # pylint: enable=unused-argument
-
-
-class StringCharAtCallableSubscript(CallableSubscript):
+class CharAtCallableSubscript(CallableSubscript):
     """charAt(number) callable subscript object."""
 
     def __init__(self, *args, **kwargs):
         """Initialize the charAt(number) callable subscript object."""
         # pylint: disable=bad-continuation
         super(
-            StringCharAtCallableSubscript,
+            CharAtCallableSubscript,
             self).__init__(
-            StringCharAtCallableSubscript.__match__,
+            CharAtCallableSubscript.__match__,
             'charAt',
             *args,
             **kwargs)
@@ -188,23 +81,104 @@ class StringCharAtCallableSubscript(CallableSubscript):
         if isinstance(current_value, str):
             if (len(args) == 1) and isinstance(args[0], int):
                 try:
-                    yield MatchData(SubscriptNode(TerminalNode(), [StringCharAtCallableSubscript(*args)]), root_value,
+                    yield MatchData(SubscriptNode(TerminalNode(), [CharAtCallableSubscript(*args)]), root_value,
                                     current_value[args[0]])
                 except IndexError:
                     pass
     # pylint: enable=unused-argument
 
 
-class StringSubstringCallableSubscript(CallableSubscript):
+class EntriesCallableSubscript(CallableSubscript):
+    """entries() callable subscript object."""
+
+    def __init__(self, *args, **kwargs):
+        """Initialize the entries() callable subscript object."""
+        # pylint: disable=bad-continuation
+        super(
+            EntriesCallableSubscript,
+            self).__init__(
+            EntriesCallableSubscript.__match__,
+            'entries',
+            *args,
+            **kwargs)
+        # pylint: enable=bad-continuation
+
+    @staticmethod
+    # pylint: disable=unused-argument
+    def __match__(root_value: object, current_value: object, *
+                  args: Tuple[object, ...]) -> Generator[object, None, None]:
+        """Perform entries() call."""
+        if isinstance(current_value, dict):
+            yield MatchData(SubscriptNode(TerminalNode(), [EntriesCallableSubscript(*args)]), root_value,
+                            list(map(list, current_value.items())))
+    # pylint: enable=unused-argument
+
+
+class KeysCallableSubscript(CallableSubscript):
+    """keys() callable subscript object."""
+
+    def __init__(self, *args, **kwargs):
+        """Initialize the keys() callable subscript object."""
+        # pylint: disable=bad-continuation
+        super(
+            KeysCallableSubscript,
+            self).__init__(
+            KeysCallableSubscript.__match__,
+            'keys',
+            *args,
+            **kwargs)
+        # pylint: enable=bad-continuation
+
+    @staticmethod
+    # pylint: disable=unused-argument
+    def __match__(root_value: object, current_value: object, *
+                  args: Tuple[object, ...]) -> Generator[object, None, None]:
+        """Perform keys() call."""
+        if isinstance(current_value, dict):
+            yield MatchData(SubscriptNode(TerminalNode(), [KeysCallableSubscript(*args)]), root_value,
+                            list(current_value.keys()))
+    # pylint: enable=unused-argument
+
+
+class LengthCallableSubscript(CallableSubscript):
+    """length() callable subscript object."""
+
+    def __init__(self, *args, **kwargs):
+        """Initialize the length() callable subscript object."""
+        # pylint: disable=bad-continuation
+        super(
+            LengthCallableSubscript,
+            self).__init__(
+            LengthCallableSubscript.__match__,
+            'length',
+            *args,
+            **kwargs)
+        # pylint: disable=bad-continuation
+
+    @staticmethod
+    # pylint: disable=unused-argument
+    def __match__(root_value: object, current_value: object, *
+                  args: Tuple[object, ...]) -> Generator[object, None, None]:
+        """Perform length() call."""
+        if isinstance(current_value, list):
+            yield MatchData(SubscriptNode(TerminalNode(),
+                                          [LengthCallableSubscript(*args)]), root_value, len(current_value))
+        elif isinstance(current_value, str):
+            yield MatchData(SubscriptNode(TerminalNode(),
+                                          [LengthCallableSubscript(*args)]), root_value, len(current_value))
+    # pylint: enable=unused-argument
+
+
+class SubstringCallableSubscript(CallableSubscript):
     """substring(number[, number]) callable subscript object."""
 
     def __init__(self, *args, **kwargs):
         """Initialize the substring(number[, number]) callable subscript object."""
         # pylint: disable=bad-continuation
         super(
-            StringSubstringCallableSubscript,
+            SubstringCallableSubscript,
             self).__init__(
-            StringSubstringCallableSubscript.__match__,
+            SubstringCallableSubscript.__match__,
             'substring',
             *args,
             **kwargs)
@@ -217,9 +191,35 @@ class StringSubstringCallableSubscript(CallableSubscript):
         """Perform substring(number[, number]) call."""
         if isinstance(current_value, str):
             if (len(args) == 1) and isinstance(args[0], int):
-                yield MatchData(SubscriptNode(TerminalNode(), [StringSubstringCallableSubscript(*args)]), root_value,
+                yield MatchData(SubscriptNode(TerminalNode(), [SubstringCallableSubscript(*args)]), root_value,
                                 current_value[args[0]:])
             elif (len(args) == 2) and isinstance(args[0], int) and isinstance(args[1], int):
-                yield MatchData(SubscriptNode(TerminalNode(), [StringSubstringCallableSubscript(*args)]), root_value,
+                yield MatchData(SubscriptNode(TerminalNode(), [SubstringCallableSubscript(*args)]), root_value,
                                 current_value[args[0]:args[1]])
+    # pylint: enable=unused-argument
+
+
+class ValuesCallableSubscript(CallableSubscript):
+    """values() callable subscript object."""
+
+    def __init__(self, *args, **kwargs):
+        """Initialize the values() callable subscript object."""
+        # pylint: disable=bad-continuation
+        super(
+            ValuesCallableSubscript,
+            self).__init__(
+            ValuesCallableSubscript.__match__,
+            'values',
+            *args,
+            **kwargs)
+        # pylint: enable=bad-continuation
+
+    @staticmethod
+    # pylint: disable=unused-argument
+    def __match__(root_value: object, current_value: object, *
+                  args: Tuple[object, ...]) -> Generator[object, None, None]:
+        """Perform values() call."""
+        if isinstance(current_value, dict):
+            yield MatchData(SubscriptNode(TerminalNode(), [ValuesCallableSubscript(*args)]), root_value,
+                            list(current_value.values()))
     # pylint: enable=unused-argument

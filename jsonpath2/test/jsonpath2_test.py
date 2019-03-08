@@ -15,9 +15,9 @@ from jsonpath2.nodes.subscript import SubscriptNode
 from jsonpath2.nodes.terminal import TerminalNode
 from jsonpath2.path import Path
 from jsonpath2.subscripts.arrayindex import ArrayIndexSubscript
-from jsonpath2.subscripts.callable import ArrayLengthCallableSubscript, ObjectEntriesCallableSubscript, \
-    ObjectKeysCallableSubscript, ObjectValuesCallableSubscript, StringCharAtCallableSubscript, \
-    StringSubstringCallableSubscript
+from jsonpath2.subscripts.callable import CharAtCallableSubscript, EntriesCallableSubscript, \
+    KeysCallableSubscript, LengthCallableSubscript, SubstringCallableSubscript, \
+    ValuesCallableSubscript
 from jsonpath2.subscripts.filter import FilterSubscript
 from jsonpath2.subscripts.objectindex import ObjectIndexSubscript
 from jsonpath2.subscripts.wildcard import WildcardSubscript
@@ -400,7 +400,7 @@ class TestNode(TestCase):
                 '__jsonpath__': '["hello"][length()]',
                 # pylint: disable=line-too-long
                 'node': SubscriptNode(SubscriptNode(TerminalNode(),
-                                                    [ArrayLengthCallableSubscript()]), [ObjectIndexSubscript('hello')]),  # noqa: E501
+                                                    [LengthCallableSubscript()]), [ObjectIndexSubscript('hello')]),  # noqa: E501
                 # pylint: enable=line-too-long
                 'root_value': root_value,
                 'current_value': root_value,
@@ -409,7 +409,7 @@ class TestNode(TestCase):
                         SubscriptNode(
                             SubscriptNode(
                                 TerminalNode(),
-                                [ArrayLengthCallableSubscript()]
+                                [LengthCallableSubscript()]
                             ),
                             [ObjectIndexSubscript('hello')]
                         ),
@@ -422,7 +422,7 @@ class TestNode(TestCase):
                 '__jsonpath__': '["hello"][charAt(0)]',
                 # pylint: disable=line-too-long
                 'node': SubscriptNode(SubscriptNode(TerminalNode(),
-                                                    [StringCharAtCallableSubscript(0)]), [ObjectIndexSubscript('hello')]),  # noqa: E501
+                                                    [CharAtCallableSubscript(0)]), [ObjectIndexSubscript('hello')]),  # noqa: E501
                 # pylint: enable=line-too-long
                 'root_value': root_value,
                 'current_value': root_value,
@@ -431,7 +431,7 @@ class TestNode(TestCase):
                         SubscriptNode(
                             SubscriptNode(
                                 TerminalNode(),
-                                [StringCharAtCallableSubscript(0)]
+                                [CharAtCallableSubscript(0)]
                             ),
                             [ObjectIndexSubscript('hello')]
                         ),
@@ -444,7 +444,7 @@ class TestNode(TestCase):
                 '__jsonpath__': '["hello"][charAt(1000)]',
                 # pylint: disable=line-too-long
                 'node': SubscriptNode(SubscriptNode(TerminalNode(),
-                                                    [StringCharAtCallableSubscript(1000)]), [ObjectIndexSubscript('hello')]),  # noqa: E501
+                                                    [CharAtCallableSubscript(1000)]), [ObjectIndexSubscript('hello')]),  # noqa: E501
                 # pylint: enable=line-too-long
                 'root_value': root_value,
                 'current_value': root_value,
@@ -452,12 +452,12 @@ class TestNode(TestCase):
             },
             {
                 '__jsonpath__': '["hello"][charAt($["hello"][length()])]',
-                'node': SubscriptNode(SubscriptNode(TerminalNode(), [StringCharAtCallableSubscript(
+                'node': SubscriptNode(SubscriptNode(TerminalNode(), [CharAtCallableSubscript(
                     RootNode(
                         SubscriptNode(
                             SubscriptNode(
                                 TerminalNode(),
-                                [ArrayLengthCallableSubscript()]
+                                [LengthCallableSubscript()]
                             ),
                             [ObjectIndexSubscript('hello')]
                         )
@@ -471,7 +471,7 @@ class TestNode(TestCase):
                 '__jsonpath__': '["hello"][substring(1)]',
                 # pylint: disable=line-too-long
                 'node': SubscriptNode(SubscriptNode(TerminalNode(),
-                                                    [StringSubstringCallableSubscript(1)]), [ObjectIndexSubscript('hello')]),  # noqa: E501
+                                                    [SubstringCallableSubscript(1)]), [ObjectIndexSubscript('hello')]),  # noqa: E501
                 # pylint: enable=line-too-long
                 'root_value': root_value,
                 'current_value': root_value,
@@ -480,7 +480,7 @@ class TestNode(TestCase):
                         SubscriptNode(
                             SubscriptNode(
                                 TerminalNode(),
-                                [StringSubstringCallableSubscript(1)]
+                                [SubstringCallableSubscript(1)]
                             ),
                             [ObjectIndexSubscript('hello')]
                         ),
@@ -493,7 +493,7 @@ class TestNode(TestCase):
                 '__jsonpath__': '["hello"][substring(1,3)]',
                 # pylint: disable=line-too-long
                 'node': SubscriptNode(SubscriptNode(TerminalNode(),
-                                                    [StringSubstringCallableSubscript(1, 3)]), [ObjectIndexSubscript('hello')]),  # noqa: E501
+                                                    [SubstringCallableSubscript(1, 3)]), [ObjectIndexSubscript('hello')]),  # noqa: E501
                 # pylint: enable=line-too-long
                 'root_value': root_value,
                 'current_value': root_value,
@@ -502,7 +502,7 @@ class TestNode(TestCase):
                         SubscriptNode(
                             SubscriptNode(
                                 TerminalNode(),
-                                [StringSubstringCallableSubscript(1, 3)]
+                                [SubstringCallableSubscript(1, 3)]
                             ),
                             [ObjectIndexSubscript('hello')]
                         ),
@@ -515,7 +515,7 @@ class TestNode(TestCase):
                 '__jsonpath__': '["languages"][length()]',
                 # pylint: disable=line-too-long
                 'node': SubscriptNode(SubscriptNode(TerminalNode(),
-                                                    [ArrayLengthCallableSubscript()]), [ObjectIndexSubscript('languages')]),  # noqa: E501
+                                                    [LengthCallableSubscript()]), [ObjectIndexSubscript('languages')]),  # noqa: E501
                 # pylint: enable=line-too-long
                 'root_value': root_value,
                 'current_value': root_value,
@@ -524,7 +524,7 @@ class TestNode(TestCase):
                         SubscriptNode(
                             SubscriptNode(
                                 TerminalNode(),
-                                [ArrayLengthCallableSubscript()]
+                                [LengthCallableSubscript()]
                             ),
                             [ObjectIndexSubscript('languages')]
                         ),
@@ -537,7 +537,7 @@ class TestNode(TestCase):
                 '__jsonpath__': '["preferences"][entries()]',
                 # pylint: disable=line-too-long
                 'node': SubscriptNode(SubscriptNode(TerminalNode(),
-                                                    [ObjectEntriesCallableSubscript()]), [ObjectIndexSubscript('preferences')]),  # noqa: E501
+                                                    [EntriesCallableSubscript()]), [ObjectIndexSubscript('preferences')]),  # noqa: E501
                 # pylint: enable=line-too-long
                 'root_value': root_value,
                 'current_value': root_value,
@@ -546,7 +546,7 @@ class TestNode(TestCase):
                         SubscriptNode(
                             SubscriptNode(
                                 TerminalNode(),
-                                [ObjectEntriesCallableSubscript()]
+                                [EntriesCallableSubscript()]
                             ),
                             [ObjectIndexSubscript('preferences')]
                         ),
@@ -559,7 +559,7 @@ class TestNode(TestCase):
                 '__jsonpath__': '["preferences"][keys()]',
                 # pylint: disable=line-too-long
                 'node': SubscriptNode(SubscriptNode(TerminalNode(),
-                                                    [ObjectKeysCallableSubscript()]), [ObjectIndexSubscript('preferences')]),  # noqa: E501
+                                                    [KeysCallableSubscript()]), [ObjectIndexSubscript('preferences')]),  # noqa: E501
                 # pylint: enable=line-too-long
                 'root_value': root_value,
                 'current_value': root_value,
@@ -568,7 +568,7 @@ class TestNode(TestCase):
                         SubscriptNode(
                             SubscriptNode(
                                 TerminalNode(),
-                                [ObjectKeysCallableSubscript()]
+                                [KeysCallableSubscript()]
                             ),
                             [ObjectIndexSubscript('preferences')]
                         ),
@@ -581,7 +581,7 @@ class TestNode(TestCase):
                 '__jsonpath__': '["preferences"][values()]',
                 # pylint: disable=line-too-long
                 'node': SubscriptNode(SubscriptNode(TerminalNode(),
-                                                    [ObjectValuesCallableSubscript()]), [ObjectIndexSubscript('preferences')]),  # noqa: E501
+                                                    [ValuesCallableSubscript()]), [ObjectIndexSubscript('preferences')]),  # noqa: E501
                 # pylint: enable=line-too-long
                 'root_value': root_value,
                 'current_value': root_value,
@@ -590,7 +590,7 @@ class TestNode(TestCase):
                         SubscriptNode(
                             SubscriptNode(
                                 TerminalNode(),
-                                [ObjectValuesCallableSubscript()]
+                                [ValuesCallableSubscript()]
                             ),
                             [ObjectIndexSubscript('preferences')]
                         ),

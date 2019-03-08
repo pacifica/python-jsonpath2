@@ -19,9 +19,9 @@ from jsonpath2.parser.JSONPathParser import JSONPathParser
 
 from jsonpath2.subscripts.arrayindex import ArrayIndexSubscript
 from jsonpath2.subscripts.arrayslice import ArraySliceSubscript
-from jsonpath2.subscripts.callable import ArrayLengthCallableSubscript, ObjectEntriesCallableSubscript, \
-    ObjectKeysCallableSubscript, ObjectValuesCallableSubscript, StringCharAtCallableSubscript, \
-    StringSubstringCallableSubscript
+from jsonpath2.subscripts.callable import CharAtCallableSubscript, EntriesCallableSubscript, \
+    KeysCallableSubscript, LengthCallableSubscript, SubstringCallableSubscript, \
+    ValuesCallableSubscript
 from jsonpath2.subscripts.filter import FilterSubscript
 from jsonpath2.subscripts.node import NodeSubscript
 from jsonpath2.subscripts.objectindex import ObjectIndexSubscript
@@ -42,12 +42,12 @@ class CallableSubscriptNotFoundError(ValueError):
 
 
 CALLABLE_SUBSCRIPTS_ = {
-    'length': ArrayLengthCallableSubscript,
-    'entries': ObjectEntriesCallableSubscript,
-    'keys': ObjectKeysCallableSubscript,
-    'values': ObjectValuesCallableSubscript,
-    'charAt': StringCharAtCallableSubscript,
-    'substring': StringSubstringCallableSubscript,
+    'charAt': CharAtCallableSubscript,
+    'entries': EntriesCallableSubscript,
+    'keys': KeysCallableSubscript,
+    'length': LengthCallableSubscript,
+    'substring': SubstringCallableSubscript,
+    'values': ValuesCallableSubscript,
 }
 
 
