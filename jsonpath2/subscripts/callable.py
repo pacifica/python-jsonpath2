@@ -55,7 +55,7 @@ class CallableSubscript(Subscript):
 
 
 class CharAtCallableSubscript(CallableSubscript):
-    """charAt(number) callable subscript object."""
+    """charAt(int) callable subscript object."""
 
     __str__ = 'charAt'
 
@@ -137,7 +137,7 @@ class LengthCallableSubscript(CallableSubscript):
 
 
 class SubstringCallableSubscript(CallableSubscript):
-    """substring(number[, number]) callable subscript object."""
+    """substring(int[, int]) callable subscript object."""
 
     __str__ = 'substring'
 
