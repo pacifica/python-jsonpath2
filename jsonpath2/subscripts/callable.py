@@ -13,26 +13,28 @@ from jsonpath2.subscript import Subscript
 class CallableSubscript(Subscript):
     """Callable subscript object."""
 
-    # pylint: disable=line-too-long
-    def __init__(self, callback: Callable[[Tuple[object, ...]], Generator[MatchData,  # noqa: E501
-                                                                          None, None]], name: str, *args: Tuple[Union[Node, object]]):  # noqa: E501
+    def __init__(self, *args: Tuple[Union[MatchData, Node, object]]):
         """Initialize the callable subscript object."""
         super(CallableSubscript, self).__init__()
-        self.callback = callback
-        self.name = name
         self.args = args
-    # pylint: enable=line-too-long
+
+    def __call__(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:  # pragma: no cover abstract method.
+        """Call the callable subscript object."""
+        raise NotImplementedError()
 
     def __jsonpath__(self) -> Generator[str, None, None]:
         """Generate the JSONPath for the callable subscript."""
-        yield self.name
+        yield self.__class__.__str__
+
         yield '('
 
         for index, arg in enumerate(self.args):
             if index > 0:
                 yield ','
 
-            if isinstance(arg, Node):
+            if isinstance(arg, MatchData):
+                yield json.dumps(arg.current_value)
+            elif isinstance(arg, Node):
                 for arg_token in arg.__jsonpath__():
                     yield arg_token
             else:
@@ -40,22 +42,13 @@ class CallableSubscript(Subscript):
 
         yield ')'
 
+    # pylint: disable=line-too-long
     def match(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Match the root value against the current value."""
-        match_data_args = map(lambda arg: self._matchArgument(arg, root_value, current_value), self.args)
-        for match_data_iterable in itertools.product(*match_data_args):
-            args = map(lambda match_data: match_data.current_value, match_data_iterable)
-
-            for callback_match_data in self.callback(root_value, current_value, *args):
-                yield callback_match_data
-
-    # pylint: disable=invalid-name,line-too-long,no-self-use
-    def _matchArgument(self, arg: Union[Node, object], root_value: object, current_value: object) -> Generator[MatchData, None, None]:  # noqa: E501
-        """Match the root value against the current value with respect to the argument."""
-        if isinstance(arg, Node):
-            return arg.match(root_value, current_value)
-        return [MatchData(TerminalNode(), root_value, arg)]
-    # pylint: enable=invalid-name,line-too-long,no-self-use
+        for args in itertools.product(*map(lambda arg: [arg] if isinstance(arg, MatchData) else arg.match(root_value, current_value) if isinstance(arg, Node) else [MatchData(TerminalNode(), root_value, arg)], self.args)):  # noqa: E501
+            for callable_subscript_match_data in self.__class__(*args)(root_value, current_value):
+                yield callable_subscript_match_data
+    # pylint: enable=line-too-long
 
 
 class CharAtCallableSubscript(CallableSubscript):
@@ -63,31 +56,18 @@ class CharAtCallableSubscript(CallableSubscript):
 
     __str__ = 'charAt'
 
-    def __init__(self, *args, **kwargs):
-        """Initialize the charAt(number) callable subscript object."""
-        # pylint: disable=bad-continuation
-        super(
-            CharAtCallableSubscript,
-            self).__init__(
-            CharAtCallableSubscript.__call__,
-            CharAtCallableSubscript.__str__,
-            *args,
-            **kwargs)
-        # pylint: enable=bad-continuation
-
-    @staticmethod
-    # pylint: disable=unused-argument
-    def __call__(root_value: object, current_value: object, *
-                 args: Tuple[object, ...]) -> Generator[MatchData, None, None]:
+    def __call__(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Perform charAt(number) call."""
         if isinstance(current_value, str):
-            if (len(args) == 1) and isinstance(args[0], int):
+            if (len(self.args) == 1) \
+                    and isinstance(self.args[0].current_value, int):
                 try:
-                    yield MatchData(SubscriptNode(TerminalNode(), [CharAtCallableSubscript(*args)]), root_value,
-                                    current_value[args[0]])
+                    value = current_value[self.args[0].current_value]
                 except IndexError:
                     pass
-    # pylint: enable=unused-argument
+                else:
+                    yield MatchData(SubscriptNode(TerminalNode(), [self]),
+                                    root_value, value)
 
 
 class EntriesCallableSubscript(CallableSubscript):
@@ -95,30 +75,20 @@ class EntriesCallableSubscript(CallableSubscript):
 
     __str__ = 'entries'
 
-    def __init__(self, *args, **kwargs):
-        """Initialize the entries() callable subscript object."""
-        # pylint: disable=bad-continuation
-        super(
-            EntriesCallableSubscript,
-            self).__init__(
-            EntriesCallableSubscript.__call__,
-            EntriesCallableSubscript.__str__,
-            *args,
-            **kwargs)
-        # pylint: enable=bad-continuation
-
-    @staticmethod
-    # pylint: disable=unused-argument
-    def __call__(root_value: object, current_value: object, *
-                 args: Tuple[object, ...]) -> Generator[MatchData, None, None]:
+    def __call__(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Perform entries() call."""
         if isinstance(current_value, dict):
-            yield MatchData(SubscriptNode(TerminalNode(), [EntriesCallableSubscript(*args)]), root_value,
-                            list(map(list, current_value.items())))
+            if len(self.args) == 0:
+                value = list(map(list, current_value.items()))
+
+                yield MatchData(SubscriptNode(TerminalNode(), [self]),
+                                root_value, value)
         elif isinstance(current_value, list):
-            yield MatchData(SubscriptNode(TerminalNode(), [EntriesCallableSubscript(*args)]), root_value,
-                            list(map(list, enumerate(current_value))))
-    # pylint: enable=unused-argument
+            if len(self.args) == 0:
+                value = list(map(list, enumerate(current_value)))
+
+                yield MatchData(SubscriptNode(TerminalNode(), [self]),
+                                root_value, value)
 
 
 class KeysCallableSubscript(CallableSubscript):
@@ -126,30 +96,20 @@ class KeysCallableSubscript(CallableSubscript):
 
     __str__ = 'keys'
 
-    def __init__(self, *args, **kwargs):
-        """Initialize the keys() callable subscript object."""
-        # pylint: disable=bad-continuation
-        super(
-            KeysCallableSubscript,
-            self).__init__(
-            KeysCallableSubscript.__call__,
-            KeysCallableSubscript.__str__,
-            *args,
-            **kwargs)
-        # pylint: enable=bad-continuation
-
-    @staticmethod
-    # pylint: disable=unused-argument
-    def __call__(root_value: object, current_value: object, *
-                 args: Tuple[object, ...]) -> Generator[MatchData, None, None]:
+    def __call__(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Perform keys() call."""
         if isinstance(current_value, dict):
-            yield MatchData(SubscriptNode(TerminalNode(), [KeysCallableSubscript(*args)]), root_value,
-                            list(current_value.keys()))
+            if len(self.args) == 0:
+                value = list(current_value.keys())
+
+                yield MatchData(SubscriptNode(TerminalNode(), [self]),
+                                root_value, value)
         elif isinstance(current_value, list):
-            yield MatchData(SubscriptNode(TerminalNode(), [KeysCallableSubscript(*args)]), root_value,
-                            list(range(len(current_value))))
-    # pylint: enable=unused-argument
+            if len(self.args) == 0:
+                value = list(range(len(current_value)))
+
+                yield MatchData(SubscriptNode(TerminalNode(), [self]),
+                                root_value, value)
 
 
 class LengthCallableSubscript(CallableSubscript):
@@ -157,30 +117,20 @@ class LengthCallableSubscript(CallableSubscript):
 
     __str__ = 'length'
 
-    def __init__(self, *args, **kwargs):
-        """Initialize the length() callable subscript object."""
-        # pylint: disable=bad-continuation
-        super(
-            LengthCallableSubscript,
-            self).__init__(
-            LengthCallableSubscript.__call__,
-            LengthCallableSubscript.__str__,
-            *args,
-            **kwargs)
-        # pylint: disable=bad-continuation
-
-    @staticmethod
-    # pylint: disable=unused-argument
-    def __call__(root_value: object, current_value: object, *
-                 args: Tuple[object, ...]) -> Generator[MatchData, None, None]:
+    def __call__(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Perform length() call."""
         if isinstance(current_value, list):
-            yield MatchData(SubscriptNode(TerminalNode(),
-                                          [LengthCallableSubscript(*args)]), root_value, len(current_value))
+            if len(self.args) == 0:
+                value = len(current_value)
+
+                yield MatchData(SubscriptNode(TerminalNode(), [self]),
+                                root_value, value)
         elif isinstance(current_value, str):
-            yield MatchData(SubscriptNode(TerminalNode(),
-                                          [LengthCallableSubscript(*args)]), root_value, len(current_value))
-    # pylint: enable=unused-argument
+            if len(self.args) == 0:
+                value = len(current_value)
+
+                yield MatchData(SubscriptNode(TerminalNode(), [self]),
+                                root_value, value)
 
 
 class SubstringCallableSubscript(CallableSubscript):
@@ -188,31 +138,22 @@ class SubstringCallableSubscript(CallableSubscript):
 
     __str__ = 'substring'
 
-    def __init__(self, *args, **kwargs):
-        """Initialize the substring(number[, number]) callable subscript object."""
-        # pylint: disable=bad-continuation
-        super(
-            SubstringCallableSubscript,
-            self).__init__(
-            SubstringCallableSubscript.__call__,
-            SubstringCallableSubscript.__str__,
-            *args,
-            **kwargs)
-        # pylint: enable=bad-continuation
-
-    @staticmethod
-    # pylint: disable=unused-argument
-    def __call__(root_value: object, current_value: object, *
-                 args: Tuple[object, ...]) -> Generator[MatchData, None, None]:
+    def __call__(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Perform substring(number[, number]) call."""
         if isinstance(current_value, str):
-            if (len(args) == 1) and isinstance(args[0], int):
-                yield MatchData(SubscriptNode(TerminalNode(), [SubstringCallableSubscript(*args)]), root_value,
-                                current_value[args[0]:])
-            elif (len(args) == 2) and isinstance(args[0], int) and isinstance(args[1], int):
-                yield MatchData(SubscriptNode(TerminalNode(), [SubstringCallableSubscript(*args)]), root_value,
-                                current_value[args[0]:args[1]])
-    # pylint: enable=unused-argument
+            if (len(self.args) == 1) \
+                    and isinstance(self.args[0].current_value, int):
+                value = current_value[self.args[0].current_value:]
+
+                yield MatchData(SubscriptNode(TerminalNode(), [self]),
+                                root_value, value)
+            elif (len(self.args) == 2) \
+                    and isinstance(self.args[0].current_value, int) \
+                    and isinstance(self.args[1].current_value, int):
+                value = current_value[self.args[0].current_value:self.args[1].current_value]
+
+                yield MatchData(SubscriptNode(TerminalNode(), [self]),
+                                root_value, value)
 
 
 class ValuesCallableSubscript(CallableSubscript):
@@ -220,27 +161,17 @@ class ValuesCallableSubscript(CallableSubscript):
 
     __str__ = 'values'
 
-    def __init__(self, *args, **kwargs):
-        """Initialize the values() callable subscript object."""
-        # pylint: disable=bad-continuation
-        super(
-            ValuesCallableSubscript,
-            self).__init__(
-            ValuesCallableSubscript.__call__,
-            ValuesCallableSubscript.__str__,
-            *args,
-            **kwargs)
-        # pylint: enable=bad-continuation
-
-    @staticmethod
-    # pylint: disable=unused-argument
-    def __call__(root_value: object, current_value: object, *
-                 args: Tuple[object, ...]) -> Generator[MatchData, None, None]:
+    def __call__(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Perform values() call."""
         if isinstance(current_value, dict):
-            yield MatchData(SubscriptNode(TerminalNode(), [ValuesCallableSubscript(*args)]), root_value,
-                            list(current_value.values()))
+            if len(self.args) == 0:
+                value = list(current_value.values())
+
+                yield MatchData(SubscriptNode(TerminalNode(), [self]),
+                                root_value, value)
         elif isinstance(current_value, list):
-            yield MatchData(SubscriptNode(TerminalNode(), [ValuesCallableSubscript(*args)]), root_value,
-                            current_value)
-    # pylint: enable=unused-argument
+            if len(self.args) == 0:
+                value = current_value
+
+                yield MatchData(SubscriptNode(TerminalNode(), [self]),
+                                root_value, value)

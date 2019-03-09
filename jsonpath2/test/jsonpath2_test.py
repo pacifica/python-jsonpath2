@@ -431,7 +431,7 @@ class TestNode(TestCase):
                         SubscriptNode(
                             SubscriptNode(
                                 TerminalNode(),
-                                [CharAtCallableSubscript(0)]
+                                [CharAtCallableSubscript(MatchData(TerminalNode(), root_value, 0))]
                             ),
                             [ObjectIndexSubscript('hello')]
                         ),
@@ -480,7 +480,7 @@ class TestNode(TestCase):
                         SubscriptNode(
                             SubscriptNode(
                                 TerminalNode(),
-                                [SubstringCallableSubscript(1)]
+                                [SubstringCallableSubscript(MatchData(TerminalNode(), root_value, 1))]
                             ),
                             [ObjectIndexSubscript('hello')]
                         ),
@@ -502,7 +502,8 @@ class TestNode(TestCase):
                         SubscriptNode(
                             SubscriptNode(
                                 TerminalNode(),
-                                [SubstringCallableSubscript(1, 3)]
+                                [SubstringCallableSubscript(MatchData(TerminalNode(), root_value, 1),
+                                                            MatchData(TerminalNode(), root_value, 3))]
                             ),
                             [ObjectIndexSubscript('hello')]
                         ),
@@ -692,12 +693,16 @@ class TestNode(TestCase):
             kwargs['root_value'], kwargs['current_value']))
 
         self.assertListEqual(kwargs['match_data_list'], match_data_list)
+        self.assertListEqual(list(map(lambda match_data: match_data.node.tojsonpath(), kwargs['match_data_list'])),
+                             list(map(lambda match_data: match_data.node.tojsonpath(), match_data_list)))
 
         for match_data in match_data_list:
             new_match_data_list = list(match_data.node.match(
                 kwargs['root_value'], kwargs['current_value']))
 
             self.assertListEqual([match_data], new_match_data_list)
+            self.assertListEqual(list(map(lambda match_data: match_data.node.tojsonpath(), [match_data])),
+                                 list(map(lambda match_data: match_data.node.tojsonpath(), new_match_data_list)))
 
     def test_state(self):
         """Test the state."""
