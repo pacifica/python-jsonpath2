@@ -3,7 +3,7 @@
 """Callable subscript."""
 import itertools
 import json
-from typing import Callable, Generator, Tuple, Union
+from typing import Generator, Tuple, Union
 from jsonpath2.node import MatchData, Node
 from jsonpath2.nodes.subscript import SubscriptNode
 from jsonpath2.nodes.terminal import TerminalNode
@@ -18,7 +18,10 @@ class CallableSubscript(Subscript):
         super(CallableSubscript, self).__init__()
         self.args = args
 
-    def __call__(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:  # pragma: no cover abstract method.
+    def __call__(
+            self,
+            root_value: object,
+            current_value: object) -> Generator[MatchData, None, None]:  # pragma: no cover abstract method.
         """Call the callable subscript object."""
         raise NotImplementedError()
 
@@ -78,13 +81,13 @@ class EntriesCallableSubscript(CallableSubscript):
     def __call__(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Perform entries() call."""
         if isinstance(current_value, dict):
-            if len(self.args) == 0:
+            if not self.args:
                 value = list(map(list, current_value.items()))
 
                 yield MatchData(SubscriptNode(TerminalNode(), [self]),
                                 root_value, value)
         elif isinstance(current_value, list):
-            if len(self.args) == 0:
+            if not self.args:
                 value = list(map(list, enumerate(current_value)))
 
                 yield MatchData(SubscriptNode(TerminalNode(), [self]),
@@ -99,13 +102,13 @@ class KeysCallableSubscript(CallableSubscript):
     def __call__(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Perform keys() call."""
         if isinstance(current_value, dict):
-            if len(self.args) == 0:
+            if not self.args:
                 value = list(current_value.keys())
 
                 yield MatchData(SubscriptNode(TerminalNode(), [self]),
                                 root_value, value)
         elif isinstance(current_value, list):
-            if len(self.args) == 0:
+            if not self.args:
                 value = list(range(len(current_value)))
 
                 yield MatchData(SubscriptNode(TerminalNode(), [self]),
@@ -120,13 +123,13 @@ class LengthCallableSubscript(CallableSubscript):
     def __call__(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Perform length() call."""
         if isinstance(current_value, list):
-            if len(self.args) == 0:
+            if not self.args:
                 value = len(current_value)
 
                 yield MatchData(SubscriptNode(TerminalNode(), [self]),
                                 root_value, value)
         elif isinstance(current_value, str):
-            if len(self.args) == 0:
+            if not self.args:
                 value = len(current_value)
 
                 yield MatchData(SubscriptNode(TerminalNode(), [self]),
@@ -164,13 +167,13 @@ class ValuesCallableSubscript(CallableSubscript):
     def __call__(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Perform values() call."""
         if isinstance(current_value, dict):
-            if len(self.args) == 0:
+            if not self.args:
                 value = list(current_value.values())
 
                 yield MatchData(SubscriptNode(TerminalNode(), [self]),
                                 root_value, value)
         elif isinstance(current_value, list):
-            if len(self.args) == 0:
+            if not self.args:
                 value = current_value
 
                 yield MatchData(SubscriptNode(TerminalNode(), [self]),
