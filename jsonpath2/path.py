@@ -7,7 +7,7 @@ from jsonpath2.nodes.root import RootNode
 import jsonpath2.parser as _parser
 
 
-class Path():
+class Path:
     """Path parsetree object."""
 
     def __init__(self, root_node: RootNode):
