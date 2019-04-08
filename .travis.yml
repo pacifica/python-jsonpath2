@@ -1,9 +1,16 @@
+dist: xenial
 language: python
-python: 3.6
 stages:
 - lint
 - test
 - deploy
+
+".test_script": &1
+- coverage run --include='jsonpath2/*' --omit='jsonpath2/parser/JSONPath*' -m pytest -v
+- coverage report -m --fail-under 100
+- pip install .
+- python setup.py bdist_wheel
+- python setup.py sdist
 
 install: pip install -r requirements-dev.txt
 jobs:
@@ -13,14 +20,11 @@ jobs:
     script: pre-commit run -a
   - stage: test
     python: 3.6
-    script:
-    - coverage run --include='jsonpath2/*' --omit='jsonpath2/parser/JSONPath*' -m pytest -v
-    - coverage report -m --fail-under 100
-    - pip install .
-    - python setup.py bdist_wheel
-    - python setup.py sdist
+    script: *1
+  - python: 3.7
+    script: *1
   - stage: deploy
-    python: 3.6
+    python: 3.7
     script: skip
     deploy:
       skip_cleanup: true
