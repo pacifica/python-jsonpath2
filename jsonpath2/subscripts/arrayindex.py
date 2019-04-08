@@ -27,7 +27,7 @@ class ArrayIndexSubscript(Subscript):
             if self.index < 0:
                 new_index = self.index + len(current_value)
 
-                if (new_index >= 0) and (new_index < len(current_value)):
+                if 0 <= new_index < len(current_value):
                     return [MatchData(SubscriptNode(TerminalNode(), [self]), root_value, current_value[new_index])]
             elif self.index < len(current_value):
                 return [MatchData(SubscriptNode(TerminalNode(), [self]), root_value, current_value[self.index])]
