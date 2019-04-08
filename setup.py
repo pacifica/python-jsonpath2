@@ -16,7 +16,7 @@ setup(
     use_scm_version=True,
     setup_requires=['setuptools_scm'],
     license='LGPLv3',
-    url='https://pypi.python.org/pypi/jsonpath2/',
+    url='https://github.com/pacifica/python-jsonpath2/',
     description='JSONPath implementation for Python',
     long_description=open(path.join(
         path.abspath(path.dirname(__file__)),
