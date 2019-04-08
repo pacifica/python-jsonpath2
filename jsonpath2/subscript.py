@@ -10,11 +10,9 @@ class Subscript(Node):
 
     def __jsonpath__(self) -> Generator[str, None, None]:  # pragma: no cover abstract method
         """Abstract method to return the jsonpath."""
-        pass
 
     def match(
             self,
             root_value: object,
             current_value: object) -> Generator[MatchData, None, None]:  # pragma: no cover abstract method.
         """Abstract method to determine a node match."""
-        pass
