@@ -2,7 +2,7 @@ antlr4-python3-runtime
 coverage
 pep257
 pre-commit
-pylint<2.0
+pylint
 pytest
 setuptools
 six
