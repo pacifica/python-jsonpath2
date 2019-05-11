@@ -117,7 +117,7 @@ The abstract syntax tree node.
 
 ## Functions
 
-Functions with the same API as https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference may be used as subscripts.
+> See [#14](https://github.com/pacifica/python-jsonpath2/pull/14) for more information.
 
 The syntax for a function call is the name of the function followed by the arguments in parentheses, i.e., `name(arg1, arg2, ..., argN)`, where the arguments are either JSONPaths or JSON values.
 
@@ -135,10 +135,6 @@ The syntax for a function call is the name of the function followed by the argum
 >>> list(map(lambda match_data: match_data.node.tojsonpath(), p.match(d)))
 ['$["hello"][length()]']
 ```
-
-### Reference
-
-Type aliases (`Any`, `List`, `Optional` and `Tuple`) are defined by the [`typing`](https://docs.python.org/3/library/typing.html) module from the Python Standard Library.
 
 | JavaScript Function | Signature |
 | - | - |
@@ -231,6 +227,8 @@ Type aliases (`Any`, `List`, `Optional` and `Tuple`) are defined by the [`typing
 | `String.prototype.trim()` | |
 | `String.prototype.trimEnd()` | |
 | `String.prototype.trimStart()` | | -->
+
+In the above table, the type aliases (`Any`, `List`, `Optional` and `Tuple`) are defined by the [`typing`](https://docs.python.org/3/library/typing.html) module from the Python Standard Library.
 
 ## Grammar and parser
 
