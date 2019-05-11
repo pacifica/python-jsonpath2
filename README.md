@@ -117,14 +117,123 @@ The abstract syntax tree node.
 
 ## Functions
 
-| Function | Description|
-| - | - |
-| `charAt(int)` | Returns a new JSON string consisting of the single character at the specified offset into a JSON string |
-| `entries()` | Return a JSON array of a JSON object's `[key, value]` pairs or a JSON array's `[index, value]` pairs |
-| `keys()` | Return a JSON array of a JSON object's keys or a JSON array's indices |
-| `length()` | Return the number of elements in a JSON array or the number of characters in a JSON string |
-| `substring(int[, int])` | Returns the part of the JSON string between the start and end indices, or to the end of the JSON string |
-| `values()` | Return a JSON array of a JSON object's values or a JSON array's values |
+Functions with the same API as https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference may be used as subscripts.
+
+The syntax for a function call is the name of the function followed by the arguments in parentheses, i.e., `name(arg1, arg2, ..., argN)`, where the arguments are either JSONPaths or JSON values.
+
+```python
+>>> s = '{"hello":"Hello, world!"}'
+'{"hello":"Hello, world!"}'
+>>> import json
+>>> d = json.loads(s)
+{'hello':'Hello, world!'}
+>>> from jsonpath2.path import Path
+>>> p = Path.parse_str('$["hello"][length()]')
+<jsonpath2.path.Path object>
+>>> list(map(lambda match_data: match_data.current_value, p.match(d)))
+[13]
+>>> list(map(lambda match_data: match_data.node.tojsonpath(), p.match(d)))
+['$["hello"][length()]']
+```
+
+The following functions are currently available:
+
+* [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array):
+  * [length](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length): `length(): int`
+  <!-- * concat -->
+  * [entries](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/entries): `entries(): List[Tuple[int, Any]]`
+  <!-- * fill -->
+  <!-- * flat -->
+  <!-- * includes -->
+  <!-- * indexOf -->
+  <!-- * join -->
+  * [keys](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/keys): `keys(): List[int]`
+  <!-- * lastIndexOf -->
+  <!-- * slice -->
+  <!-- * sort -->
+  <!-- * splice -->
+  * [values](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/values): `values(): List[Any]`
+<!-- * [JSON](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON): -->
+  <!-- * parse -->
+  <!-- * stringify -->
+<!-- * [Math](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math): -->
+  <!-- * abs -->
+  <!-- * acos -->
+  <!-- * acosh -->
+  <!-- * asin -->
+  <!-- * asinh -->
+  <!-- * atan -->
+  <!-- * atan2 -->
+  <!-- * atanh -->
+  <!-- * cbrt -->
+  <!-- * ceil -->
+  <!-- * clz32 -->
+  <!-- * cos -->
+  <!-- * cosh -->
+  <!-- * exp -->
+  <!-- * expm1 -->
+  <!-- * floor -->
+  <!-- * fround -->
+  <!-- * hypot -->
+  <!-- * imul -->
+  <!-- * log -->
+  <!-- * log10 -->
+  <!-- * log1p -->
+  <!-- * log2 -->
+  <!-- * max -->
+  <!-- * min -->
+  <!-- * pow -->
+  <!-- * random -->
+  <!-- * round -->
+  <!-- * sign -->
+  <!-- * sin -->
+  <!-- * sinh -->
+  <!-- * sqrt -->
+  <!-- * tan -->
+  <!-- * tanh -->
+  <!-- * trunc -->
+<!-- * [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number): -->
+  <!-- * isFinite -->
+  <!-- * isInteger -->
+  <!-- * isNaN -->
+  <!-- * isSafeInteger -->
+  <!-- * parseFloat -->
+  <!-- * parseInt -->
+* [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object):
+  * [entries](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries): `entries(): List[Tuple[str, Any]]`
+  * [keys](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys) `keys(): List[str]`
+  * [values](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/values) `values(): List[Any]`
+* [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String):
+  * [charAt](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/charAt): `charAt(index: int): str`
+  <!-- * codeCharAt -->
+  <!-- * codePointAt -->
+  <!-- * concat -->
+  <!-- * endsWith -->
+  <!-- * includes -->
+  <!-- * indexOf -->
+  <!-- * lastIndexOf -->
+  * [length](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length): `length(): int`
+  <!-- * localeCompare -->
+  <!-- * match -->
+  <!-- * normalize -->
+  <!-- * padEnd -->
+  <!-- * padStart -->
+  <!-- * repeat -->
+  <!-- * replace -->
+  <!-- * search -->
+  <!-- * slice -->
+  <!-- * split -->
+  <!-- * startsWith -->
+  * [substring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring): `substring(indexStart: int, indexEnd: Optional[int]): str`
+  <!-- * toLocaleLowerCase -->
+  <!-- * toLocaleUpperCase -->
+  <!-- * toLowerCase -->
+  <!-- * toUpperCase -->
+  <!-- * trim -->
+  <!-- * trimEnd -->
+  <!-- * trimStart -->
+
+Type aliases (`Any`, `List`, `Optional` and `Tuple`) are defined by the [`typing`](https://docs.python.org/3/library/typing.html) module from the Python Standard Library.
 
 ## Grammar and parser
 
