@@ -136,104 +136,101 @@ The syntax for a function call is the name of the function followed by the argum
 ['$["hello"][length()]']
 ```
 
-The following functions are currently available:
-
-* [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array):
-  * [length](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length): `length(): int`
-  <!-- * concat -->
-  * [entries](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/entries): `entries(): List[Tuple[int, Any]]`
-  <!-- * fill -->
-  <!-- * flat -->
-  <!-- * includes -->
-  <!-- * indexOf -->
-  <!-- * join -->
-  * [keys](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/keys): `keys(): List[int]`
-  <!-- * lastIndexOf -->
-  <!-- * slice -->
-  <!-- * sort -->
-  <!-- * splice -->
-  * [values](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/values): `values(): List[Any]`
-<!-- * [JSON](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON): -->
-  <!-- * parse -->
-  <!-- * stringify -->
-<!-- * [Math](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math): -->
-  <!-- * abs -->
-  <!-- * acos -->
-  <!-- * acosh -->
-  <!-- * asin -->
-  <!-- * asinh -->
-  <!-- * atan -->
-  <!-- * atan2 -->
-  <!-- * atanh -->
-  <!-- * cbrt -->
-  <!-- * ceil -->
-  <!-- * clz32 -->
-  <!-- * cos -->
-  <!-- * cosh -->
-  <!-- * exp -->
-  <!-- * expm1 -->
-  <!-- * floor -->
-  <!-- * fround -->
-  <!-- * hypot -->
-  <!-- * imul -->
-  <!-- * log -->
-  <!-- * log10 -->
-  <!-- * log1p -->
-  <!-- * log2 -->
-  <!-- * max -->
-  <!-- * min -->
-  <!-- * pow -->
-  <!-- * random -->
-  <!-- * round -->
-  <!-- * sign -->
-  <!-- * sin -->
-  <!-- * sinh -->
-  <!-- * sqrt -->
-  <!-- * tan -->
-  <!-- * tanh -->
-  <!-- * trunc -->
-<!-- * [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number): -->
-  <!-- * isFinite -->
-  <!-- * isInteger -->
-  <!-- * isNaN -->
-  <!-- * isSafeInteger -->
-  <!-- * parseFloat -->
-  <!-- * parseInt -->
-* [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object):
-  * [entries](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries): `entries(): List[Tuple[str, Any]]`
-  * [keys](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys) `keys(): List[str]`
-  * [values](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/values) `values(): List[Any]`
-* [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String):
-  * [charAt](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/charAt): `charAt(index: int): str`
-  <!-- * codeCharAt -->
-  <!-- * codePointAt -->
-  <!-- * concat -->
-  <!-- * endsWith -->
-  <!-- * includes -->
-  <!-- * indexOf -->
-  <!-- * lastIndexOf -->
-  * [length](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length): `length(): int`
-  <!-- * localeCompare -->
-  <!-- * match -->
-  <!-- * normalize -->
-  <!-- * padEnd -->
-  <!-- * padStart -->
-  <!-- * repeat -->
-  <!-- * replace -->
-  <!-- * search -->
-  <!-- * slice -->
-  <!-- * split -->
-  <!-- * startsWith -->
-  * [substring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring): `substring(indexStart: int, indexEnd: Optional[int]): str`
-  <!-- * toLocaleLowerCase -->
-  <!-- * toLocaleUpperCase -->
-  <!-- * toLowerCase -->
-  <!-- * toUpperCase -->
-  <!-- * trim -->
-  <!-- * trimEnd -->
-  <!-- * trimStart -->
+### Reference
 
 Type aliases (`Any`, `List`, `Optional` and `Tuple`) are defined by the [`typing`](https://docs.python.org/3/library/typing.html) module from the Python Standard Library.
+
+| JavaScript Function | Signature |
+| - | - |
+| [`Array.length`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length) | `length(): int` |
+| [`Array.prototype.entries()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/entries) | `entries(): List[Tuple[int, Any]]` |
+| [`Array.prototype.keys()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/keys) | `keys(): List[int]` |
+| [`Array.prototype.values()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/values) | `values(): List[Any]` |
+| [`Object.entries()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries) | `entries(): List[Tuple[str, Any]]` |
+| [`Object.keys()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys) | `keys(): List[str]` |
+| [`Object.values()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/values) | `values(): List[Any]` |
+| [`string.length`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length) | `length(): int` |
+| [`String.prototype.charAt()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/charAt) | `charAt(index: int): str` |
+| [`String.prototype.substring()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring) | `substring(indexStart: int, indexEnd: Optional[int]): str` |
+
+<!-- | `Array.prototype.concat()` | |
+| `Array.prototype.fill()` | |
+| `Array.prototype.flat()` | |
+| `Array.prototype.includes()` | |
+| `Array.prototype.indexOf()` | |
+| `Array.prototype.join()` | |
+| `Array.prototype.lastIndexOf()` | |
+| `Array.prototype.slice()` | |
+| `Array.prototype.sort()` | |
+| `Array.prototype.splice()` | |
+| `JSON.parse()` | |
+| `JSON.stringify()` | |
+| `Math.abs()` | |
+| `Math.acos()` | |
+| `Math.acosh()` | |
+| `Math.asin()` | |
+| `Math.asinh()` | |
+| `Math.atan()` | |
+| `Math.atan2()` | |
+| `Math.atanh()` | |
+| `Math.cbrt()` | |
+| `Math.ceil()` | |
+| `Math.clz32()` | |
+| `Math.cos()` | |
+| `Math.cosh()` | |
+| `Math.exp()` | |
+| `Math.expm1()` | |
+| `Math.floor()` | |
+| `Math.fround()` | |
+| `Math.hypot()` | |
+| `Math.imul()` | |
+| `Math.log()` | |
+| `Math.log10()` | |
+| `Math.log1p()` | |
+| `Math.log2()` | |
+| `Math.max()` | |
+| `Math.min()` | |
+| `Math.pow()` | |
+| `Math.random()` | |
+| `Math.round()` | |
+| `Math.sign()` | |
+| `Math.sin()` | |
+| `Math.sinh()` | |
+| `Math.sqrt()` | |
+| `Math.tan()` | |
+| `Math.tanh()` | |
+| `Math.trunc()` | |
+| `Number.isFinite()` | |
+| `Number.isInteger()` | |
+| `Number.isNaN()` | |
+| `Number.isSafeInteger()` | |
+| `Number.parseFloat()` | |
+| `Number.parseInt()` | |
+| `String.prototype.codeCharAt()` | |
+| `String.prototype.codePointAt()` | |
+| `String.prototype.concat()` | |
+| `String.prototype.endsWith()` | |
+| `String.prototype.includes()` | |
+| `String.prototype.indexOf()` | |
+| `String.prototype.lastIndexOf()` | |
+| `String.prototype.localeCompare()` | |
+| `String.prototype.match()` | |
+| `String.prototype.normalize()` | |
+| `String.prototype.padEnd()` | |
+| `String.prototype.padStart()` | |
+| `String.prototype.repeat()` | |
+| `String.prototype.replace()` | |
+| `String.prototype.search()` | |
+| `String.prototype.slice()` | |
+| `String.prototype.split()` | |
+| `String.prototype.startsWith()` | |
+| `String.prototype.toLocaleLowerCase()` | |
+| `String.prototype.toLocaleUpperCase()` | |
+| `String.prototype.toLowerCase()` | |
+| `String.prototype.toUpperCase()` | |
+| `String.prototype.trim()` | |
+| `String.prototype.trimEnd()` | |
+| `String.prototype.trimStart()` | | -->
 
 ## Grammar and parser
 
