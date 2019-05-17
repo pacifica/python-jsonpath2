@@ -19,10 +19,41 @@ from jsonpath2.parser.JSONPathParser import JSONPathParser
 
 from jsonpath2.subscripts.arrayindex import ArrayIndexSubscript
 from jsonpath2.subscripts.arrayslice import ArraySliceSubscript
+from jsonpath2.subscripts.callable import CallableSubscript
 from jsonpath2.subscripts.filter import FilterSubscript
 from jsonpath2.subscripts.node import NodeSubscript
 from jsonpath2.subscripts.objectindex import ObjectIndexSubscript
 from jsonpath2.subscripts.wildcard import WildcardSubscript
+
+
+class CallableSubscriptNotFoundError(ValueError):
+    """Callable subscript not found error."""
+
+    def __init__(self, name):
+        """Initialize callable subscript not found error."""
+        super(CallableSubscriptNotFoundError, self).__init__()
+        self.name = name
+
+    def __str__(self):
+        """Message."""
+        return 'callable subscript \'{0}\' not found'.format(self.name.replace('\'', '\\\''))
+
+
+CALLABLE_SUBSCRIPTS_ = {
+    cls.__str__: cls
+    for cls
+    in CallableSubscript.__subclasses__()
+}
+
+
+# pylint: disable=invalid-name
+def _createCallableSubscript(name, *args, **kwargs):
+    """Create callable subscript for name, arguments and keyword arguments."""
+    if name in CALLABLE_SUBSCRIPTS_:
+        cls = CALLABLE_SUBSCRIPTS_[name]
+        return cls(*args, **kwargs)
+    raise CallableSubscriptNotFoundError(name)
+# pylint: enable=invalid-name
 
 
 class _ConsoleErrorListener(antlr4.error.ErrorListener.ConsoleErrorListener):
@@ -114,10 +145,23 @@ class _JSONPathListener(JSONPathListener):
             subscriptable_nodes.insert(0, subscriptable_node)
         self._stack.append(subscriptable_nodes)
 
+    def exitSubscriptableArguments(self, ctx: JSONPathParser.SubscriptableArgumentsContext):
+        args = []
+        for _arg_ctx in ctx.getTypedRuleContexts(JSONPathParser.Jsonpath__Context):
+            arg = self._stack.pop()
+            args.insert(0, arg)
+        self._stack.append(args)
+
     def exitSubscriptableBareword(self, ctx: JSONPathParser.SubscriptableBarewordContext):
         if bool(ctx.ID()):
             text = ctx.ID().getText()
-            self._stack.append(ObjectIndexSubscript(text))
+
+            if bool(ctx.subscriptableArguments()):
+                args = self._stack.pop()
+
+                self._stack.append(_createCallableSubscript(text, *args))
+            else:
+                self._stack.append(ObjectIndexSubscript(text))
         elif ctx.getToken(JSONPathParser.WILDCARD_SUBSCRIPT, 0) is not None:
             self._stack.append(WildcardSubscript())
         else:
@@ -157,6 +201,12 @@ class _JSONPathListener(JSONPathListener):
             next_node = self._stack.pop()
 
             self._stack.append(NodeSubscript(next_node))
+        elif bool(ctx.ID()):
+            text = ctx.ID().getText()
+
+            args = self._stack.pop()
+
+            self._stack.append(_createCallableSubscript(text, *args))
         else:
             # NOTE Unreachable when listener is used as tree walker.
             raise ValueError()  # pragma: no cover
@@ -224,7 +274,7 @@ class _JSONPathListener(JSONPathListener):
 
     # pylint: disable=too-many-branches
     def exitNotExpression(self, ctx: JSONPathParser.NotExpressionContext):
-        if ctx.getToken(JSONPathParser.NOT, 0) is not None:
+        if bool(ctx.notExpression()):
             expression = self._stack.pop()
 
             if isinstance(expression, NotUnaryOperatorExpression):
@@ -308,11 +358,11 @@ class _JSONPathListener(JSONPathListener):
             pass
         elif bool(ctx.array()):
             pass
-        elif ctx.getToken(JSONPathParser.TRUE, 0) is not None:
+        elif bool(ctx.TRUE()):
             self._stack.append(True)
-        elif ctx.getToken(JSONPathParser.FALSE, 0) is not None:
+        elif bool(ctx.FALSE()):
             self._stack.append(False)
-        elif ctx.getToken(JSONPathParser.NULL, 0) is not None:
+        elif bool(ctx.NULL()):
             self._stack.append(None)
         else:
             # NOTE Unreachable when listener is used as tree walker.
@@ -321,7 +371,6 @@ class _JSONPathListener(JSONPathListener):
 
 class _JSONPathParser(JSONPathParser):
     # pylint: disable=invalid-name
-    # this is a antlr ism...
     def tryCast(self, cls):
         """Override the antlr tryCast method."""
         try:

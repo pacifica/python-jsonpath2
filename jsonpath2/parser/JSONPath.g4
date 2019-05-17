@@ -54,8 +54,12 @@ subscriptables
    : BRACKET_LEFT subscriptable ( COMMA subscriptable )* BRACKET_RIGHT
    ;
 
+subscriptableArguments
+   : PAREN_LEFT ( jsonpath__ ( COMMA jsonpath__ )* )? PAREN_RIGHT
+   ;
+
 subscriptableBareword
-   : ID
+   : ID subscriptableArguments?
    | WILDCARD_SUBSCRIPT
    ;
 
@@ -66,6 +70,7 @@ subscriptable
    | WILDCARD_SUBSCRIPT
    | QUESTION PAREN_LEFT expression PAREN_RIGHT
    | jsonpath_
+   | ID subscriptableArguments
    ;
 
 sliceable

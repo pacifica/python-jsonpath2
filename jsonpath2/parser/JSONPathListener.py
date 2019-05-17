@@ -53,6 +53,15 @@ class JSONPathListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by JSONPathParser#subscriptableArguments.
+    def enterSubscriptableArguments(self, ctx:JSONPathParser.SubscriptableArgumentsContext):
+        pass
+
+    # Exit a parse tree produced by JSONPathParser#subscriptableArguments.
+    def exitSubscriptableArguments(self, ctx:JSONPathParser.SubscriptableArgumentsContext):
+        pass
+
+
     # Enter a parse tree produced by JSONPathParser#subscriptableBareword.
     def enterSubscriptableBareword(self, ctx:JSONPathParser.SubscriptableBarewordContext):
         pass

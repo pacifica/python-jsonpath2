@@ -1,9 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 """Test the jsonpath module."""
+from json import loads
+from re import escape
 from tempfile import NamedTemporaryFile
 from unittest import TestCase
-from json import loads
+
 from jsonpath2.node import MatchData
 from jsonpath2.expressions.some import SomeExpression
 from jsonpath2.nodes.current import CurrentNode
@@ -13,6 +15,9 @@ from jsonpath2.nodes.subscript import SubscriptNode
 from jsonpath2.nodes.terminal import TerminalNode
 from jsonpath2.path import Path
 from jsonpath2.subscripts.arrayindex import ArrayIndexSubscript
+from jsonpath2.subscripts.callable import CharAtCallableSubscript, EntriesCallableSubscript, \
+    KeysCallableSubscript, LengthCallableSubscript, SubstringCallableSubscript, \
+    ValuesCallableSubscript
 from jsonpath2.subscripts.filter import FilterSubscript
 from jsonpath2.subscripts.objectindex import ObjectIndexSubscript
 from jsonpath2.subscripts.wildcard import WildcardSubscript
@@ -29,6 +34,10 @@ class TestNode(TestCase):
                 'en-GB',
                 'en-US',
             ],
+            'preferences': {
+                'coffee': True,
+                'tea': False,
+            },
         }
         current_value = root_value['hello']
 
@@ -113,6 +122,8 @@ class TestNode(TestCase):
                         'hello')]), root_value, root_value['hello']),
                     MatchData(SubscriptNode(TerminalNode(), [ObjectIndexSubscript(
                         'languages')]), root_value, root_value['languages']),
+                    MatchData(SubscriptNode(TerminalNode(), [ObjectIndexSubscript(
+                        'preferences')]), root_value, root_value['preferences']),
                 ],
             },
             {
@@ -205,6 +216,30 @@ class TestNode(TestCase):
                         root_value,
                         root_value['languages'][1]
                     ),
+                    MatchData(SubscriptNode(TerminalNode(), [ObjectIndexSubscript(
+                        'preferences')]), root_value, root_value['preferences']),
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [ObjectIndexSubscript('coffee')]
+                            ),
+                            [ObjectIndexSubscript('preferences')]
+                        ),
+                        root_value,
+                        root_value['preferences']['coffee']
+                    ),
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [ObjectIndexSubscript('tea')]
+                            ),
+                            [ObjectIndexSubscript('preferences')]
+                        ),
+                        root_value,
+                        root_value['preferences']['tea']
+                    ),
                 ],
             },
             {
@@ -248,6 +283,30 @@ class TestNode(TestCase):
                         root_value,
                         root_value['languages'][1]
                     ),
+                    MatchData(SubscriptNode(TerminalNode(), [ObjectIndexSubscript(
+                        'preferences')]), root_value, root_value['preferences']),
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [ObjectIndexSubscript('coffee')]
+                            ),
+                            [ObjectIndexSubscript('preferences')]
+                        ),
+                        root_value,
+                        root_value['preferences']['coffee']
+                    ),
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [ObjectIndexSubscript('tea')]
+                            ),
+                            [ObjectIndexSubscript('preferences')]
+                        ),
+                        root_value,
+                        root_value['preferences']['tea']
+                    ),
                 ],
             },
             {
@@ -260,6 +319,8 @@ class TestNode(TestCase):
                         'hello')]), root_value, root_value['hello']),
                     MatchData(SubscriptNode(TerminalNode(), [ObjectIndexSubscript(
                         'languages')]), root_value, root_value['languages']),
+                    MatchData(SubscriptNode(TerminalNode(), [ObjectIndexSubscript(
+                        'preferences')]), root_value, root_value['preferences']),
                     MatchData(
                         SubscriptNode(
                             SubscriptNode(
@@ -281,6 +342,28 @@ class TestNode(TestCase):
                         ),
                         root_value,
                         root_value['languages'][1]
+                    ),
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [ObjectIndexSubscript('coffee')]
+                            ),
+                            [ObjectIndexSubscript('preferences')]
+                        ),
+                        root_value,
+                        root_value['preferences']['coffee']
+                    ),
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [ObjectIndexSubscript('tea')]
+                            ),
+                            [ObjectIndexSubscript('preferences')]
+                        ),
+                        root_value,
+                        root_value['preferences']['tea']
                     ),
                 ],
             },
@@ -313,6 +396,276 @@ class TestNode(TestCase):
                     ),
                 ],
             },
+            {
+                '__jsonpath__': '["hello"][length()]',
+                # pylint: disable=line-too-long
+                'node': SubscriptNode(SubscriptNode(TerminalNode(),
+                                                    [LengthCallableSubscript()]), [ObjectIndexSubscript('hello')]),  # noqa: E501
+                # pylint: enable=line-too-long
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [LengthCallableSubscript()]
+                            ),
+                            [ObjectIndexSubscript('hello')]
+                        ),
+                        root_value,
+                        len(root_value['hello'])
+                    ),
+                ],
+            },
+            {
+                '__jsonpath__': '["hello"][charAt(0)]',
+                # pylint: disable=line-too-long
+                'node': SubscriptNode(SubscriptNode(TerminalNode(),
+                                                    [CharAtCallableSubscript(0)]), [ObjectIndexSubscript('hello')]),  # noqa: E501
+                # pylint: enable=line-too-long
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [CharAtCallableSubscript(MatchData(TerminalNode(), root_value, 0))]
+                            ),
+                            [ObjectIndexSubscript('hello')]
+                        ),
+                        root_value,
+                        root_value['hello'][0]
+                    ),
+                ],
+            },
+            {
+                '__jsonpath__': '["hello"][charAt(1000)]',
+                # pylint: disable=line-too-long
+                'node': SubscriptNode(SubscriptNode(TerminalNode(),
+                                                    [CharAtCallableSubscript(1000)]), [ObjectIndexSubscript('hello')]),  # noqa: E501
+                # pylint: enable=line-too-long
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [],
+            },
+            {
+                '__jsonpath__': '["hello"][charAt($["hello"][length()])]',
+                'node': SubscriptNode(SubscriptNode(TerminalNode(), [CharAtCallableSubscript(
+                    RootNode(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [LengthCallableSubscript()]
+                            ),
+                            [ObjectIndexSubscript('hello')]
+                        )
+                    )
+                )]), [ObjectIndexSubscript('hello')]),
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [],
+            },
+            {
+                '__jsonpath__': '["hello"][substring(1)]',
+                # pylint: disable=line-too-long
+                'node': SubscriptNode(SubscriptNode(TerminalNode(),
+                                                    [SubstringCallableSubscript(1)]), [ObjectIndexSubscript('hello')]),  # noqa: E501
+                # pylint: enable=line-too-long
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [SubstringCallableSubscript(MatchData(TerminalNode(), root_value, 1))]
+                            ),
+                            [ObjectIndexSubscript('hello')]
+                        ),
+                        root_value,
+                        root_value['hello'][1:]
+                    ),
+                ],
+            },
+            {
+                '__jsonpath__': '["hello"][substring(1,3)]',
+                # pylint: disable=line-too-long
+                'node': SubscriptNode(SubscriptNode(TerminalNode(),
+                                                    [SubstringCallableSubscript(1, 3)]), [ObjectIndexSubscript('hello')]),  # noqa: E501
+                # pylint: enable=line-too-long
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [SubstringCallableSubscript(MatchData(TerminalNode(), root_value, 1),
+                                                            MatchData(TerminalNode(), root_value, 3))]
+                            ),
+                            [ObjectIndexSubscript('hello')]
+                        ),
+                        root_value,
+                        root_value['hello'][1:3]
+                    ),
+                ],
+            },
+            {
+                '__jsonpath__': '["languages"][length()]',
+                # pylint: disable=line-too-long
+                'node': SubscriptNode(SubscriptNode(TerminalNode(),
+                                                    [LengthCallableSubscript()]), [ObjectIndexSubscript('languages')]),  # noqa: E501
+                # pylint: enable=line-too-long
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [LengthCallableSubscript()]
+                            ),
+                            [ObjectIndexSubscript('languages')]
+                        ),
+                        root_value,
+                        len(root_value['languages'])
+                    ),
+                ],
+            },
+            {
+                '__jsonpath__': '["languages"][entries()]',
+                # pylint: disable=line-too-long
+                'node': SubscriptNode(SubscriptNode(TerminalNode(),
+                                                    [EntriesCallableSubscript()]), [ObjectIndexSubscript('languages')]),  # noqa: E501
+                # pylint: enable=line-too-long
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [EntriesCallableSubscript()]
+                            ),
+                            [ObjectIndexSubscript('languages')]
+                        ),
+                        root_value,
+                        list(map(list, enumerate(root_value['languages'])))
+                    ),
+                ],
+            },
+            {
+                '__jsonpath__': '["languages"][keys()]',
+                # pylint: disable=line-too-long
+                'node': SubscriptNode(SubscriptNode(TerminalNode(),
+                                                    [KeysCallableSubscript()]), [ObjectIndexSubscript('languages')]),  # noqa: E501
+                # pylint: enable=line-too-long
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [KeysCallableSubscript()]
+                            ),
+                            [ObjectIndexSubscript('languages')]
+                        ),
+                        root_value,
+                        list(range(len(root_value['languages'])))
+                    ),
+                ],
+            },
+            {
+                '__jsonpath__': '["languages"][values()]',
+                # pylint: disable=line-too-long
+                'node': SubscriptNode(SubscriptNode(TerminalNode(),
+                                                    [ValuesCallableSubscript()]), [ObjectIndexSubscript('languages')]),  # noqa: E501
+                # pylint: enable=line-too-long
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [ValuesCallableSubscript()]
+                            ),
+                            [ObjectIndexSubscript('languages')]
+                        ),
+                        root_value,
+                        root_value['languages']
+                    ),
+                ],
+            },
+            {
+                '__jsonpath__': '["preferences"][entries()]',
+                # pylint: disable=line-too-long
+                'node': SubscriptNode(SubscriptNode(TerminalNode(),
+                                                    [EntriesCallableSubscript()]), [ObjectIndexSubscript('preferences')]),  # noqa: E501
+                # pylint: enable=line-too-long
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [EntriesCallableSubscript()]
+                            ),
+                            [ObjectIndexSubscript('preferences')]
+                        ),
+                        root_value,
+                        list(map(list, root_value['preferences'].items()))
+                    ),
+                ],
+            },
+            {
+                '__jsonpath__': '["preferences"][keys()]',
+                # pylint: disable=line-too-long
+                'node': SubscriptNode(SubscriptNode(TerminalNode(),
+                                                    [KeysCallableSubscript()]), [ObjectIndexSubscript('preferences')]),  # noqa: E501
+                # pylint: enable=line-too-long
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [KeysCallableSubscript()]
+                            ),
+                            [ObjectIndexSubscript('preferences')]
+                        ),
+                        root_value,
+                        list(root_value['preferences'].keys())
+                    ),
+                ],
+            },
+            {
+                '__jsonpath__': '["preferences"][values()]',
+                # pylint: disable=line-too-long
+                'node': SubscriptNode(SubscriptNode(TerminalNode(),
+                                                    [ValuesCallableSubscript()]), [ObjectIndexSubscript('preferences')]),  # noqa: E501
+                # pylint: enable=line-too-long
+                'root_value': root_value,
+                'current_value': root_value,
+                'match_data_list': [
+                    MatchData(
+                        SubscriptNode(
+                            SubscriptNode(
+                                TerminalNode(),
+                                [ValuesCallableSubscript()]
+                            ),
+                            [ObjectIndexSubscript('preferences')]
+                        ),
+                        root_value,
+                        list(root_value['preferences'].values())
+                    ),
+                ],
+            },
         ]
 
     def _assert_node_test_case(self, **kwargs):
@@ -339,14 +692,17 @@ class TestNode(TestCase):
         match_data_list = list(kwargs['node'].match(
             kwargs['root_value'], kwargs['current_value']))
 
-        for index, value in enumerate(match_data_list):
-            self.assertEqual(kwargs['match_data_list'][index], value)
+        self.assertListEqual(kwargs['match_data_list'], match_data_list)
+        self.assertListEqual(list(map(lambda match_data: match_data.node.tojsonpath(), kwargs['match_data_list'])),
+                             list(map(lambda match_data: match_data.node.tojsonpath(), match_data_list)))
 
         for match_data in match_data_list:
             new_match_data_list = list(match_data.node.match(
                 kwargs['root_value'], kwargs['current_value']))
 
-            self.assertEqual([match_data], new_match_data_list)
+            self.assertListEqual([match_data], new_match_data_list)
+            self.assertListEqual(list(map(lambda match_data: match_data.node.tojsonpath(), [match_data])),
+                                 list(map(lambda match_data: match_data.node.tojsonpath(), new_match_data_list)))
 
     def test_state(self):
         """Test the state."""
@@ -364,3 +720,12 @@ class TestNode(TestCase):
         result = list(
             map(lambda match_data: match_data.node.tojsonpath(), path_expr.match(test_json)))
         self.assertEqual(result[0], '$["hello"]')
+
+    # pylint: disable=invalid-name
+    def test_parse_callable_subscript(self):
+        """Test parse callable subscript."""
+        Path.parse_str('$.length()')
+        Path.parse_str('$[length()]')
+        with self.assertRaisesRegex(ValueError, r'^' + escape('callable subscript \'foo\' not found') + r'$'):
+            Path.parse_str('$.foo(1, 2, 3)')
+    # pylint: enable=invalid-name
