@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 """Callable subscript."""
+from collections.abc import Mapping, Sequence
 import itertools
 import json
 from typing import Generator, Tuple, Union
@@ -80,13 +81,13 @@ class EntriesCallableSubscript(CallableSubscript):
 
     def __call__(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Perform entries() call."""
-        if isinstance(current_value, dict):
+        if isinstance(current_value, Mapping):
             if not self.args:
                 value = list(map(list, current_value.items()))
 
                 yield MatchData(SubscriptNode(TerminalNode(), [self]),
                                 root_value, value)
-        elif isinstance(current_value, list):
+        elif isinstance(current_value, Sequence) and not isinstance(current_value, str):
             if not self.args:
                 value = list(map(list, enumerate(current_value)))
 
@@ -101,13 +102,13 @@ class KeysCallableSubscript(CallableSubscript):
 
     def __call__(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Perform keys() call."""
-        if isinstance(current_value, dict):
+        if isinstance(current_value, Mapping):
             if not self.args:
                 value = list(current_value.keys())
 
                 yield MatchData(SubscriptNode(TerminalNode(), [self]),
                                 root_value, value)
-        elif isinstance(current_value, list):
+        elif isinstance(current_value, Sequence) and not isinstance(current_value, str):
             if not self.args:
                 value = list(range(len(current_value)))
 
@@ -122,7 +123,7 @@ class LengthCallableSubscript(CallableSubscript):
 
     def __call__(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Perform length() call."""
-        if isinstance(current_value, list):
+        if isinstance(current_value, Sequence) and not isinstance(current_value, str):
             if not self.args:
                 value = len(current_value)
 
@@ -166,13 +167,13 @@ class ValuesCallableSubscript(CallableSubscript):
 
     def __call__(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Perform values() call."""
-        if isinstance(current_value, dict):
+        if isinstance(current_value, Mapping):
             if not self.args:
                 value = list(current_value.values())
 
                 yield MatchData(SubscriptNode(TerminalNode(), [self]),
                                 root_value, value)
-        elif isinstance(current_value, list):
+        elif isinstance(current_value, Sequence) and not isinstance(current_value, str):
             if not self.args:
                 value = current_value
 

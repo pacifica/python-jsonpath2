@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 """Object index subscript module."""
+from collections.abc import Mapping
 import json
 from typing import Generator
 from jsonpath2.node import MatchData
@@ -23,6 +24,6 @@ class ObjectIndexSubscript(Subscript):
 
     def match(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Match the current value against the root value."""
-        if isinstance(current_value, dict) and (self.index in current_value):
+        if isinstance(current_value, Mapping) and (self.index in current_value):
             return [MatchData(SubscriptNode(TerminalNode(), [self]), root_value, current_value[self.index])]
         return []

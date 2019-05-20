@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 """Wild cart subscript module."""
+from collections.abc import Mapping, Sequence
 import itertools
 from typing import Generator
 from jsonpath2.node import MatchData
@@ -18,12 +19,12 @@ class WildcardSubscript(Subscript):
 
     def match(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Match the root value against the current value."""
-        if isinstance(current_value, dict):
+        if isinstance(current_value, Mapping):
             return itertools.chain(*map(
                 lambda index: ObjectIndexSubscript(
                     index).match(root_value, current_value),
                 current_value.keys()))
-        if isinstance(current_value, list):
+        if isinstance(current_value, Sequence) and not isinstance(current_value, str):
             return itertools.chain(*map(
                 lambda index: ArrayIndexSubscript(
                     index).match(root_value, current_value),

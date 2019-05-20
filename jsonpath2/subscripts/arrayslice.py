@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 """Array slicing module."""
+from collections.abc import Sequence
 import itertools
 import json
 from typing import Generator
@@ -32,7 +33,7 @@ class ArraySliceSubscript(Subscript):
 
     def match(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Match an array slice between values."""
-        if isinstance(current_value, list):
+        if isinstance(current_value, Sequence) and not isinstance(current_value, str):
             start = None if (self.start is None) else (
                 self.start + (len(current_value) if (self.start < 0) else 0))
 

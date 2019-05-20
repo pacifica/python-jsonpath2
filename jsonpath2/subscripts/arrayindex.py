@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 """Array Index subscript of the parse tree."""
+from collections.abc import Sequence
 import json
 from typing import Generator
 from jsonpath2.node import MatchData
@@ -23,7 +24,7 @@ class ArrayIndexSubscript(Subscript):
 
     def match(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
         """Match the root value against the current value."""
-        if isinstance(current_value, list):
+        if isinstance(current_value, Sequence) and not isinstance(current_value, str):
             if self.index < 0:
                 new_index = self.index + len(current_value)
 
