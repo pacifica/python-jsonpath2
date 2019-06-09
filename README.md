@@ -5,6 +5,19 @@ This repository contains an implementation of [JSONPath](http://goessner.net/art
 
 ## API
 
+
+### `match` shortcut function
+
+The `jsonpath2.match` function is a shortcut to match a given JSON data
+structure against a JSONPath string
+
+```python
+>>> import jsonpath2
+>>> doc = {'hello': 'Hello, world!'}
+>>> [x.current_value for x in jsonpath2.match('$.hello', doc)]
+['Hello, world!']
+```
+
 ### `Path` class
 
 The `jsonpath2.path.Path` class represents a JSONPath.
