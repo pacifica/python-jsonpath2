@@ -6,3 +6,4 @@ pylint
 pytest
 setuptools
 six
+recommonmark
