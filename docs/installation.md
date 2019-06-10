@@ -1,6 +1,6 @@
 # Installation
 
-The Pacifica software is available through PyPi so creating a virtual
+The JSONPath2 library is available through PyPi so creating a virtual
 environment to install is what is shown below. Please keep in mind
 compatibility with the Pacifica Core services.
 
@@ -19,7 +19,7 @@ chance of success.
 mkdir ~/.virtualenvs
 python -m virtualenv ~/.virtualenvs/pacifica
 . ~/.virtualenvs/pacifica/bin/activate
-pip install pacifica-policy
+pip install jsonpath2
 ```
 
 ### Windows Installation
@@ -30,5 +30,5 @@ This is done using PowerShell. Please do not use Batch Command.
 mkdir "$Env:LOCALAPPDATA\virtualenvs"
 python.exe -m virtualenv "$Env:LOCALAPPDATA\virtualenvs\pacifica"
 & "$Env:LOCALAPPDATA\virtualenvs\pacifica\Scripts\activate.ps1"
-pip install pacifica-policy
+pip install jsonpath2
 ```

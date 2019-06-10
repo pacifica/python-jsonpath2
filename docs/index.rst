@@ -3,21 +3,15 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Pacifica Policy's documentation!
+Welcome to JSONPath2 documentation!
 =============================================
 
-The Pacifica Policy service provides endpoints that define policy
-questions for institutions. This is separate from other services as
-certain operations required by other Pacifica Core services are more
-Policy base.
 
-Practially speaking, when the question a Pacifica service wants to
-ask the Metadata service is sufficiently complex it should really be
-a Policy question. For example, when uploading data the ingest
-service needs to validate the metadata requesting to be added. This
-new metadata needs to be verified by some institutional requirements.
-So there is a Policy endpoint (several actually) that help ensure
-those requirements are met.
+This repository contains an implementation of
+`JSONPath <http://goessner.net/articles/JsonPath>`_
+`XPath <https://www.w3.org/TR/xpath/all/>`_ for
+`JSON <https://www.json.org/>`_ for the Python
+programming language.
 
 .. toctree::
    :maxdepth: 2

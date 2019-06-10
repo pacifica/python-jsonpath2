@@ -1,9 +1,12 @@
 exclude: 'jsonpath2/parser/JSONPath.*'
 repos:
+-   repo: https://github.com/pre-commit/mirrors-autopep8
+    rev: v1.4.4
+    hooks:
+            -   id: autopep8
 -   repo: git://github.com/pre-commit/pre-commit-hooks
     rev: v2.2.3
     hooks:
-            -   id: autopep8-wrapper
             -   id: fix-encoding-pragma
             -   id: trailing-whitespace
             -   id: flake8
