@@ -1,9 +1,12 @@
 exclude: 'jsonpath2/parser/JSONPath.*'
 repos:
--   repo: git://github.com/pre-commit/pre-commit-hooks
-    rev: v1.2.3
+-   repo: https://github.com/pre-commit/mirrors-autopep8
+    rev: v1.4.4
     hooks:
-            -   id: autopep8-wrapper
+            -   id: autopep8
+-   repo: git://github.com/pre-commit/pre-commit-hooks
+    rev: v2.2.3
+    hooks:
             -   id: fix-encoding-pragma
             -   id: trailing-whitespace
             -   id: flake8
@@ -11,7 +14,6 @@ repos:
             -   id: check-merge-conflict
             -   id: double-quote-string-fixer
             -   id: end-of-file-fixer
-            -   id: name-tests-test
             -   id: debug-statements
             -   id: check-added-large-files
             -   id: check-ast
@@ -48,7 +50,7 @@ repos:
                 language: system
                 types: [python]
 -   repo: git://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.1.5
+    rev: v1.1.6
     hooks:
     -   id: remove-tabs
     -   id: remove-crlf

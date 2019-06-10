@@ -4,5 +4,10 @@ pep257
 pre-commit
 pylint
 pytest
+readthedocs-sphinx-ext
+recommonmark
+recommonmark
 setuptools
 six
+sphinx
+sphinx-rtd-theme
