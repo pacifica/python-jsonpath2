@@ -5,6 +5,19 @@ This repository contains an implementation of [JSONPath](http://goessner.net/art
 
 ## API
 
+
+### `match` shortcut function
+
+The `jsonpath2.match` function is a shortcut to match a given JSON data
+structure against a JSONPath string
+
+```python
+>>> import jsonpath2
+>>> doc = {'hello': 'Hello, world!'}
+>>> [x.current_value for x in jsonpath2.match('$.hello', doc)]
+['Hello, world!']
+```
+
 ### `Path` class
 
 The `jsonpath2.path.Path` class represents a JSONPath.
@@ -18,9 +31,9 @@ The `jsonpath2.path.Path` class represents a JSONPath.
 >>> from jsonpath2.path import Path
 >>> p = Path.parse_str('$["hello"]')
 <jsonpath2.path.Path object>
->>> list(map(lambda match_data: match_data.current_value, p.match(d)))
+>>> [match_data.current_value for match_data in p.match(d)]
 ['Hello, world!']
->>> list(map(lambda match_data: match_data.node.tojsonpath(), p.match(d)))
+>>> [match_data.node.tojsonpath() for match_data in p.match(d)]
 ['$["hello"]']
 ```
 
@@ -130,9 +143,9 @@ The syntax for a function call is the name of the function followed by the argum
 >>> from jsonpath2.path import Path
 >>> p = Path.parse_str('$["hello"][length()]')
 <jsonpath2.path.Path object>
->>> list(map(lambda match_data: match_data.current_value, p.match(d)))
+>>> [m.current_value for m in p.match(d)]
 [13]
->>> list(map(lambda match_data: match_data.node.tojsonpath(), p.match(d)))
+>>> [m.node.tojsonpath() for m in p.match(d)]
 ['$["hello"][length()]']
 ```
 
