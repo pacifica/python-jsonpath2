@@ -46,6 +46,18 @@ jobs:
       user: dmlb2000
       password:
         secure: MeskzH+TIGe4iboe/VL0+3dSJ5yL/0f8CVH7AcLBmToEArWAOdx5v42fDbOGxSio9ezYdlGyP1fTeBZybIhCvnv44W43iXol2DSkNILdIkfPhsp/RWvZh+qylSldfwiS+gKRtWRCnMpItpmIDMpbBBf/malDLgo41JrhUMeJ2EgvAlRAIDN58VcgZFCyq/cYpo8aRnqvjAmHKwNwEVZP9fFttpys7JXnxxXgP66Yr7WZIVp1v3wv5KwJdqdLlWAL/ZDftTy61ad23sZn0sv3DWYRJ8eJxb2UXQssLyhoZDvAKFoymFhBWoNINpwYDkTZeSQkRPuf1BHgSYRe3nT+71IpXIBF0H7kbmStOttk2Z2kPrlprkZhoZlUwYhRmwgTKWPR2BCyzepDfNKFGoGLz1a98ymb/iqJbBhtuo2ZHH6xsodfKmjVRS8Cx6xCXYyUG5ZW9NK/luMYSNmM78vL6HNcY+yGZ1GS6kXtjUVLPh9CSXld6fuDY/sWWzpXWuhutbfM8+TKNXNF/JOnolJVAgpseDLW3rlNM8jKFLYv1ut/MR/qyoTeMzGe03BgMxX4o5LesVHaWQfvlDubCnXmeRdgYWuxGmFCmRphIu7d3+NwI/ZWWV6dhlqdID1YbdmQJcfz/NPslAn3sXvgLpsmiuSyr2FIuXBbhQozc+xstsQ=
-      distributions: "sdist bdist_wheel"
+      distributions: sdist bdist_wheel
+      on:
+        tags: true
+  - script: skip
+    python: 3.7
+    before_deploy: python setup.py sdist bdist_wheel
+    deploy:
+      provider: releases
+      api_key:
+        secure: fCRogvsp+iY0JoePmk45KLH9CF2m5DYJbqeLaK45iOlR+7ERwqCd1VGnqs6Z40Qbpm0tmv0hy1V/v/9yPTLimqPbQB54HlzTrhIYlbCQip5wEGuG9Z9eLKr36sofC2VQsx1o49gThCApdgtkctGUswEubesMw7cS5OHDvEVXn7eqFHyVyk0qcLTrxPaV1p4hJPV+VflLp/cyt7h5XYaWTaGERPaqB8JiLcM1S3vjFxsHktI6XEhQE7JuGwev255E6SOELK2ZgubauTUtW60U+aa0/rN+tn90sUToT08tfG6z/9pO9xGjd59oYEsn6eIEJRC1NBswVqim3F1ZdFPtQnnqmBSL+dkN6m32QrPS3kXKO4QgC10hkj1Eq8E3ohBc/VrVpirYucI9mmfXACSXlyaQT4bxC0Sfs2usvs1u5Ba4c1vDwZ3iLv/GkOwir4RvTGnSCoWkEIEad5Au6+/UTbyIQpN7GEWY52QSUJXKrxLICVOEAGhfbRIYRTmGNwy0mMMdwXYT90LEB+yKICwBeliSK8GUMQ+fFPS2FH9I75xXrqAM0ZvyRz+ZvMDLYU6fPGZRnfBgVo2B2vi7okeqBVxlhR04mhZWq/mFXQ6nEOSeCuOSOGxIDTZCdgxfkeajlmDgiUiGfUtCM0LoXnjdkpXNFZh/E56JQ6RBXyPHCwM=
+      file_glob: true
+      file: dist/*
+      skip_cleanup: true
       on:
         tags: true
