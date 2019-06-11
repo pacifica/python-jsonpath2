@@ -52,7 +52,14 @@ class TestBookStore(TestCase):
         }
 
     def test_bookstore_examples_1(self):
-        """Test the bookstore examples."""
+        """
+        Test the bookstore example 1.
+
+        .. code-block:: python
+
+           >>> expr = Path.parse_str('$.store.book[*].author')
+           >>> expr.match(self.root_value)
+        """
         expr = Path.parse_str('$.store.book[*].author')
         self.assertEqual(Path.parse_str(str(expr)), expr)
         matches = [x.current_value for x in expr.match(self.root_value)]
@@ -60,7 +67,14 @@ class TestBookStore(TestCase):
             self.assertTrue(auth in matches)
 
     def test_bookstore_examples_2(self):
-        """Test the bookstore examples."""
+        """
+        Test the bookstore example 2.
+
+        .. code-block:: python
+
+           >>> expr = Path.parse_str('$..author')
+           >>> expr.match(self.root_value)
+        """
         expr = Path.parse_str('$..author')
         self.assertEqual(Path.parse_str(str(expr)), expr)
         matches = [x.current_value for x in expr.match(self.root_value)]
@@ -68,7 +82,14 @@ class TestBookStore(TestCase):
             self.assertTrue(auth in matches)
 
     def test_bookstore_examples_3(self):
-        """Test the bookstore examples."""
+        """
+        Test the bookstore example 3.
+
+        .. code-block:: python
+
+           >>> expr = Path.parse_str('$.store.*')
+           >>> expr.match(self.root_value)
+        """
         expr = Path.parse_str('$.store.*')
         self.assertEqual(Path.parse_str(str(expr)), expr)
         matches = [x.current_value for x in expr.match(self.root_value)]
@@ -78,7 +99,14 @@ class TestBookStore(TestCase):
         self.assertEqual(matches[1]['color'], 'red')
 
     def test_bookstore_examples_4(self):
-        """Test the bookstore examples."""
+        """
+        Test the bookstore example 4.
+
+        .. code-block:: python
+
+           >>> expr = Path.parse_str('$.store..price')
+           >>> expr.match(self.root_value)
+        """
         expr = Path.parse_str('$.store..price')
         self.assertEqual(Path.parse_str(str(expr)), expr)
         matches = [x.current_value for x in expr.match(self.root_value)]
@@ -86,7 +114,14 @@ class TestBookStore(TestCase):
             self.assertTrue(price in matches)
 
     def test_bookstore_examples_5(self):
-        """Test the bookstore examples."""
+        """
+        Test the bookstore example 5.
+
+        .. code-block:: python
+
+           >>> expr = Path.parse_str('$..book[2]')
+           >>> expr.match(self.root_value)
+        """
         expr = Path.parse_str('$..book[2]')
         self.assertEqual(Path.parse_str(str(expr)), expr)
         matches = [x.current_value for x in expr.match(self.root_value)]
@@ -97,7 +132,18 @@ class TestBookStore(TestCase):
         self.assertEqual(matches[0]['price'], 8.99)
 
     def test_bookstore_examples_6(self):
-        """Test the bookstore examples."""
+        """
+        Test the bookstore example 6.
+
+        .. code-block:: python
+
+           >>> expr = Path.parse_str('$..book[-1:]')
+           >>> expr.match(self.root_value)
+           >>> expr = Path.parse_str('$..book[-1]')
+           >>> expr.match(self.root_value)
+           >>> expr = Path.parse_str('$..book[3:4:1]')
+           >>> expr.match(self.root_value)
+        """
         for path in ['$..book[-1:]', '$..book[-1]', '$..book[3:4:1]']:
             expr = Path.parse_str(path)
             self.assertEqual(Path.parse_str(str(expr)), expr)
@@ -109,7 +155,18 @@ class TestBookStore(TestCase):
             self.assertEqual(matches[0]['price'], 22.99)
 
     def test_bookstore_examples_7(self):
-        """Test the bookstore examples."""
+        """
+        Test the bookstore example 7.
+
+        .. code-block:: python
+
+           >>> expr = Path.parse_str('$..book[0,1]')
+           >>> expr.match(self.root_value)
+           >>> expr = Path.parse_str('$..book[:2]')
+           >>> expr.match(self.root_value)
+           >>> expr = Path.parse_str('$..book[:2:1]')
+           >>> expr.match(self.root_value)
+        """
         for path in ['$..book[0,1]', '$..book[:2]', '$..book[:2:1]']:
             expr = Path.parse_str(path)
             self.assertEqual(Path.parse_str(str(expr)), expr)
@@ -124,7 +181,14 @@ class TestBookStore(TestCase):
             self.assertEqual(matches[1]['price'], 12.99)
 
     def test_bookstore_examples_8(self):
-        """Test the bookstore examples."""
+        """
+        Test the bookstore example 8.
+
+        .. code-block:: python
+
+           >>> expr = Path.parse_str('$..book[*][?(@.isbn)]')
+           >>> expr.match(self.root_value)
+        """
         expr = Path.parse_str('$..book[*][?(@.isbn)]')
         self.assertEqual(Path.parse_str(str(expr)), expr)
         matches = [x.current_value for x in expr.match(self.root_value)]
@@ -140,7 +204,16 @@ class TestBookStore(TestCase):
         self.assertEqual(matches[1]['price'], 22.99)
 
     def test_bookstore_examples_9(self):
-        """Test the bookstore examples."""
+        """
+        Test the bookstore example 9.
+
+        .. code-block:: python
+
+           >>> expr = Path.parse_str('$..book[*][?(@.price<=10)]')
+           >>> expr.match(self.root_value)
+           >>> expr = Path.parse_str('$..book[*][?(@.price<10)]')
+           >>> expr.match(self.root_value)
+        """
         for path in ['$..book[*][?(@.price<10)]', '$..book[*][?(@.price<=10)]']:
             expr = Path.parse_str(path)
             self.assertEqual(Path.parse_str(str(expr)), expr)
@@ -156,7 +229,14 @@ class TestBookStore(TestCase):
             self.assertEqual(matches[1]['price'], 8.99)
 
     def test_bookstore_examples_10(self):
-        """Test the bookstore examples."""
+        """
+        Test the bookstore example 10.
+
+        .. code-block:: python
+
+           >>> expr = Path.parse_str('$..book[*][?(@.author = "Nigel Rees")]')
+           >>> expr.match(self.root_value)
+        """
         expr = Path.parse_str('$..book[*][?(@.author = "Nigel Rees")]')
         self.assertEqual(Path.parse_str(str(expr)), expr)
         matches = [x.current_value for x in expr.match(self.root_value)]
@@ -166,7 +246,14 @@ class TestBookStore(TestCase):
         self.assertEqual(matches[0]['price'], 8.95)
 
     def test_bookstore_examples_11(self):
-        """Test the bookstore examples."""
+        """
+        Test the bookstore example 11.
+
+        .. code-block:: python
+
+           >>> expr = Path.parse_str('$..book[*][?(@.category != "fiction")]')
+           >>> expr.match(self.root_value)
+        """
         expr = Path.parse_str('$..book[*][?(@.category != "fiction")]')
         self.assertEqual(Path.parse_str(str(expr)), expr)
         matches = [x.current_value for x in expr.match(self.root_value)]
@@ -176,7 +263,16 @@ class TestBookStore(TestCase):
         self.assertEqual(matches[0]['price'], 8.95)
 
     def test_bookstore_examples_12(self):
-        """Test the bookstore examples."""
+        """
+        Test the bookstore example 12.
+
+        .. code-block:: python
+
+           >>> expr = Path.parse_str('$..book[*][?(@.price>=10)]')
+           >>> expr.match(self.root_value)
+           >>> expr = Path.parse_str('$..book[*][?(@.price>10)]')
+           >>> expr.match(self.root_value)
+        """
         for path in ['$..book[*][?(@.price>10)]', '$..book[*][?(@.price>=10)]']:
             expr = Path.parse_str(path)
             self.assertEqual(Path.parse_str(str(expr)), expr)
