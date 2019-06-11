@@ -16,9 +16,12 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+import sys
+import os
 from recommonmark.parser import CommonMarkParser
 from recommonmark.transform import AutoStructify
 
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'tests'))
 
 # -- Project information -----------------------------------------------------
 

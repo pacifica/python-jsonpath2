@@ -3,112 +3,6 @@
 The JSONPath2 library has several APIs available to perform JSONPath
 matching.
 
-## API
-
-The API has a high level `match()` method and lower level classes to
-interact with the parser directly.
-
-### `match` shortcut function
-
-The `jsonpath2.match` function is a shortcut to match a given JSON data
-structure against a JSONPath string
-
-```python
->>> import jsonpath2
->>> doc = {'hello': 'Hello, world!'}
->>> [x.current_value for x in jsonpath2.match('$.hello', doc)]
-['Hello, world!']
-```
-
-### `Path` class
-
-The `jsonpath2.path.Path` class represents a JSONPath.
-
-```python
->>> s = '{"hello":"Hello, world!"}'
-'{"hello":"Hello, world!"}'
->>> import json
->>> d = json.loads(s)
-{'hello':'Hello, world!'}
->>> from jsonpath2.path import Path
->>> p = Path.parse_str('$["hello"]')
-<jsonpath2.path.Path object>
->>> [match_data.current_value for match_data in p.match(d)]
-['Hello, world!']
->>> [match_data.node.tojsonpath() for match_data in p.match(d)]
-['$["hello"]']
-```
-
-This class is constructed with respect to the given instance of the `jsonpath2.nodes.root.RootNode` class (viz., the `ro
-ot_node` property).
-
-#### `parse_str(strdata)` class method
-
-Parse the given string and return a new instance of this class.
-
-#### `parse_file(fileName, encoding='ascii')` class method
-
-Parse the contents of the given file and return a new instance of this class.
-
-#### `match(root_value)` instance method
-
-Match the given JSON data structure against this instance.
-For each match, yield an instance of the `jsonpath2.node.MatchData` class.
-
-#### `__eq__(other)` instance method
-
-Tests if two instances are equal.
-
-#### `__str__()` instance method
-
-Returns the string representation of this instance.
-
-#### `root_node` property
-
-The root node of the abstract syntax tree for this instance.
-
-### `Node` abstract class
-
-The `jsonpath2.node.Node` class represents the abstract syntax tree for a JSONPath.
-
-#### `__eq__(other)` instance method
-
-Tests if two instances are equal.
-
-#### `__jsonpath__()` instance method
-
-Yields the lexer tokens for the string representation of this instance.
-
-#### `match(root_value, current_value)` instance method
-
-Match the given root and current JSON data structures against this instance.
-For each match, yield an instance of the `jsonpath2.node.MatchData` class.
-
-#### `tojsonpath()` instance method
-
-Returns the string representation of this instance.
-
-### `MatchData` class
-
-The `jsonpath2.node.MatchData` class represents the JSON value and context for a JSONPath match.
-
-This class is constructed with respect to a root JSON value, a current JSON value, and an abstract syntax tree node.
-
-#### `__eq__(other)` instance method
-
-Tests if two instances are equal.
-
-#### `root_value` property
-
-The root JSON value.
-
-#### `current_value` property
-
-The current JSON value (i.e., the matching JSON value).
-
-#### `node` property
-
-The abstract syntax tree node.
 ## Syntax
 
 ```eval_rst
@@ -163,8 +57,9 @@ The abstract syntax tree node.
 
 > See [#14](https://github.com/pacifica/python-jsonpath2/pull/14) for more information.
 
-The syntax for a function call is the name of the function followed by the arguments in parentheses, i.e., `name(arg1, a
-rg2, ..., argN)`, where the arguments are either JSONPaths or JSON values.
+The syntax for a function call is the name of the function followed by the
+arguments in parentheses, i.e., `name(arg1, arg2, ..., argN)`, where the
+arguments are either JSONPaths or JSON values.
 
 ```python
 >>> s = '{"hello":"Hello, world!"}'
@@ -299,6 +194,94 @@ rg2, ..., argN)`, where the arguments are either JSONPaths or JSON values.
 
 In the above table, the type aliases (`Any`, `List`, `Optional` and `Tuple`) are defined by the
 [`typing`](https://docs.python.org/3/library/typing.html) module from the Python Standard Library.
+
+## Examples
+
+Some of the examples are provided by the test suite while some have been contributed via issues.
+
+### Test Suite Examples
+
+```eval_rst
+.. automodule:: bookstore_test
+   :members:
+   :private-members:
+   :special-members:
+```
+
+### Issue Examples
+
+#### Issue #19
+
+This issue involved finding the full path to the matched attribute.
+
+The result isn't strictly supported by the library but code examples are provided.
+
+```python
+import json
+import typing
+
+from jsonpath2.node import Node
+from jsonpath2.nodes.root import RootNode
+from jsonpath2.nodes.subscript import SubscriptNode
+from jsonpath2.nodes.terminal import TerminalNode
+from jsonpath2.path import Path
+from jsonpath2.subscript import Subscript
+
+data = json.loads("""
+{
+    "values": [
+        {"type": 1, "value": 2},
+        {"type": 2, "value": 3},
+        {"type": 1, "value": 10}
+    ]
+}
+""")
+
+path = Path.parse_str("$.values.*[?(@.type = 1)].value")
+
+def get_subscripts(node: Node) -> typing.List[typing.List[Subscript]]:
+    return get_subscripts_(node, [])
+
+def get_subscripts_(node: Node, accumulator: typing.List[typing.List[Subscript]]) -> typing.List[typing.List[Subscript]]:
+    if isinstance(node, RootNode):
+        return get_subscripts_(node.next_node, accumulator)
+    elif isinstance(node, SubscriptNode):
+        accumulator.append(node.subscripts)
+        return get_subscripts_(node.next_node, accumulator)
+    elif isinstance(node, TerminalNode):
+        return accumulator
+
+for match_data in path.match(data):
+    print(f"Value: {match_data.current_value}")
+    print(f"JSONPath: {match_data.node.tojsonpath()}")
+    print(f"Subscripts: {get_subscripts(match_data.node)}")
+    print("")
+```
+
+The snippet above iterates over the match results, prints the value and
+JSONPath and then prints the list of subscripts. The list of subscripts
+is constructed by traversing the structure of the abstract syntax tree
+for the JSONPath.
+
+The results [modulo the memory addresses] are:
+
+```
+Value: 2
+JSONPath: $["values"][0]["value"]
+Subscripts: [[<jsonpath2.subscripts.objectindex.ObjectIndexSubscript object at 0x10f6a3278>], [<jsonpath2.subscripts.arrayindex.ArrayIndexSubscript object at 0x10f6a37b8>], [<jsonpath2.subscripts.objectindex.ObjectIndexSubscript object at 0x10f6a3390>]]
+
+Value: 10
+JSONPath: $["values"][2]["value"]
+Subscripts: [[<jsonpath2.subscripts.objectindex.ObjectIndexSubscript object at 0x10f6a3278>], [<jsonpath2.subscripts.arrayindex.ArrayIndexSubscript object at 0x10f6a3978>], [<jsonpath2.subscripts.objectindex.ObjectIndexSubscript object at 0x10f6a3390>]]
+```
+
+The first subscript is the `"values"` key. The second subscript is the
+index of the `{"type":"value"}` object. The third subscript is the
+`"value"` key.
+
+Note that the result (the list of subscripts) is a list of lists. This
+is because instances of the `SubscriptNode` class are constructed using
+zero or more instances of the `Subscript` class.
 
 ## Grammar and parser
 
