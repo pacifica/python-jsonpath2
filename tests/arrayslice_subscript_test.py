@@ -75,3 +75,17 @@ class TestArraySliceSubscript(TestCase):
         root_value = None
         self.assertTrue(not isinstance(root_value, list))
         self.assertEqual([], list(subscript.match(root_value, root_value)))
+
+    def test_arrayslice8(self):
+        """Test the arrayslice with configuration 1000 (base 2)."""
+        subscript = ArraySliceSubscript(-15, None, None)
+        self.assertEqual('-15:', subscript.tojsonpath())
+        self.assertEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], list(map(
+            lambda match_data: match_data.current_value, subscript.match(self.root_value, self.current_value))))
+
+    def test_arrayslice9(self):
+        """Test the arrayslice with configuration 1001 (base 2)."""
+        subscript = ArraySliceSubscript(None, -15, None)
+        self.assertEqual(':-15', subscript.tojsonpath())
+        self.assertEqual([], list(map(
+            lambda match_data: match_data.current_value, subscript.match(self.root_value, self.current_value))))

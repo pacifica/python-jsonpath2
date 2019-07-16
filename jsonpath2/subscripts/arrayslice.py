@@ -35,7 +35,9 @@ class ArraySliceSubscript(Subscript):
         """Match an array slice between values."""
         if isinstance(current_value, Sequence) and not isinstance(current_value, str):
             start = None if (self.start is None) else (
-                self.start + (len(current_value) if (self.start < 0) else 0))
+                self.start + ((
+                    len(current_value) if abs(self.start) < len(current_value) else abs(self.start)
+                ) if (self.start < 0) else 0))
 
             end = None if (self.end is None) else (
                 self.end + (len(current_value) if (self.end < 0) else 0))
