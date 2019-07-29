@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.1] - 2019-07-29
+### Changed
+- Fixed #31 fix array slice end overrun by [@dmlb2000](https://github.com/dmlb2000)
+
 ## [0.4.0] - 2019-06-11
 ### Added
 - Initial JSONPath implementation for Python by [@markborkum](https://github.com/markborkum)
