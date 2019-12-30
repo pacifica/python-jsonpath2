@@ -36,7 +36,7 @@ class TestExpression(TestCase):
         ]:
             print(path)
             expr = Path.parse_str(path)
-            self.assertFalse([x for x in expr.match(data)])
+            self.assertFalse(list(expr.match(data)))
 
     def test_unary_operator(self):
         """Test the unary not in a path."""
@@ -48,7 +48,7 @@ class TestExpression(TestCase):
         ]
         expr = Path.parse_str('$[?(not @.bar)]')
         self.assertEqual(Path.parse_str(str(expr)), expr)
-        self.assertTrue([x for x in expr.match(data)])
+        self.assertTrue(list(expr.match(data)))
 
     def test_unary_boolean_operator(self):
         """Test the unary not in a path."""
@@ -60,7 +60,7 @@ class TestExpression(TestCase):
         ]
         expr = Path.parse_str('$[?(not (@.bar or (@.fiz > 2 and @.biz > 2)))]')
         self.assertEqual(Path.parse_str(str(expr)), expr)
-        self.assertTrue([x for x in expr.match(data)])
+        self.assertTrue(list(expr.match(data)))
 
     def test_variadic_operator(self):
         """Test a variadic operator."""
