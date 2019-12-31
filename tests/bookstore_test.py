@@ -339,3 +339,22 @@ class TestExtendedBookStore(TestCase):
         self.assertEqual(matches[1]['author'], 'Evelyn Waugh')
         self.assertEqual(matches[1]['title'], 'Sword of Honour')
         self.assertEqual(matches[1]['price'], 12.99)
+
+    def test_bookstore_extexamples_3(self):
+        """
+        Test the bookstore example slice with start and multiple colons.
+
+        .. code-block:: python
+
+           >>> expr = Path.parse_str('$..book[2::]')
+           >>> expr.match(self.root_value)
+        """
+        expr = Path.parse_str('$..book[2::]')
+        self.assertEqual(Path.parse_str(str(expr)), expr)
+        matches = [x.current_value for x in expr.match(self.root_value)]
+        self.assertEqual(len(matches), 2)
+        self.assertEqual(matches[0]['category'], 'fiction')
+        self.assertEqual(matches[0]['author'], 'Herman Melville')
+        self.assertEqual(matches[0]['title'], 'Moby Dick')
+        self.assertEqual(matches[0]['isbn'], '0-553-21311-3')
+        self.assertEqual(matches[0]['price'], 8.99)
