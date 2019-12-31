@@ -286,3 +286,56 @@ class TestBookStore(TestCase):
             self.assertEqual(matches[1]['title'], 'The Lord of the Rings')
             self.assertEqual(matches[1]['isbn'], '0-395-19395-8')
             self.assertEqual(matches[1]['price'], 22.99)
+
+
+class TestExtendedBookStore(TestCase):
+    """This test extends the standard bookstore test for completness."""
+
+    def setUp(self):
+        """Copy the original bookstore document to this class."""
+        orig_bookstore = TestBookStore()
+        orig_bookstore.setUp()
+        self.root_value = orig_bookstore.root_value
+
+    def test_bookstore_extexample_1(self):
+        """
+        Test the bookstore example with step function.
+
+        .. code-block:: python
+
+           >>> expr = Path.parse_str('$..book[::2]')
+           >>> expr.match(self.root_value)
+        """
+        expr = Path.parse_str('$..book[::2]')
+        self.assertEqual(Path.parse_str(str(expr)), expr)
+        matches = [x.current_value for x in expr.match(self.root_value)]
+        self.assertEqual(matches[0]['category'], 'reference')
+        self.assertEqual(matches[0]['author'], 'Nigel Rees')
+        self.assertEqual(matches[0]['title'], 'Sayings of the Century')
+        self.assertEqual(matches[0]['price'], 8.95)
+        self.assertEqual(matches[1]['category'], 'fiction')
+        self.assertEqual(matches[1]['author'], 'Herman Melville')
+        self.assertEqual(matches[1]['title'], 'Moby Dick')
+        self.assertEqual(matches[1]['isbn'], '0-553-21311-3')
+        self.assertEqual(matches[1]['price'], 8.99)
+
+    def test_bookstore_extexamples_2(self):
+        """
+        Test the bookstore example slice with end and multiple colons.
+
+        .. code-block:: python
+
+           >>> expr = Path.parse_str('$..book[:2:]')
+           >>> expr.match(self.root_value)
+        """
+        expr = Path.parse_str('$..book[:2:]')
+        self.assertEqual(Path.parse_str(str(expr)), expr)
+        matches = [x.current_value for x in expr.match(self.root_value)]
+        self.assertEqual(matches[0]['category'], 'reference')
+        self.assertEqual(matches[0]['author'], 'Nigel Rees')
+        self.assertEqual(matches[0]['title'], 'Sayings of the Century')
+        self.assertEqual(matches[0]['price'], 8.95)
+        self.assertEqual(matches[1]['category'], 'fiction')
+        self.assertEqual(matches[1]['author'], 'Evelyn Waugh')
+        self.assertEqual(matches[1]['title'], 'Sword of Honour')
+        self.assertEqual(matches[1]['price'], 12.99)
