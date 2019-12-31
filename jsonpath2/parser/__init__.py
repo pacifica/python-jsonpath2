@@ -211,7 +211,7 @@ class _JSONPathListener(JSONPathListener):
             # NOTE Unreachable when listener is used as tree walker.
             raise ValueError()  # pragma: no cover
 
-    def exitSliceable(self, ctx: JSONPathParser.SliceableContext):  # pragma: no cover
+    def exitSliceable(self, ctx: JSONPathParser.SliceableContext):
         # NOTE https://github.com/pacifica/python-jsonpath2/issues/35
         #
         # This issue is caused by the way that ANTLR4 indexes terminals in a

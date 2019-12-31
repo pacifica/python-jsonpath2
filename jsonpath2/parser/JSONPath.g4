@@ -74,7 +74,7 @@ subscriptable
    ;
 
 sliceable
-   : COLON ( NUMBER{self.tryCast(int)}? )? ( COLON NUMBER{self.tryCast(int)}? )?
+   : COLON ( NUMBER{self.tryCast(int)}? )? ( COLON ( NUMBER{self.tryCast(int)}? )? )?
    ;
 
 expression
