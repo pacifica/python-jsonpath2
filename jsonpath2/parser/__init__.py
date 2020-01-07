@@ -212,11 +212,59 @@ class _JSONPathListener(JSONPathListener):
             raise ValueError()  # pragma: no cover
 
     def exitSliceable(self, ctx: JSONPathParser.SliceableContext):
-        end = int(ctx.NUMBER(0).getText()) if bool(
-            ctx.NUMBER(0)) else None
+        # NOTE https://github.com/pacifica/python-jsonpath2/issues/35
+        #
+        # This issue is caused by the way that ANTLR4 indexes terminals in a
+        # context. In ANTLR4, when two or more terminals with the same name are
+        # present in the same production, but only a subset of terminals are
+        # parsed, the indexing does not reflect the position of the terminal
+        # within the production.
+        #
+        # For #35, when the string "::n" is parsed, for a given "n", the context
+        # contains only 1 "NUMBER" terminal, which is assigned the index 0,
+        # where the index 1 would be expected (with the index 0 returning 'None'
+        # or a similar sentinel value).
+        #
+        # The mitigation is to test for the presence of the second "COLON"
+        # terminal and then to verify that it came before the second "NUMBER"
+        # terminal.
 
-        step = int(ctx.NUMBER(1).getText()) if bool(
-            ctx.NUMBER(1)) else None
+        if bool(ctx.NUMBER(0)):
+            if bool(ctx.COLON(1)):
+                if bool(ctx.NUMBER(1)):
+                    # When there are 2 "COLON" and "NUMBER" terminals, assign to
+                    # 'end' and 'step' as usual.
+
+                    end = int(ctx.NUMBER(0).getText())
+
+                    step = int(ctx.NUMBER(1).getText())
+                elif ctx.NUMBER(0).getSourceInterval()[0] < ctx.COLON(1).getSourceInterval()[0]:
+                    # When there are 2 "COLON" terminals but only 1 "NUMBER"
+                    # terminal, if the "NUMBER" terminal occurs **before** the
+                    # second "COLON" terminal, then assign to 'end' only.
+
+                    end = int(ctx.NUMBER(0).getText())
+
+                    step = None
+                else:
+                    # When there are 2 "COLON" terminals but only 1 "NUMBER"
+                    # terminal, if the "NUMBER" terminal occurs **after** the
+                    # second "COLON" terminal, then assign to 'step' only.
+
+                    end = None
+
+                    step = int(ctx.NUMBER(0).getText())
+            else:
+                # When there is 1 "COLON" terminal and 1 "NUMBER" terminal,
+                # assignn to 'end' only.
+
+                end = int(ctx.NUMBER(0).getText())
+
+                step = None
+        else:
+            end = None
+
+            step = None
 
         self._stack.append(lambda start: ArraySliceSubscript(start, end, step))
 
