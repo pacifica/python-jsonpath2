@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.2] - 2020-01-07
+### Changed
+- Fixed #35 fix array slice parse by [@markborkum](https://github.com/markborkum)
+- Fixed #40 test Python 3.8 and use bionic by [@dmlb2000](https://github.com/dmlb2000)
+
 ## [0.4.1] - 2019-07-29
 ### Changed
 - Fixed #31 fix array slice end overrun by [@dmlb2000](https://github.com/dmlb2000)
