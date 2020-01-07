@@ -1,12 +1,13 @@
-dist: xenial
+dist: bionic
 language: python
+python: 3.8
 stages:
 - lint
 - test
 - test-docs
 - deploy
 
-".test_script": &1
+script:
 - pip install .
 - cd tests
 - coverage run --include='*/site-packages/jsonpath2/*' --omit='*/site-packages/jsonpath2/parser/JSONPath*' -m pytest -xv
@@ -19,17 +20,15 @@ install: pip install -r requirements-dev.txt
 jobs:
   include:
   - stage: lint
-    python: 3.6
     script: pre-commit run -a
   - python: 3.7
+    script: pre-commit run -a
+  - python: 3.6
     script: pre-commit run -a
   - stage: test
-    python: 3.6
-    script: *1
   - python: 3.7
-    script: *1
+  - python: 3.6
   - stage: test-docs
-    python: 3.7
     script:
     - pip install .
     - cd docs
@@ -38,7 +37,6 @@ jobs:
     - sphinx-build -b latex -D language=en -d _build/doctrees . _build/latex
     - sphinx-build -T -b epub -d _build/doctrees-epub -D language=en . _build/epub
   - stage: deploy
-    python: 3.7
     script: skip
     deploy:
       skip_cleanup: true
@@ -50,7 +48,6 @@ jobs:
       on:
         tags: true
   - script: skip
-    python: 3.7
     before_deploy: python setup.py sdist bdist_wheel
     deploy:
       provider: releases
