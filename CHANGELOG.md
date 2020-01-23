@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.3] - 2020-01-23
+### Changed
+- Fixed #42 lock ANTLR runtime to 4.7.2 by [@markborkum](https://github.com/markborkum)
+
 ## [0.4.2] - 2020-01-07
 ### Changed
 - Fixed #35 fix array slice parse by [@markborkum](https://github.com/markborkum)
