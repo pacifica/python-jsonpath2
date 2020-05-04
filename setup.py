@@ -2,14 +2,7 @@
 # -*- coding: utf-8 -*-
 """Setup the python package for jsonpath2."""
 from os import path
-try:  # pip version 9
-    from pip.req import parse_requirements
-except ImportError:
-    from pip._internal.req import parse_requirements
 from setuptools import setup, find_packages
-
-# parse_requirements() returns generator of pip.req.InstallRequirement objects
-INSTALL_REQS = parse_requirements('requirements.txt', session='hack')
 
 setup(
     name='jsonpath2',
@@ -25,5 +18,9 @@ setup(
     author='Mark Borkum',
     author_email='mark.borkum@pnnl.gov',
     packages=find_packages(),
-    install_requires=[str(ir.req) for ir in INSTALL_REQS]
+    install_requires=[
+        'antlr4-python3-runtime==4.7.2',
+        'setuptools',
+        'six'
+    ]
 )
