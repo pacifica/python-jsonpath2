@@ -8,7 +8,6 @@ stages:
 - deploy
 
 script:
-- pip install .
 - cd tests
 - coverage run --include='*/site-packages/jsonpath2/*' --omit='*/site-packages/jsonpath2/parser/JSONPath*' -m pytest -xv
 - coverage report -m --fail-under 100
@@ -16,7 +15,9 @@ script:
 - python setup.py bdist_wheel
 - python setup.py sdist
 
-install: pip install -r requirements-dev.txt
+install:
+- pip install coverage pep257 pre-commit pylint pytest readthedocs-sphinx-ext recommonmark setuptools sphinx sphinx-rtd-theme
+- pip install .
 jobs:
   include:
   - stage: lint
