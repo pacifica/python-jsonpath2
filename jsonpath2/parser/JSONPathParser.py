@@ -1,98 +1,88 @@
-# Generated from jsonpath2/parser/JSONPath.g4 by ANTLR 4.7.1
+# Generated from jsonpath2/parser/JSONPath.g4 by ANTLR 4.10.1
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
-from typing.io import TextIO
 import sys
+if sys.version_info[1] > 5:
+	from typing import TextIO
+else:
+	from typing.io import TextIO
 
 def serializedATN():
-    with StringIO() as buf:
-        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3 ")
-        buf.write("\u00cb\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
-        buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16")
-        buf.write("\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22\4\23\t\23")
-        buf.write("\3\2\3\2\5\2)\n\2\3\2\3\2\3\3\3\3\5\3/\n\3\3\4\3\4\5\4")
-        buf.write("\63\n\4\3\5\3\5\3\5\5\58\n\5\3\5\5\5;\n\5\3\5\3\5\3\5")
-        buf.write("\5\5@\n\5\3\5\3\5\5\5D\n\5\5\5F\n\5\3\6\3\6\3\6\3\6\7")
-        buf.write("\6L\n\6\f\6\16\6O\13\6\3\6\3\6\3\7\3\7\3\7\3\7\7\7W\n")
-        buf.write("\7\f\7\16\7Z\13\7\5\7\\\n\7\3\7\3\7\3\b\3\b\5\bb\n\b\3")
-        buf.write("\b\5\be\n\b\3\t\3\t\3\t\3\t\5\tk\n\t\3\t\3\t\3\t\3\t\3")
-        buf.write("\t\3\t\3\t\3\t\3\t\3\t\5\tw\n\t\3\n\3\n\3\n\5\n|\n\n\3")
-        buf.write("\n\3\n\3\n\5\n\u0081\n\n\5\n\u0083\n\n\3\13\3\13\3\f\3")
-        buf.write("\f\3\f\5\f\u008a\n\f\3\r\3\r\3\r\5\r\u008f\n\r\3\16\3")
-        buf.write("\16\3\16\3\16\3\16\3\16\3\16\3\16\3\16\5\16\u009a\n\16")
-        buf.write("\5\16\u009c\n\16\3\17\3\17\3\20\3\20\3\20\3\20\7\20\u00a4")
-        buf.write("\n\20\f\20\16\20\u00a7\13\20\3\20\3\20\3\20\3\20\5\20")
-        buf.write("\u00ad\n\20\3\21\3\21\3\21\3\21\3\22\3\22\3\22\3\22\7")
-        buf.write("\22\u00b7\n\22\f\22\16\22\u00ba\13\22\3\22\3\22\3\22\3")
-        buf.write("\22\5\22\u00c0\n\22\3\23\3\23\3\23\3\23\3\23\3\23\3\23")
-        buf.write("\5\23\u00c9\n\23\3\23\2\2\24\2\4\6\b\n\f\16\20\22\24\26")
-        buf.write("\30\32\34\36 \"$\2\4\4\2\3\3\5\5\3\2\t\16\2\u00df\2&\3")
-        buf.write("\2\2\2\4,\3\2\2\2\6\62\3\2\2\2\bE\3\2\2\2\nG\3\2\2\2\f")
-        buf.write("R\3\2\2\2\16d\3\2\2\2\20v\3\2\2\2\22x\3\2\2\2\24\u0084")
-        buf.write("\3\2\2\2\26\u0086\3\2\2\2\30\u008b\3\2\2\2\32\u009b\3")
-        buf.write("\2\2\2\34\u009d\3\2\2\2\36\u00ac\3\2\2\2 \u00ae\3\2\2")
-        buf.write("\2\"\u00bf\3\2\2\2$\u00c8\3\2\2\2&(\7\5\2\2\')\5\b\5\2")
-        buf.write("(\'\3\2\2\2()\3\2\2\2)*\3\2\2\2*+\7\2\2\3+\3\3\2\2\2,")
-        buf.write(".\t\2\2\2-/\5\b\5\2.-\3\2\2\2./\3\2\2\2/\5\3\2\2\2\60")
-        buf.write("\63\5\4\3\2\61\63\5$\23\2\62\60\3\2\2\2\62\61\3\2\2\2")
-        buf.write("\63\7\3\2\2\2\64\67\7\4\2\2\658\5\16\b\2\668\5\n\6\2\67")
-        buf.write("\65\3\2\2\2\67\66\3\2\2\28:\3\2\2\29;\5\b\5\2:9\3\2\2")
-        buf.write("\2:;\3\2\2\2;F\3\2\2\2<=\7\6\2\2=?\5\16\b\2>@\5\b\5\2")
-        buf.write("?>\3\2\2\2?@\3\2\2\2@F\3\2\2\2AC\5\n\6\2BD\5\b\5\2CB\3")
-        buf.write("\2\2\2CD\3\2\2\2DF\3\2\2\2E\64\3\2\2\2E<\3\2\2\2EA\3\2")
-        buf.write("\2\2F\t\3\2\2\2GH\7\26\2\2HM\5\20\t\2IJ\7\31\2\2JL\5\20")
-        buf.write("\t\2KI\3\2\2\2LO\3\2\2\2MK\3\2\2\2MN\3\2\2\2NP\3\2\2\2")
-        buf.write("OM\3\2\2\2PQ\7\27\2\2Q\13\3\2\2\2R[\7\32\2\2SX\5\6\4\2")
-        buf.write("TU\7\31\2\2UW\5\6\4\2VT\3\2\2\2WZ\3\2\2\2XV\3\2\2\2XY")
-        buf.write("\3\2\2\2Y\\\3\2\2\2ZX\3\2\2\2[S\3\2\2\2[\\\3\2\2\2\\]")
-        buf.write("\3\2\2\2]^\7\33\2\2^\r\3\2\2\2_a\7\35\2\2`b\5\f\7\2a`")
-        buf.write("\3\2\2\2ab\3\2\2\2be\3\2\2\2ce\7\7\2\2d_\3\2\2\2dc\3\2")
-        buf.write("\2\2e\17\3\2\2\2fw\7\36\2\2gh\7\37\2\2hj\6\t\2\2ik\5\22")
-        buf.write("\n\2ji\3\2\2\2jk\3\2\2\2kw\3\2\2\2lw\5\22\n\2mw\7\7\2")
-        buf.write("\2no\7\34\2\2op\7\32\2\2pq\5\24\13\2qr\7\33\2\2rw\3\2")
-        buf.write("\2\2sw\5\4\3\2tu\7\35\2\2uw\5\f\7\2vf\3\2\2\2vg\3\2\2")
-        buf.write("\2vl\3\2\2\2vm\3\2\2\2vn\3\2\2\2vs\3\2\2\2vt\3\2\2\2w")
-        buf.write("\21\3\2\2\2x{\7\30\2\2yz\7\37\2\2z|\6\n\3\2{y\3\2\2\2")
-        buf.write("{|\3\2\2\2|\u0082\3\2\2\2}\u0080\7\30\2\2~\177\7\37\2")
-        buf.write("\2\177\u0081\6\n\4\2\u0080~\3\2\2\2\u0080\u0081\3\2\2")
-        buf.write("\2\u0081\u0083\3\2\2\2\u0082}\3\2\2\2\u0082\u0083\3\2")
-        buf.write("\2\2\u0083\23\3\2\2\2\u0084\u0085\5\26\f\2\u0085\25\3")
-        buf.write("\2\2\2\u0086\u0089\5\30\r\2\u0087\u0088\7\b\2\2\u0088")
-        buf.write("\u008a\5\26\f\2\u0089\u0087\3\2\2\2\u0089\u008a\3\2\2")
-        buf.write("\2\u008a\27\3\2\2\2\u008b\u008e\5\32\16\2\u008c\u008d")
-        buf.write("\7\20\2\2\u008d\u008f\5\30\r\2\u008e\u008c\3\2\2\2\u008e")
-        buf.write("\u008f\3\2\2\2\u008f\31\3\2\2\2\u0090\u0091\7\17\2\2\u0091")
-        buf.write("\u009c\5\32\16\2\u0092\u0093\7\32\2\2\u0093\u0094\5\24")
-        buf.write("\13\2\u0094\u0095\7\33\2\2\u0095\u009c\3\2\2\2\u0096\u0099")
-        buf.write("\5\6\4\2\u0097\u0098\t\3\2\2\u0098\u009a\5\6\4\2\u0099")
-        buf.write("\u0097\3\2\2\2\u0099\u009a\3\2\2\2\u009a\u009c\3\2\2\2")
-        buf.write("\u009b\u0090\3\2\2\2\u009b\u0092\3\2\2\2\u009b\u0096\3")
-        buf.write("\2\2\2\u009c\33\3\2\2\2\u009d\u009e\5$\23\2\u009e\35\3")
-        buf.write("\2\2\2\u009f\u00a0\7\24\2\2\u00a0\u00a5\5 \21\2\u00a1")
-        buf.write("\u00a2\7\31\2\2\u00a2\u00a4\5 \21\2\u00a3\u00a1\3\2\2")
-        buf.write("\2\u00a4\u00a7\3\2\2\2\u00a5\u00a3\3\2\2\2\u00a5\u00a6")
-        buf.write("\3\2\2\2\u00a6\u00a8\3\2\2\2\u00a7\u00a5\3\2\2\2\u00a8")
-        buf.write("\u00a9\7\25\2\2\u00a9\u00ad\3\2\2\2\u00aa\u00ab\7\24\2")
-        buf.write("\2\u00ab\u00ad\7\25\2\2\u00ac\u009f\3\2\2\2\u00ac\u00aa")
-        buf.write("\3\2\2\2\u00ad\37\3\2\2\2\u00ae\u00af\7\36\2\2\u00af\u00b0")
-        buf.write("\7\30\2\2\u00b0\u00b1\5$\23\2\u00b1!\3\2\2\2\u00b2\u00b3")
-        buf.write("\7\26\2\2\u00b3\u00b8\5$\23\2\u00b4\u00b5\7\31\2\2\u00b5")
-        buf.write("\u00b7\5$\23\2\u00b6\u00b4\3\2\2\2\u00b7\u00ba\3\2\2\2")
-        buf.write("\u00b8\u00b6\3\2\2\2\u00b8\u00b9\3\2\2\2\u00b9\u00bb\3")
-        buf.write("\2\2\2\u00ba\u00b8\3\2\2\2\u00bb\u00bc\7\27\2\2\u00bc")
-        buf.write("\u00c0\3\2\2\2\u00bd\u00be\7\26\2\2\u00be\u00c0\7\27\2")
-        buf.write("\2\u00bf\u00b2\3\2\2\2\u00bf\u00bd\3\2\2\2\u00c0#\3\2")
-        buf.write("\2\2\u00c1\u00c9\7\36\2\2\u00c2\u00c9\7\37\2\2\u00c3\u00c9")
-        buf.write("\5\36\20\2\u00c4\u00c9\5\"\22\2\u00c5\u00c9\7\21\2\2\u00c6")
-        buf.write("\u00c9\7\22\2\2\u00c7\u00c9\7\23\2\2\u00c8\u00c1\3\2\2")
-        buf.write("\2\u00c8\u00c2\3\2\2\2\u00c8\u00c3\3\2\2\2\u00c8\u00c4")
-        buf.write("\3\2\2\2\u00c8\u00c5\3\2\2\2\u00c8\u00c6\3\2\2\2\u00c8")
-        buf.write("\u00c7\3\2\2\2\u00c9%\3\2\2\2\35(.\62\67:?CEMX[adjv{\u0080")
-        buf.write("\u0082\u0089\u008e\u0099\u009b\u00a5\u00ac\u00b8\u00bf")
-        buf.write("\u00c8")
-        return buf.getvalue()
-
+    return [
+        4,1,30,201,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
+        6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,
+        2,14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,1,0,1,0,3,0,39,8,0,1,0,1,
+        0,1,1,1,1,3,1,45,8,1,1,2,1,2,3,2,49,8,2,1,3,1,3,1,3,3,3,54,8,3,1,
+        3,3,3,57,8,3,1,3,1,3,1,3,3,3,62,8,3,1,3,1,3,3,3,66,8,3,3,3,68,8,
+        3,1,4,1,4,1,4,1,4,5,4,74,8,4,10,4,12,4,77,9,4,1,4,1,4,1,5,1,5,1,
+        5,1,5,5,5,85,8,5,10,5,12,5,88,9,5,3,5,90,8,5,1,5,1,5,1,6,1,6,3,6,
+        96,8,6,1,6,3,6,99,8,6,1,7,1,7,1,7,1,7,3,7,105,8,7,1,7,1,7,1,7,1,
+        7,1,7,1,7,1,7,1,7,1,7,1,7,3,7,117,8,7,1,8,1,8,1,8,3,8,122,8,8,1,
+        8,1,8,1,8,3,8,127,8,8,3,8,129,8,8,1,9,1,9,1,10,1,10,1,10,3,10,136,
+        8,10,1,11,1,11,1,11,3,11,141,8,11,1,12,1,12,1,12,1,12,1,12,1,12,
+        1,12,1,12,1,12,3,12,152,8,12,3,12,154,8,12,1,13,1,13,1,14,1,14,1,
+        14,1,14,5,14,162,8,14,10,14,12,14,165,9,14,1,14,1,14,1,14,1,14,3,
+        14,171,8,14,1,15,1,15,1,15,1,15,1,16,1,16,1,16,1,16,5,16,181,8,16,
+        10,16,12,16,184,9,16,1,16,1,16,1,16,1,16,3,16,190,8,16,1,17,1,17,
+        1,17,1,17,1,17,1,17,1,17,3,17,199,8,17,1,17,0,0,18,0,2,4,6,8,10,
+        12,14,16,18,20,22,24,26,28,30,32,34,0,2,2,0,1,1,3,3,1,0,7,12,221,
+        0,36,1,0,0,0,2,42,1,0,0,0,4,48,1,0,0,0,6,67,1,0,0,0,8,69,1,0,0,0,
+        10,80,1,0,0,0,12,98,1,0,0,0,14,116,1,0,0,0,16,118,1,0,0,0,18,130,
+        1,0,0,0,20,132,1,0,0,0,22,137,1,0,0,0,24,153,1,0,0,0,26,155,1,0,
+        0,0,28,170,1,0,0,0,30,172,1,0,0,0,32,189,1,0,0,0,34,198,1,0,0,0,
+        36,38,5,3,0,0,37,39,3,6,3,0,38,37,1,0,0,0,38,39,1,0,0,0,39,40,1,
+        0,0,0,40,41,5,0,0,1,41,1,1,0,0,0,42,44,7,0,0,0,43,45,3,6,3,0,44,
+        43,1,0,0,0,44,45,1,0,0,0,45,3,1,0,0,0,46,49,3,2,1,0,47,49,3,34,17,
+        0,48,46,1,0,0,0,48,47,1,0,0,0,49,5,1,0,0,0,50,53,5,2,0,0,51,54,3,
+        12,6,0,52,54,3,8,4,0,53,51,1,0,0,0,53,52,1,0,0,0,54,56,1,0,0,0,55,
+        57,3,6,3,0,56,55,1,0,0,0,56,57,1,0,0,0,57,68,1,0,0,0,58,59,5,4,0,
+        0,59,61,3,12,6,0,60,62,3,6,3,0,61,60,1,0,0,0,61,62,1,0,0,0,62,68,
+        1,0,0,0,63,65,3,8,4,0,64,66,3,6,3,0,65,64,1,0,0,0,65,66,1,0,0,0,
+        66,68,1,0,0,0,67,50,1,0,0,0,67,58,1,0,0,0,67,63,1,0,0,0,68,7,1,0,
+        0,0,69,70,5,20,0,0,70,75,3,14,7,0,71,72,5,23,0,0,72,74,3,14,7,0,
+        73,71,1,0,0,0,74,77,1,0,0,0,75,73,1,0,0,0,75,76,1,0,0,0,76,78,1,
+        0,0,0,77,75,1,0,0,0,78,79,5,21,0,0,79,9,1,0,0,0,80,89,5,24,0,0,81,
+        86,3,4,2,0,82,83,5,23,0,0,83,85,3,4,2,0,84,82,1,0,0,0,85,88,1,0,
+        0,0,86,84,1,0,0,0,86,87,1,0,0,0,87,90,1,0,0,0,88,86,1,0,0,0,89,81,
+        1,0,0,0,89,90,1,0,0,0,90,91,1,0,0,0,91,92,5,25,0,0,92,11,1,0,0,0,
+        93,95,5,27,0,0,94,96,3,10,5,0,95,94,1,0,0,0,95,96,1,0,0,0,96,99,
+        1,0,0,0,97,99,5,5,0,0,98,93,1,0,0,0,98,97,1,0,0,0,99,13,1,0,0,0,
+        100,117,5,28,0,0,101,102,5,29,0,0,102,104,4,7,0,0,103,105,3,16,8,
+        0,104,103,1,0,0,0,104,105,1,0,0,0,105,117,1,0,0,0,106,117,3,16,8,
+        0,107,117,5,5,0,0,108,109,5,26,0,0,109,110,5,24,0,0,110,111,3,18,
+        9,0,111,112,5,25,0,0,112,117,1,0,0,0,113,117,3,2,1,0,114,115,5,27,
+        0,0,115,117,3,10,5,0,116,100,1,0,0,0,116,101,1,0,0,0,116,106,1,0,
+        0,0,116,107,1,0,0,0,116,108,1,0,0,0,116,113,1,0,0,0,116,114,1,0,
+        0,0,117,15,1,0,0,0,118,121,5,22,0,0,119,120,5,29,0,0,120,122,4,8,
+        1,0,121,119,1,0,0,0,121,122,1,0,0,0,122,128,1,0,0,0,123,126,5,22,
+        0,0,124,125,5,29,0,0,125,127,4,8,2,0,126,124,1,0,0,0,126,127,1,0,
+        0,0,127,129,1,0,0,0,128,123,1,0,0,0,128,129,1,0,0,0,129,17,1,0,0,
+        0,130,131,3,20,10,0,131,19,1,0,0,0,132,135,3,22,11,0,133,134,5,6,
+        0,0,134,136,3,20,10,0,135,133,1,0,0,0,135,136,1,0,0,0,136,21,1,0,
+        0,0,137,140,3,24,12,0,138,139,5,14,0,0,139,141,3,22,11,0,140,138,
+        1,0,0,0,140,141,1,0,0,0,141,23,1,0,0,0,142,143,5,13,0,0,143,154,
+        3,24,12,0,144,145,5,24,0,0,145,146,3,18,9,0,146,147,5,25,0,0,147,
+        154,1,0,0,0,148,151,3,4,2,0,149,150,7,1,0,0,150,152,3,4,2,0,151,
+        149,1,0,0,0,151,152,1,0,0,0,152,154,1,0,0,0,153,142,1,0,0,0,153,
+        144,1,0,0,0,153,148,1,0,0,0,154,25,1,0,0,0,155,156,3,34,17,0,156,
+        27,1,0,0,0,157,158,5,18,0,0,158,163,3,30,15,0,159,160,5,23,0,0,160,
+        162,3,30,15,0,161,159,1,0,0,0,162,165,1,0,0,0,163,161,1,0,0,0,163,
+        164,1,0,0,0,164,166,1,0,0,0,165,163,1,0,0,0,166,167,5,19,0,0,167,
+        171,1,0,0,0,168,169,5,18,0,0,169,171,5,19,0,0,170,157,1,0,0,0,170,
+        168,1,0,0,0,171,29,1,0,0,0,172,173,5,28,0,0,173,174,5,22,0,0,174,
+        175,3,34,17,0,175,31,1,0,0,0,176,177,5,20,0,0,177,182,3,34,17,0,
+        178,179,5,23,0,0,179,181,3,34,17,0,180,178,1,0,0,0,181,184,1,0,0,
+        0,182,180,1,0,0,0,182,183,1,0,0,0,183,185,1,0,0,0,184,182,1,0,0,
+        0,185,186,5,21,0,0,186,190,1,0,0,0,187,188,5,20,0,0,188,190,5,21,
+        0,0,189,176,1,0,0,0,189,187,1,0,0,0,190,33,1,0,0,0,191,199,5,28,
+        0,0,192,199,5,29,0,0,193,199,3,28,14,0,194,199,3,32,16,0,195,199,
+        5,15,0,0,196,199,5,16,0,0,197,199,5,17,0,0,198,191,1,0,0,0,198,192,
+        1,0,0,0,198,193,1,0,0,0,198,194,1,0,0,0,198,195,1,0,0,0,198,196,
+        1,0,0,0,198,197,1,0,0,0,199,35,1,0,0,0,27,38,44,48,53,56,61,65,67,
+        75,86,89,95,98,104,116,121,126,128,135,140,151,153,163,170,182,189,
+        198
+    ]
 
 class JSONPathParser ( Parser ):
 
@@ -104,16 +94,16 @@ class JSONPathParser ( Parser ):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [ "<INVALID>", "'@'", "'..'", "'$'", "'.'", "'*'", "'and'", 
-                     "'='", "'>='", "'>'", "'<='", "'<'", "'!='", "'not'", 
-                     "'or'", "'true'", "'false'", "'null'", "'{'", "'}'", 
+    literalNames = [ "<INVALID>", "'@'", "'..'", "'$'", "'.'", "'*'", "'and'",
+                     "'='", "'>='", "'>'", "'<='", "'<'", "'!='", "'not'",
+                     "'or'", "'true'", "'false'", "'null'", "'{'", "'}'",
                      "'['", "']'", "':'", "','", "'('", "')'", "'?'" ]
 
-    symbolicNames = [ "<INVALID>", "CURRENT_VALUE", "RECURSIVE_DESCENT", 
-                      "ROOT_VALUE", "SUBSCRIPT", "WILDCARD_SUBSCRIPT", "AND", 
-                      "EQ", "GE", "GT", "LE", "LT", "NE", "NOT", "OR", "TRUE", 
-                      "FALSE", "NULL", "BRACE_LEFT", "BRACE_RIGHT", "BRACKET_LEFT", 
-                      "BRACKET_RIGHT", "COLON", "COMMA", "PAREN_LEFT", "PAREN_RIGHT", 
+    symbolicNames = [ "<INVALID>", "CURRENT_VALUE", "RECURSIVE_DESCENT",
+                      "ROOT_VALUE", "SUBSCRIPT", "WILDCARD_SUBSCRIPT", "AND",
+                      "EQ", "GE", "GT", "LE", "LT", "NE", "NOT", "OR", "TRUE",
+                      "FALSE", "NULL", "BRACE_LEFT", "BRACE_RIGHT", "BRACKET_LEFT",
+                      "BRACKET_RIGHT", "COLON", "COMMA", "PAREN_LEFT", "PAREN_RIGHT",
                       "QUESTION", "ID", "STRING", "NUMBER", "WS" ]
 
     RULE_jsonpath = 0
@@ -135,9 +125,9 @@ class JSONPathParser ( Parser ):
     RULE_array = 16
     RULE_value = 17
 
-    ruleNames =  [ "jsonpath", "jsonpath_", "jsonpath__", "subscript", "subscriptables", 
-                   "subscriptableArguments", "subscriptableBareword", "subscriptable", 
-                   "sliceable", "expression", "andExpression", "orExpression", 
+    ruleNames =  [ "jsonpath", "jsonpath_", "jsonpath__", "subscript", "subscriptables",
+                   "subscriptableArguments", "subscriptableBareword", "subscriptable",
+                   "sliceable", "expression", "andExpression", "orExpression",
                    "notExpression", "json", "obj", "pair", "array", "value" ]
 
     EOF = Token.EOF
@@ -174,13 +164,15 @@ class JSONPathParser ( Parser ):
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
-        self.checkVersion("4.7.1")
+        self.checkVersion("4.10.1")
         self._interp = ParserATNSimulator(self, self.atn, self.decisionsToDFA, self.sharedContextCache)
         self._predicates = None
 
 
 
+
     class JsonpathContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -237,7 +229,9 @@ class JSONPathParser ( Parser ):
             self.exitRule()
         return localctx
 
+
     class Jsonpath_Context(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -297,7 +291,9 @@ class JSONPathParser ( Parser ):
             self.exitRule()
         return localctx
 
+
     class Jsonpath__Context(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -354,7 +350,9 @@ class JSONPathParser ( Parser ):
             self.exitRule()
         return localctx
 
+
     class SubscriptContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -467,7 +465,9 @@ class JSONPathParser ( Parser ):
             self.exitRule()
         return localctx
 
+
     class SubscriptablesContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -539,7 +539,9 @@ class JSONPathParser ( Parser ):
             self.exitRule()
         return localctx
 
+
     class SubscriptableArgumentsContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -617,7 +619,9 @@ class JSONPathParser ( Parser ):
             self.exitRule()
         return localctx
 
+
     class SubscriptableBarewordContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -685,7 +689,9 @@ class JSONPathParser ( Parser ):
             self.exitRule()
         return localctx
 
+
     class SubscriptableContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -817,7 +823,9 @@ class JSONPathParser ( Parser ):
             self.exitRule()
         return localctx
 
+
     class SliceableContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -898,7 +906,9 @@ class JSONPathParser ( Parser ):
             self.exitRule()
         return localctx
 
+
     class ExpressionContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -938,7 +948,9 @@ class JSONPathParser ( Parser ):
             self.exitRule()
         return localctx
 
+
     class AndExpressionContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -996,7 +1008,9 @@ class JSONPathParser ( Parser ):
             self.exitRule()
         return localctx
 
+
     class OrExpressionContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1054,7 +1068,9 @@ class JSONPathParser ( Parser ):
             self.exitRule()
         return localctx
 
+
     class NotExpressionContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1172,7 +1188,9 @@ class JSONPathParser ( Parser ):
             self.exitRule()
         return localctx
 
+
     class JsonContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1212,7 +1230,9 @@ class JSONPathParser ( Parser ):
             self.exitRule()
         return localctx
 
+
     class ObjContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1299,7 +1319,9 @@ class JSONPathParser ( Parser ):
             self.exitRule()
         return localctx
 
+
     class PairContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1349,7 +1371,9 @@ class JSONPathParser ( Parser ):
             self.exitRule()
         return localctx
 
+
     class ArrayContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1436,7 +1460,9 @@ class JSONPathParser ( Parser ):
             self.exitRule()
         return localctx
 
+
     class ValueContext(ParserRuleContext):
+        __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -1549,17 +1575,12 @@ class JSONPathParser ( Parser ):
     def subscriptable_sempred(self, localctx:SubscriptableContext, predIndex:int):
             if predIndex == 0:
                 return self.tryCast(int)
-         
+
 
     def sliceable_sempred(self, localctx:SliceableContext, predIndex:int):
             if predIndex == 1:
                 return self.tryCast(int)
-         
+
 
             if predIndex == 2:
                 return self.tryCast(int)
-         
-
-
-
-

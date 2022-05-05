@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.5] - 2022-05-05
+### Changed
+- Fixed #45 lock ANTLR runtime to 4.10 by [@markborkum](https://github.com/markborkum)
+
 ## [0.4.4] - 2020-05-04
 ### Changed
 - Pull #48 Cleanup Requirements by [@dmlb2000](https://github.com/dmlb2000)
