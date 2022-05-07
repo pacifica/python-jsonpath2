@@ -11,8 +11,8 @@ class TestShortcuts(TestCase):
 
     def test_match(self):
         """Test match shortcut works."""
-        data = {'hello': 'Hello, World!'}
+        data = {"hello": "Hello, World!"}
         self.assertEqual(
-            [x.current_value for x in jsonpath2.match('$.hello', data)],
-            ['Hello, World!']
+            [x.current_value for x in jsonpath2.match("$.hello", data)],
+            ["Hello, World!"],
         )

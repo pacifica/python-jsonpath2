@@ -1,0 +1,35 @@
+name: Run Sphinx Test
+
+on:
+  pull_request: {}
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ['3.8', '3.9', '3.10',]
+        exclude:
+          - os: macos-latest
+            python-version: '3.8'
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Display Python version
+        run: |
+          python --version
+          pip --version
+          pip install coverage pep257 pre-commit pylint pytest readthedocs-sphinx-ext recommonmark setuptools sphinx sphinx-rtd-theme docutils==0.16
+          pip install .
+          cd docs
+          sphinx-build -T -E -b readthedocs -d _build/doctrees-readthedocs -D language=en . _build/html
+          sphinx-build -T -b readthedocssinglehtmllocalmedia -d _build/doctrees-readthedocssinglehtmllocalmedia -D language=en . _build/localmedia
+          sphinx-build -b latex -D language=en -d _build/doctrees . _build/latex
+          sphinx-build -T -b epub -d _build/doctrees-epub -D language=en . _build/epub

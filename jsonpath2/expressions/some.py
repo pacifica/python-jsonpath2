@@ -24,7 +24,9 @@ class SomeExpression(Expression):
     def evaluate(self, root_value: object, current_value: object) -> bool:
         """Evaluate the next node."""
         if isinstance(self.next_node_or_value, Node):
-            for _next_node_match_data in self.next_node_or_value.match(root_value, current_value):
+            for _next_node_match_data in self.next_node_or_value.match(
+                root_value, current_value
+            ):
                 return True
             return False
         return bool(self.next_node_or_value)

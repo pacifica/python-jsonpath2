@@ -22,8 +22,16 @@ class ObjectIndexSubscript(Subscript):
         """Yield the dumps of the index."""
         yield json.dumps(self.index)
 
-    def match(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
+    def match(
+        self, root_value: object, current_value: object
+    ) -> Generator[MatchData, None, None]:
         """Match the current value against the root value."""
         if isinstance(current_value, Mapping) and (self.index in current_value):
-            return [MatchData(SubscriptNode(TerminalNode(), [self]), root_value, current_value[self.index])]
+            return [
+                MatchData(
+                    SubscriptNode(TerminalNode(), [self]),
+                    root_value,
+                    current_value[self.index],
+                )
+            ]
         return []

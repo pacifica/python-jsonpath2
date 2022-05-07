@@ -13,6 +13,7 @@ class TestSubscriptNode(TestCase):
 
     def test_badsubscript1(self):
         """Test subscript that does not provide terminal or other subscript."""
+
         class BadSubscript1(Subscript):
             """Subscript that does not provide terminal or other subscript."""
 
@@ -24,17 +25,15 @@ class TestSubscriptNode(TestCase):
                 """One."""
                 yield MatchData(None, root_value, current_value)
 
-        self.assertEqual('', BadSubscript1().tojsonpath())
+        self.assertEqual("", BadSubscript1().tojsonpath())
 
         with self.assertRaises(ValueError):
             # NOTE Use 'list' to force the computation to occur, raising any exceptions.
-            list(SubscriptNode(
-                TerminalNode(),
-                [BadSubscript1()]
-            ).match(None, None))
+            list(SubscriptNode(TerminalNode(), [BadSubscript1()]).match(None, None))
 
     def test_badsubscript2(self):
         """Test subscript that provides other subscript but not subscripted-terminal."""
+
         class BadSubscript2(Subscript):
             """Subscript that provides other subscript but not subscripted-terminal."""
 
@@ -46,11 +45,8 @@ class TestSubscriptNode(TestCase):
                 """One."""
                 yield MatchData(SubscriptNode(None), root_value, current_value)
 
-        self.assertEqual('', BadSubscript2().tojsonpath())
+        self.assertEqual("", BadSubscript2().tojsonpath())
 
         with self.assertRaises(ValueError):
             # NOTE Use 'list' to force the computation to occur, raising any exceptions.
-            list(SubscriptNode(
-                TerminalNode(),
-                [BadSubscript2()]
-            ).match(None, None))
+            list(SubscriptNode(TerminalNode(), [BadSubscript2()]).match(None, None))
