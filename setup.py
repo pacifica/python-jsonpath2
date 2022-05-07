@@ -18,5 +18,5 @@ setup(
     author="Mark Borkum",
     author_email="mark.borkum@pnnl.gov",
     packages=find_packages(),
-    install_requires=["antlr4-python3-runtime==4.7.2"],
+    install_requires=["antlr4-python3-runtime==4.10"],
 )
