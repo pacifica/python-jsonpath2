@@ -15,17 +15,19 @@ class CurrentNode(Node):
 
     def __jsonpath__(self) -> Generator[str, None, None]:
         """Return the current node string."""
-        yield '@'
+        yield "@"
         for next_node_token in self.next_node.__jsonpath__():
             yield next_node_token
 
-    def match(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
+    def match(
+        self, root_value: object, current_value: object
+    ) -> Generator[MatchData, None, None]:
         """Match the current value and root value."""
         return map(
             lambda next_node_match_data: MatchData(
                 CurrentNode(next_node_match_data.node),
                 next_node_match_data.root_value,
-                next_node_match_data.current_value
+                next_node_match_data.current_value,
             ),
-            self.next_node.match(root_value, current_value)
+            self.next_node.match(root_value, current_value),
         )

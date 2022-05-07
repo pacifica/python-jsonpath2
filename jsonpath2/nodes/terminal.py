@@ -12,6 +12,8 @@ class TerminalNode(Node):
         """Return the empty array not yield."""
         return []
 
-    def match(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
+    def match(
+        self, root_value: object, current_value: object
+    ) -> Generator[MatchData, None, None]:
         """Match a termainal node."""
         return [MatchData(self, root_value, current_value)]

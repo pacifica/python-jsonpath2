@@ -14,10 +14,12 @@ class ToJSONPath(ABC):
 
         Returns the string representation of this instance.
         """
-        return ''.join(list(self.__jsonpath__()))
+        return "".join(list(self.__jsonpath__()))
 
     @abstractmethod
-    def __jsonpath__(self) -> Generator[str, None, None]:  # pragma: no cover abstract method
+    def __jsonpath__(
+        self,
+    ) -> Generator[str, None, None]:  # pragma: no cover abstract method
         """
         Abstract method to return the jsonpath.
 

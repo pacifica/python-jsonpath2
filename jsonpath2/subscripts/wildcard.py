@@ -15,18 +15,28 @@ class WildcardSubscript(Subscript):
 
     def __jsonpath__(self) -> Generator[str, None, None]:
         """Yield the '*' wild card character."""
-        yield '*'
+        yield "*"
 
-    def match(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
+    def match(
+        self, root_value: object, current_value: object
+    ) -> Generator[MatchData, None, None]:
         """Match the root value against the current value."""
         if isinstance(current_value, Mapping):
-            return itertools.chain(*map(
-                lambda index: ObjectIndexSubscript(
-                    index).match(root_value, current_value),
-                current_value.keys()))
+            return itertools.chain(
+                *map(
+                    lambda index: ObjectIndexSubscript(index).match(
+                        root_value, current_value
+                    ),
+                    current_value.keys(),
+                )
+            )
         if isinstance(current_value, Sequence) and not isinstance(current_value, str):
-            return itertools.chain(*map(
-                lambda index: ArrayIndexSubscript(
-                    index).match(root_value, current_value),
-                range(len(current_value))))
+            return itertools.chain(
+                *map(
+                    lambda index: ArrayIndexSubscript(index).match(
+                        root_value, current_value
+                    ),
+                    range(len(current_value)),
+                )
+            )
         return []

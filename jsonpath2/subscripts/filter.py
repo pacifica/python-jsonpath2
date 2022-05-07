@@ -18,13 +18,15 @@ class FilterSubscript(Subscript):
 
     def __jsonpath__(self) -> Generator[str, None, None]:
         """generate the jsonpath for the filter."""
-        yield '?'
-        yield '('
+        yield "?"
+        yield "("
         for expression_token in self.expression.__jsonpath__():
             yield expression_token
-        yield ')'
+        yield ")"
 
-    def match(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
+    def match(
+        self, root_value: object, current_value: object
+    ) -> Generator[MatchData, None, None]:
         """Match the filter subscript against the current value."""
         if self.expression.evaluate(root_value, current_value):
             return [MatchData(TerminalNode(), root_value, current_value)]
