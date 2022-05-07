@@ -1,3 +1,10 @@
+name: Run Sphinx Test
+
+on:
+  pull_request: {}
+  push:
+    branches: [main]
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -19,7 +26,7 @@ jobs:
         run: |
           python --version
           pip --version
-          pip install coverage pep257 pre-commit pylint pytest readthedocs-sphinx-ext recommonmark setuptools sphinx sphinx-rtd-theme
+          pip install coverage pep257 pre-commit pylint pytest readthedocs-sphinx-ext recommonmark setuptools sphinx sphinx-rtd-theme docutils==0.16
           pip install .
           cd docs
           sphinx-build -T -E -b readthedocs -d _build/doctrees-readthedocs -D language=en . _build/html

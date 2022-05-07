@@ -24,23 +24,40 @@ class ArraySliceSubscript(Subscript):
         """Return the jsonpath of the array slice."""
         if self.start is not None:
             yield json.dumps(self.start)
-        yield ':'
+        yield ":"
         if self.end is not None:
             yield json.dumps(self.end)
         if self.step is not None:
-            yield ':'
+            yield ":"
             yield json.dumps(self.step)
 
-    def match(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
+    def match(
+        self, root_value: object, current_value: object
+    ) -> Generator[MatchData, None, None]:
         """Match an array slice between values."""
         if isinstance(current_value, Sequence) and not isinstance(current_value, str):
-            start = None if (self.start is None) else (
-                self.start + ((
-                    len(current_value) if abs(self.start) < len(current_value) else abs(self.start)
-                ) if (self.start < 0) else 0))
+            start = (
+                None
+                if (self.start is None)
+                else (
+                    self.start
+                    + (
+                        (
+                            len(current_value)
+                            if abs(self.start) < len(current_value)
+                            else abs(self.start)
+                        )
+                        if (self.start < 0)
+                        else 0
+                    )
+                )
+            )
 
-            end = None if (self.end is None) else (
-                self.end + (len(current_value) if (self.end < 0) else 0))
+            end = (
+                None
+                if (self.end is None)
+                else (self.end + (len(current_value) if (self.end < 0) else 0))
+            )
 
             if start is None:
                 if end is None:
@@ -65,8 +82,12 @@ class ArraySliceSubscript(Subscript):
                     else:
                         indices = range(start, end, self.step)
 
-            return itertools.chain(*map(
-                lambda index: ArrayIndexSubscript(
-                    index).match(root_value, current_value),
-                indices))
+            return itertools.chain(
+                *map(
+                    lambda index: ArrayIndexSubscript(index).match(
+                        root_value, current_value
+                    ),
+                    indices,
+                )
+            )
         return []

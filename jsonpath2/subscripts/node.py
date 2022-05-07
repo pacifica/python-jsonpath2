@@ -20,7 +20,9 @@ class NodeSubscript(Subscript):
         """generate the jsonpath for the path."""
         return self.next_node.__jsonpath__()
 
-    def match(self, root_value: object, current_value: object) -> Generator[MatchData, None, None]:
+    def match(
+        self, root_value: object, current_value: object
+    ) -> Generator[MatchData, None, None]:
         """Match the node subscript against the current value."""
         for next_node_match_data in self.next_node.match(root_value, current_value):
             if isinstance(next_node_match_data.current_value, int):

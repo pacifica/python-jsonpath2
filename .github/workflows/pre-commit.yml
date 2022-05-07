@@ -1,14 +1,20 @@
-name: pre-commit
+name: Run Pre-Commit
 
 on:
-  pull_request:
+  pull_request: {}
   push:
     branches: [main]
 
 jobs:
   pre-commit:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ['3.8', '3.9']
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
       - uses: pre-commit/action@v2.0.3

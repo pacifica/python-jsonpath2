@@ -1,6 +1,7 @@
 name: Run PyTest
+
 on:
-  pull_request:
+  pull_request: {}
   push:
     branches: [main]
 
@@ -24,7 +25,7 @@ jobs:
         run: |
           python --version
           pip --version
-          pip install coverage pep257 pre-commit pylint pytest readthedocs-sphinx-ext recommonmark setuptools sphinx sphinx-rtd-theme
+          pip install coverage pep257 pre-commit pylint pytest readthedocs-sphinx-ext recommonmark setuptools sphinx sphinx-rtd-theme wheel
           pip install .
           cd tests
           coverage run --include='*/site-packages/jsonpath2/*' --omit='*/site-packages/jsonpath2/parser/JSONPath*' -m pytest -xv

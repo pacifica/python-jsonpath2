@@ -2,10 +2,17 @@
 # -*- coding: utf-8 -*-
 """The jsonpath parser module."""
 import antlr4
-from jsonpath2.expressions.operator import AndVariadicOperatorExpression, EqualBinaryOperatorExpression, \
-    GreaterThanBinaryOperatorExpression, GreaterThanOrEqualToBinaryOperatorExpression, \
-    LessThanBinaryOperatorExpression, LessThanOrEqualToBinaryOperatorExpression, \
-    NotEqualBinaryOperatorExpression, NotUnaryOperatorExpression, OrVariadicOperatorExpression
+from jsonpath2.expressions.operator import (
+    AndVariadicOperatorExpression,
+    EqualBinaryOperatorExpression,
+    GreaterThanBinaryOperatorExpression,
+    GreaterThanOrEqualToBinaryOperatorExpression,
+    LessThanBinaryOperatorExpression,
+    LessThanOrEqualToBinaryOperatorExpression,
+    NotEqualBinaryOperatorExpression,
+    NotUnaryOperatorExpression,
+    OrVariadicOperatorExpression,
+)
 from jsonpath2.expressions.some import SomeExpression
 from jsonpath2.nodes.current import CurrentNode
 from jsonpath2.nodes.recursivedescent import RecursiveDescentNode
@@ -36,14 +43,12 @@ class CallableSubscriptNotFoundError(ValueError):
 
     def __str__(self):
         """Message."""
-        return 'callable subscript \'{0}\' not found'.format(self.name.replace('\'', '\\\''))
+        return "callable subscript '{0}' not found".format(
+            self.name.replace("'", "\\'")
+        )
 
 
-CALLABLE_SUBSCRIPTS_ = {
-    cls.__str__: cls
-    for cls
-    in CallableSubscript.__subclasses__()
-}
+CALLABLE_SUBSCRIPTS_ = {cls.__str__: cls for cls in CallableSubscript.__subclasses__()}
 
 
 # pylint: disable=invalid-name
@@ -53,6 +58,8 @@ def _createCallableSubscript(name, *args, **kwargs):
         cls = CALLABLE_SUBSCRIPTS_[name]
         return cls(*args, **kwargs)
     raise CallableSubscriptNotFoundError(name)
+
+
 # pylint: enable=invalid-name
 
 
@@ -60,7 +67,8 @@ class _ConsoleErrorListener(antlr4.error.ErrorListener.ConsoleErrorListener):
     # pylint: disable=too-many-arguments
     # this is an error handling issue with antlr
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
-        raise ValueError('line {}:{} {}'.format(line, column, msg))
+        raise ValueError("line {}:{} {}".format(line, column, msg))
+
     # pylint: enable=too-many-arguments
 
 
@@ -112,8 +120,9 @@ class _JSONPathListener(JSONPathListener):
             else:
                 # NOTE Unreachable when listener is used as tree walker.
                 raise ValueError()  # pragma: no cover
-            self._stack.append(RecursiveDescentNode(
-                SubscriptNode(next_node, subscriptable_nodes)))
+            self._stack.append(
+                RecursiveDescentNode(SubscriptNode(next_node, subscriptable_nodes))
+            )
         elif ctx.getToken(JSONPathParser.SUBSCRIPT, 0) is not None:
             if bool(ctx.subscript()):
                 next_node = self._stack.pop()
@@ -136,23 +145,30 @@ class _JSONPathListener(JSONPathListener):
                 # NOTE Unreachable when listener is used as tree walker.
                 raise ValueError()  # pragma: no cover
             self._stack.append(SubscriptNode(next_node, subscriptable_nodes))
+
     # pylint: enable=too-many-branches
 
     def exitSubscriptables(self, ctx: JSONPathParser.SubscriptablesContext):
         subscriptable_nodes = []
-        for _subscriptable_ctx in ctx.getTypedRuleContexts(JSONPathParser.SubscriptableContext):
+        for _subscriptable_ctx in ctx.getTypedRuleContexts(
+            JSONPathParser.SubscriptableContext
+        ):
             subscriptable_node = self._stack.pop()
             subscriptable_nodes.insert(0, subscriptable_node)
         self._stack.append(subscriptable_nodes)
 
-    def exitSubscriptableArguments(self, ctx: JSONPathParser.SubscriptableArgumentsContext):
+    def exitSubscriptableArguments(
+        self, ctx: JSONPathParser.SubscriptableArgumentsContext
+    ):
         args = []
         for _arg_ctx in ctx.getTypedRuleContexts(JSONPathParser.Jsonpath__Context):
             arg = self._stack.pop()
             args.insert(0, arg)
         self._stack.append(args)
 
-    def exitSubscriptableBareword(self, ctx: JSONPathParser.SubscriptableBarewordContext):
+    def exitSubscriptableBareword(
+        self, ctx: JSONPathParser.SubscriptableBarewordContext
+    ):
         if bool(ctx.ID()):
             text = ctx.ID().getText()
 
@@ -177,8 +193,7 @@ class _JSONPathListener(JSONPathListener):
             if bool(ctx.sliceable()):
                 func = self._stack.pop()
 
-                start = int(ctx.NUMBER().getText()) if bool(
-                    ctx.NUMBER()) else None
+                start = int(ctx.NUMBER().getText()) if bool(ctx.NUMBER()) else None
 
                 self._stack.append(func(start))
             else:
@@ -238,7 +253,10 @@ class _JSONPathListener(JSONPathListener):
                     end = int(ctx.NUMBER(0).getText())
 
                     step = int(ctx.NUMBER(1).getText())
-                elif ctx.NUMBER(0).getSourceInterval()[0] < ctx.COLON(1).getSourceInterval()[0]:
+                elif (
+                    ctx.NUMBER(0).getSourceInterval()[0]
+                    < ctx.COLON(1).getSourceInterval()[0]
+                ):
                     # When there are 2 "COLON" terminals but only 1 "NUMBER"
                     # terminal, if the "NUMBER" terminal occurs **before** the
                     # second "COLON" terminal, then assign to 'end' only.
@@ -336,22 +354,40 @@ class _JSONPathListener(JSONPathListener):
 
             if ctx.getToken(JSONPathParser.EQ, 0) is not None:
                 self._stack.append(
-                    EqualBinaryOperatorExpression(left_node_or_value, right_node_or_value))
+                    EqualBinaryOperatorExpression(
+                        left_node_or_value, right_node_or_value
+                    )
+                )
             elif ctx.getToken(JSONPathParser.NE, 0) is not None:
                 self._stack.append(
-                    NotEqualBinaryOperatorExpression(left_node_or_value, right_node_or_value))
+                    NotEqualBinaryOperatorExpression(
+                        left_node_or_value, right_node_or_value
+                    )
+                )
             elif ctx.getToken(JSONPathParser.LT, 0) is not None:
                 self._stack.append(
-                    LessThanBinaryOperatorExpression(left_node_or_value, right_node_or_value))
+                    LessThanBinaryOperatorExpression(
+                        left_node_or_value, right_node_or_value
+                    )
+                )
             elif ctx.getToken(JSONPathParser.LE, 0) is not None:
                 self._stack.append(
-                    LessThanOrEqualToBinaryOperatorExpression(left_node_or_value, right_node_or_value))
+                    LessThanOrEqualToBinaryOperatorExpression(
+                        left_node_or_value, right_node_or_value
+                    )
+                )
             elif ctx.getToken(JSONPathParser.GT, 0) is not None:
                 self._stack.append(
-                    GreaterThanBinaryOperatorExpression(left_node_or_value, right_node_or_value))
+                    GreaterThanBinaryOperatorExpression(
+                        left_node_or_value, right_node_or_value
+                    )
+                )
             elif ctx.getToken(JSONPathParser.GE, 0) is not None:
                 self._stack.append(
-                    GreaterThanOrEqualToBinaryOperatorExpression(left_node_or_value, right_node_or_value))
+                    GreaterThanOrEqualToBinaryOperatorExpression(
+                        left_node_or_value, right_node_or_value
+                    )
+                )
             else:
                 # NOTE Unreachable when listener is used as tree walker.
                 raise ValueError()  # pragma: no cover
@@ -361,6 +397,7 @@ class _JSONPathListener(JSONPathListener):
             self._stack.append(SomeExpression(next_node_or_value))
         else:
             pass
+
     # pylint: enable=too-many-branches
 
     def exitObj(self, ctx: JSONPathParser.ObjContext):
@@ -373,7 +410,9 @@ class _JSONPathListener(JSONPathListener):
 
         obj = {}
 
-        for index, pair_ctx in enumerate(ctx.getTypedRuleContexts(JSONPathParser.PairContext)):
+        for index, pair_ctx in enumerate(
+            ctx.getTypedRuleContexts(JSONPathParser.PairContext)
+        ):
             key = pair_ctx.STRING().getText()[1:-1]
 
             obj[key] = values[index]
@@ -398,7 +437,7 @@ class _JSONPathListener(JSONPathListener):
         elif bool(ctx.NUMBER()):
             text = ctx.NUMBER().getText()
 
-            if ('.' in text) or ('E' in text) or ('e' in text):
+            if ("." in text) or ("E" in text) or ("e" in text):
                 self._stack.append(float(text))
             else:
                 self._stack.append(int(text))
@@ -426,6 +465,7 @@ class _JSONPathParser(JSONPathParser):
             return True
         except ValueError:
             return False
+
     # pylint: enable=invalid-name
 
 

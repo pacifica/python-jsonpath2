@@ -37,6 +37,8 @@ class MatchData:
         Tests if two instances are equal.
         """
         return isinstance(other, self.__class__) and (self.__dict__ == other.__dict__)
+
+
 # pylint: enable=too-few-public-methods
 
 
@@ -57,9 +59,8 @@ class Node(ToJSONPath):
 
     @abstractmethod
     def match(
-            self,
-            root_value: object,
-            current_value: object) -> Generator[MatchData, None, None]:  # pragma: no cover abstract method.
+        self, root_value: object, current_value: object
+    ) -> Generator[MatchData, None, None]:  # pragma: no cover abstract method.
         """
         Abstract method to determine a node match.
 
