@@ -294,6 +294,25 @@ class TestBookStore(TestCase):
             self.assertEqual(matches[1]["isbn"], "0-395-19395-8")
             self.assertEqual(matches[1]["price"], 22.99)
 
+    def test_bookstore_examples_13(self):
+        """
+        Test the bookstore example 13.
+
+        .. code-block:: python
+
+           >>> expr = Path.parse_str('$..book[*][?(@.title contains "the")]')
+           >>> expr.match(self.root_value)
+        """
+        expr = Path.parse_str('$..book[*][?(@.title contains "the")]')
+        self.assertEqual(Path.parse_str(str(expr)), expr)
+        matches = [x.current_value for x in expr.match(self.root_value)]
+        self.assertEqual(len(matches), 2)
+        self.assertEqual(matches[0]["category"], "reference")
+        self.assertEqual(matches[0]["author"], "Nigel Rees")
+        self.assertEqual(matches[0]["title"], "Sayings of the Century")
+        self.assertEqual(matches[0]["price"], 8.95)
+        self.assertEqual(matches[1]["title"], "The Lord of the Rings")
+
 
 class TestExtendedBookStore(TestCase):
     """This test extends the standard bookstore test for completness."""

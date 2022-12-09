@@ -49,6 +49,10 @@ matching.
 | ``and``, ``or``,  | Boolean operator, where operands are JSONPath |
 | ``not``           | filter expressions                            |
 +-------------------+-----------------------------------------------+
+| ``contains``      | Checks if a string contains the specified     |
+|                   | substring (case-sensitive), or an array       |
+|                   | contains the specified element.               |
++-------------------+-----------------------------------------------+
 | ``(`` ... ``)``   | parentheses                                   |
 +-------------------+-----------------------------------------------+
 ```
