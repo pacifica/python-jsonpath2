@@ -49,6 +49,11 @@ matching.
 | ``and``, ``or``,  | Boolean operator, where operands are JSONPath |
 | ``not``           | filter expressions                            |
 +-------------------+-----------------------------------------------+
+| ``~=``            | Matches a Python regular expression. For      |
+|                   | example, [?(@.description =~ "^cat.*")]       |
+|                   | matches items whose description starts with   |
+|                   | cat (case-sensitive).                         |
++-------------------+-----------------------------------------------+
 | ``contains``      | Checks if a string contains the specified     |
 |                   | substring (case-sensitive), or an array       |
 |                   | contains the specified element.               |

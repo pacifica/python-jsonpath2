@@ -13,6 +13,7 @@ from jsonpath2.expressions.operator import (
     NotEqualBinaryOperatorExpression,
     NotUnaryOperatorExpression,
     OrVariadicOperatorExpression,
+    RegexBinaryOperatorExpression,
 )
 from jsonpath2.expressions.some import SomeExpression
 from jsonpath2.nodes.current import CurrentNode
@@ -392,6 +393,12 @@ class _JSONPathListener(JSONPathListener):
             elif ctx.getToken(JSONPathParser.CN, 0) is not None:
                 self._stack.append(
                     ContainsBinaryOperatorExpression(
+                        left_node_or_value, right_node_or_value
+                    )
+                )
+            elif ctx.getToken(JSONPathParser.RE, 0) is not None:
+                self._stack.append(
+                    RegexBinaryOperatorExpression(
                         left_node_or_value, right_node_or_value
                     )
                 )
