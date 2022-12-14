@@ -15,6 +15,7 @@ LT : '<' ;
 NE : '!=' ;
 NOT : 'not' ;
 OR : 'or' ;
+CN : 'contains' ;
 
 TRUE : 'true' ;
 FALSE : 'false' ;
@@ -92,7 +93,7 @@ orExpression
 notExpression
    : NOT notExpression
    | PAREN_LEFT expression PAREN_RIGHT
-   | jsonpath__ ( ( EQ | NE | LT | LE | GT | GE ) jsonpath__ )?
+   | jsonpath__ ( ( EQ | NE | LT | LE | GT | GE | CN ) jsonpath__ )?
    ;
 
 

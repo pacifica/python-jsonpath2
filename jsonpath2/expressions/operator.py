@@ -193,6 +193,21 @@ class GreaterThanOrEqualToBinaryOperatorExpression(BinaryOperatorExpression):
         return False
 
 
+class ContainsBinaryOperatorExpression(BinaryOperatorExpression):
+    """Expression to handle in."""
+
+    def __init__(self, *args, **kwargs):
+        """Construct the binary operator with appropriate method."""
+        super(ContainsBinaryOperatorExpression, self).__init__(
+            "contains", ContainsBinaryOperatorExpression.__evaluate__, *args, **kwargs
+        )
+
+    @staticmethod
+    def __evaluate__(x_obj, y_obj):
+        """Perform an in."""
+        return y_obj in x_obj
+
+
 class UnaryOperatorExpression(OperatorExpression):
     """Unary operator expression base class."""
 

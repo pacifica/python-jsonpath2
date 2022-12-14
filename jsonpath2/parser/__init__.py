@@ -7,6 +7,7 @@ from jsonpath2.expressions.operator import (
     EqualBinaryOperatorExpression,
     GreaterThanBinaryOperatorExpression,
     GreaterThanOrEqualToBinaryOperatorExpression,
+    ContainsBinaryOperatorExpression,
     LessThanBinaryOperatorExpression,
     LessThanOrEqualToBinaryOperatorExpression,
     NotEqualBinaryOperatorExpression,
@@ -385,6 +386,12 @@ class _JSONPathListener(JSONPathListener):
             elif ctx.getToken(JSONPathParser.GE, 0) is not None:
                 self._stack.append(
                     GreaterThanOrEqualToBinaryOperatorExpression(
+                        left_node_or_value, right_node_or_value
+                    )
+                )
+            elif ctx.getToken(JSONPathParser.CN, 0) is not None:
+                self._stack.append(
+                    ContainsBinaryOperatorExpression(
                         left_node_or_value, right_node_or_value
                     )
                 )
