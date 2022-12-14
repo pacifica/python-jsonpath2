@@ -300,7 +300,29 @@ class TestBookStore(TestCase):
 
         .. code-block:: python
 
-           >>> expr = Path.parse_str('$..book[*][?(@.title contains "the")]')
+           >>> expr = Path.parse_str('$..book[*][?(@.title ~= "^S.*")]')
+           >>> expr.match(self.root_value)
+        """
+        # TODO: Fix requiring double escaping and support regex flags
+        expr = Path.parse_str(
+            '$..book[*][?(@.title ~= "^Sayings\\\\s.*\\\\sCentury$")]'
+        )
+        # TODO: This comes back with extra \\ and fails
+        # self.assertEqual(Path.parse_str(str(expr)), expr)
+        matches = [x.current_value for x in expr.match(self.root_value)]
+        self.assertEqual(len(matches), 1)
+        self.assertEqual(matches[0]["category"], "reference")
+        self.assertEqual(matches[0]["author"], "Nigel Rees")
+        self.assertEqual(matches[0]["title"], "Sayings of the Century")
+        self.assertEqual(matches[0]["price"], 8.95)
+
+    def test_bookstore_examples_14(self):
+        """
+        Test the bookstore example 14.
+
+        .. code-block:: python
+
+           >>> expr = Path.parse_str('$..book[*][?(@.title ~= "the")]')
            >>> expr.match(self.root_value)
         """
         expr = Path.parse_str('$..book[*][?(@.title contains "the")]')

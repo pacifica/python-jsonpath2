@@ -5,6 +5,7 @@ import json
 from typing import Callable, Generator, List, Union
 from jsonpath2.expression import Expression
 from jsonpath2.node import Node
+import re
 
 
 class OperatorExpression(Expression):
@@ -206,6 +207,21 @@ class ContainsBinaryOperatorExpression(BinaryOperatorExpression):
     def __evaluate__(x_obj, y_obj):
         """Perform an in."""
         return y_obj in x_obj
+
+
+class RegexBinaryOperatorExpression(BinaryOperatorExpression):
+    """Expression to handle regex operator."""
+
+    def __init__(self, *args, **kwargs):
+        """Construct the binary operator with appropriate method."""
+        super(RegexBinaryOperatorExpression, self).__init__(
+            "~=", RegexBinaryOperatorExpression.__evaluate__, *args, **kwargs
+        )
+
+    @staticmethod
+    def __evaluate__(x_obj, y_obj):
+        """Perform a regex match."""
+        return True if re.match(y_obj.replace("\\\\", "\\"), x_obj) else False
 
 
 class UnaryOperatorExpression(OperatorExpression):
